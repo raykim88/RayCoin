@@ -74,7 +74,7 @@ async function loadPrices() {
     const r = await fetch(`https://api.upbit.com/v1/ticker?markets=${mk.join(",")}`, {cache: "no-store"});
     if (!r.ok) return;
     for (const t of await r.json()) live[t.market] = t.trade_price;
-    liveAt = new Date().toLocaleTimeString("ko-KR", {hour12: false, timeZone: "Asia/Seoul"});
+    liveAt = new Date().toLocaleTimeString("en-GB", {hour12: false, timeZone: "Asia/Seoul"});
     draw();
   } catch (_) {}
 }

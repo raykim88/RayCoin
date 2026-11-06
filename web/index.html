@@ -43,6 +43,7 @@ h1 small{display:block;font-size:.78rem;font-weight:500;color:var(--muted);lette
 .summary label{display:block;font-size:.72rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
 .summary b{display:block;font-size:1.5rem;font-weight:600;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .summary span{font-size:.78rem;color:var(--muted)}
+.summary .up{color:var(--up)} .summary .down{color:var(--down)} .summary .flat{color:var(--flat)}
 @media (max-width:640px){.summary{grid-template-columns:repeat(2,minmax(0,1fr))}.summary b{font-size:1.25rem}}
 .board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px;align-items:start}
 @media (max-width:880px){.board{grid-template-columns:minmax(0,1fr)}}
@@ -222,7 +223,7 @@ function render(st) {
   if (st.log) $("log").textContent = st.log.join("\n");
 }
 
-setInterval(() => { $("clock").textContent = new Date().toLocaleTimeString("ko-KR", {hour12: false, timeZone: "Asia/Seoul"}) + " KST"; }, 1000);
+setInterval(() => { $("clock").textContent = new Date().toLocaleTimeString("en-GB", {hour12: false, timeZone: "Asia/Seoul"}) + " KST"; }, 1000);
 
 (async () => {
   const timer = setTimeout(() => { $("phaseText").textContent = "데이터 연결 안 됨"; }, 10000);
