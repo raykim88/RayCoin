@@ -97,25 +97,27 @@ SPLASH = """
 <div id="splash" aria-hidden="true"><div class="mark">__ICON__<span>RayCoin</span></div></div>
 <style>
 #splash{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:#151a24;
-  transition:opacity 1.8s ease, visibility 0s linear 1.8s}
-#splash .mark{display:flex;flex-direction:column;align-items:center;gap:22px;
-  animation:splashIn 1.6s cubic-bezier(.25,.6,.3,1) both}
+  transition:opacity .6s ease, visibility 0s linear .6s}
+/* icon and name are ONE element: they always appear and disappear together */
+#splash .mark{display:flex;flex-direction:column;align-items:center;gap:22px;opacity:0;transform:scale(.96);
+  transition:opacity 1.8s ease, transform 1.8s ease}
+#splash .mark.in{opacity:1;transform:none}
+#splash .mark.leave{opacity:0;transform:scale(1.02)}
 #splash svg{width:132px;height:132px;border-radius:30px;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 18px 50px rgba(0,0,0,.45)}
-#splash span{color:#fff;font-family:"IBM Plex Sans KR",system-ui,sans-serif;font-weight:700;font-size:3.8rem;line-height:1;
-  letter-spacing:.02em;-webkit-text-stroke:1.2px #fff}
+/* system font: renders instantly, so the name never shows up after the icon */
+#splash span{color:#fff;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Apple SD Gothic Neo",sans-serif;
+  font-weight:800;font-size:3.8rem;line-height:1;letter-spacing:.01em;-webkit-text-stroke:1px #fff}
 #splash.out{opacity:0;visibility:hidden}
-#splash.out .mark{transform:translateY(-6px);transition:transform 1.8s ease}
-@keyframes splashIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){#splash .mark{animation:none}#splash{transition:opacity .5s}}
+@media (prefers-reduced-motion:reduce){#splash .mark{transition:opacity .5s}}
 </style>
 <script>
 (() => {
-  const el = document.getElementById("splash"), t0 = performance.now();
-  let done = false;
-  const hide = () => { if (done) return; done = true; el.classList.add("out"); setTimeout(() => el.remove(), 2000); };
-  // fade in over 1.6 s, stay until 3.2 s, then fade out over 1.8 s
-  addEventListener("load", () => setTimeout(hide, Math.max(0, 3200 - (performance.now() - t0))));
-  setTimeout(hide, 7000);   // never block the page
+  const el = document.getElementById("splash"), mark = el.querySelector(".mark");
+  // fade in together (1.8 s) -> hold -> fade out together (1.8 s) -> reveal the dashboard
+  requestAnimationFrame(() => requestAnimationFrame(() => mark.classList.add("in")));
+  setTimeout(() => mark.classList.replace("in", "leave"), 3400);
+  setTimeout(() => el.classList.add("out"), 5200);
+  setTimeout(() => el.remove(), 5900);
 })();
 </script>
 """.replace("__ICON__", (ROOT / "web" / "icon.svg").read_text(encoding="utf-8").strip())
