@@ -85,14 +85,18 @@ class FuturesBot(v2.Bot):
         key = f"{m}#{sum(1 for k in self.pos if k.startswith(m + '#')) + 1}"
         liq = px * (1 - 1 / lev + MMR) if side > 0 else px * (1 + 1 / lev - MMR)
         label = f"{row['side']} {lev}x"
-        self.pos[key] = dict(key=key, market=m, symbol=m[4:], entry=px, qty=v2.BUDGET_USD * lev * self.usdkrw / px,
-                             cost_usd=v2.BUDGET_USD, usdkrw=self.usdkrw, side=row["side"], lev=lev, liq=round(liq, 6),
+        margin = self.alloc()
+        if margin < 1:
+            self.log(f"SKIP {m}: no free cash")
+            return
+        self.pos[key] = dict(key=key, market=m, symbol=m[4:], entry=px, qty=margin * lev * self.usdkrw / px,
+                             cost_usd=margin, usdkrw=self.usdkrw, side=row["side"], lev=lev, liq=round(liq, 6),
                              peak=px, peak_roe=-FEE * lev * 200, last=px, pnl=round(-FEE * lev * 200, 3),
                              status="OPEN", mode="normal", reason=None, exit_time=None,
                              series=[round(-FEE * lev * 200, 3)], slope=0.0, rsi=50, score=round(row["score"], 2),
                              bought_min=self.gmin, bought_time=v1.now_kst(), round=self.round, vol=row["vol"])
-        self.log(f"OPEN {label:<9} {m:<12} @ {px:,.4f}  liq {liq:,.4f}  ({why}, score {row['score']:.2f})")
-        self.event("BUY", m, f"{label} 진입 @ {px:,.4f} · 청산가 {liq:,.4f} · {why}")
+        self.log(f"OPEN {label:<9} {m:<12} @ {px:,.4f}  margin ${margin:.2f}  liq {liq:,.4f}  ({why}, score {row['score']:.2f})")
+        self.event("BUY", m, f"{label} 진입 @ {px:,.4f} · 증거금 ${margin:.2f} · 청산가 {liq:,.4f} · {why}")
 
     def sell(self, p, px, why, kind="SELL"):
         pnl = self.pnl(p, px) if why != "청산" else -1.0

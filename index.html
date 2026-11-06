@@ -286,7 +286,7 @@ function render(st) {
   const P = st.positions || [];
   const open = P.filter(p => p.status === "OPEN").length;
   $("sCnt").textContent = P.length ? `${open} / ${P.length - open}` : "–";
-  $("sCntNote").textContent = P.length ? `총 ${P.length}건 × $10` : "코인당 $10";
+  $("sCntNote").textContent = st.cash != null ? `대기 현금 $${Number(st.cash).toFixed(2)} · 초기 자본 $${st.initial_capital || 50}` : (P.length ? `총 ${P.length}건` : "");
   if (P.length) {
     const s = [...P].sort((a, b) => b.pnl - a.pnl), b = s[0], w = s[s.length - 1];
     $("sBest").innerHTML = `<span class="${cls(b.pnl)}">${esc(b.symbol)} ${pct(b.pnl)}</span>`;

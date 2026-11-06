@@ -27,7 +27,8 @@ import paper_trader as v1
 FEE = v1.FEE
 BUDGET_USD = 10.0
 MIN_OPEN = 5
-MAX_OPEN = 8
+MAX_OPEN = 5            # fixed 5 slots: no new money, so no extra 'add' positions
+INITIAL_CAPITAL = 50.0  # the only money ever put in
 MIN_HOLD = 3            # minutes
 SCORE_MARGIN = 0.8      # z-score units
 HORIZON = 10            # minutes used to compare expected movement
@@ -114,7 +115,11 @@ class Bot:
         self.swaps = st.get("swaps", [])
         self.tuned_rounds = set(st.get("tuned_rounds", []))
         self.gmin = st.get("gmin", 0)
-        self.peak_open = st.get("peak_open", MIN_OPEN)
+        for r in self.reports:   # restate older reports against the initial $50
+            if r.get("kind") != "tuning" and r.get("invested_usd") not in (None, INITIAL_CAPITAL):
+                pnl_usd = r["value_usd"] - r["invested_usd"]
+                r.update(invested_usd=INITIAL_CAPITAL, value_usd=round(INITIAL_CAPITAL + pnl_usd, 3),
+                         pnl_pct=round(pnl_usd / INITIAL_CAPITAL * 100, 3))
         self.round = st["round"] + (1 if st.get("phase") == "done" else 0)
         self.loglines = st.get("log", [])[-40:]
         self.log(f"=== RESUME from round {st['round']} · {len(self.open_pos())} open positions ===")
@@ -239,19 +244,31 @@ class Bot:
         return p["qty"] * px * (1 - FEE) / self.budget_krw(p) - 1
 
     def equity(self):
-        """Capital = $10 x the most positions ever held at once (normally 5 slots = $50);
-        proceeds are recycled into the next position, so re-entries are not new money."""
-        self.peak_open = max(getattr(self, "peak_open", 0), MIN_OPEN, len(self.open_pos()))
-        capital = BUDGET_USD * self.peak_open
+        """Everything is measured against the initial $50; proceeds are recycled, nothing is added."""
         pnl_usd = sum(p["cost_usd"] * p["pnl"] / 100 for p in self.pos.values())
-        return capital, capital + pnl_usd
+        return INITIAL_CAPITAL, INITIAL_CAPITAL + pnl_usd
+
+    def cash(self):
+        """Uninvested money: $50 + realised PnL - margin still tied up in open positions."""
+        realised = sum(p["cost_usd"] * p["pnl"] / 100 for p in self.pos.values() if p["status"] != "OPEN")
+        tied = sum(p["cost_usd"] for p in self.pos.values() if p["status"] == "OPEN")
+        return INITIAL_CAPITAL + realised - tied
+
+    def alloc(self):
+        """Split the free cash evenly over the empty slots."""
+        free = max(1, MIN_OPEN - len(self.open_pos()))
+        return round(max(0.0, self.cash()) / free, 4)
 
     def buy(self, row, why):
         m, px = row["market"], row["price"]
         key = f"{m}#{sum(1 for k in self.pos if k.startswith(m + '#')) + 1}"
-        budget = BUDGET_USD * self.usdkrw
+        margin = self.alloc()
+        if margin < 1:
+            self.log(f"SKIP {m}: no free cash")
+            return
+        budget = margin * self.usdkrw
         self.pos[key] = dict(key=key, market=m, symbol=m[4:], entry=px, qty=budget * (1 - FEE) / px,
-                             cost_usd=BUDGET_USD, usdkrw=self.usdkrw, peak=px, last=px, pnl=-FEE * 100,
+                             cost_usd=margin, usdkrw=self.usdkrw, peak=px, last=px, pnl=-FEE * 100,
                              status="OPEN", mode="normal", reason=None, exit_time=None, series=[-FEE * 100],
                              slope=0.0, rsi=50, score=round(row["score"], 2), bought_min=self.gmin,
                              bought_time=v1.now_kst(), round=self.round, vol=row["vol"])
@@ -398,7 +415,7 @@ class Bot:
                        pnl=round((value / invested - 1) * 100, 3) if invested else 0, estimate=self.phase != "done"),
             rules=dict(min_open=MIN_OPEN, max_open=MAX_OPEN, switch_cost=SWITCH_COST),
             round_start_equity=list(getattr(self, "round_start_equity", self.equity())),
-            peak_open=getattr(self, "peak_open", MIN_OPEN),
+            cash=round(self.cash(), 4), initial_capital=INITIAL_CAPITAL,
             params=self.params, swaps=self.swaps, tuned_rounds=sorted(self.tuned_rounds), gmin=self.gmin,
             next_tune_round=(self.round + (TUNE_EVERY - self.round % TUNE_EVERY) % TUNE_EVERY))
         tmp = self.args.status + ".tmp"
