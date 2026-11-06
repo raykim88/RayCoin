@@ -2,3 +2,8 @@ run_stdout.txt
 __pycache__/
 trade_log.txt
 trade_result.json
+status.json
+status.json.tmp
+trade_log_v2.txt
+run_v2_stdout.txt
+push_v2.out

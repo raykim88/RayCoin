@@ -1,16 +1,28 @@
 #!/usr/bin/env bash
-# Every minute: rebuild status.json from the bot log and force-push it as the single
-# commit of the `live-data` branch (the GitHub Pages dashboard reads it from there).
-# Usage: web/push_live.sh <trade_log.txt> [interval_sec=60] [minutes_total=30]
+# Every minute: force-push the dashboard status as the single commit of the `live-data` branch
+# (the GitHub Pages dashboard reads status.json from there).
+#   web/push_live.sh status.json            # v2 bot writes status.json itself; stops when phase == done
+#   web/push_live.sh trade_log.txt          # v1 bot: build status.json from the log; stops at TOTAL
+# Optional: [interval_sec=60] [minutes_total=30]
 set -u
-LOG=${1:?trade log path}
+SRC=${1:?status.json or trade log path}
 INTERVAL=${2:-60}
 TOTAL=${3:-30}
 REPO=$(cd "$(dirname "$0")/.." && pwd)
 OUT=$(mktemp -d)/status.json
 
+build() {
+  if [[ "$SRC" == *.json ]]; then cp "$SRC" "$OUT"
+  else python3 "$REPO/web/log_to_status.py" "$SRC" "$OUT" --minutes "$TOTAL"; fi
+}
+
+finished() {
+  if [[ "$SRC" == *.json ]]; then grep -q '"phase": "done"' "$SRC" 2>/dev/null
+  else grep -q "TOTAL:" "$SRC" 2>/dev/null; fi
+}
+
 push_once() {
-  python3 "$REPO/web/log_to_status.py" "$LOG" "$OUT" --minutes "$TOTAL" || return 1
+  build || return 1
   blob=$(git -C "$REPO" hash-object -w "$OUT")
   tree=$(printf "100644 blob %s\tstatus.json\n" "$blob" | git -C "$REPO" mktree)
   commit=$(git -C "$REPO" commit-tree "$tree" -m "live status $(date -u +%FT%TZ)")
@@ -23,6 +35,6 @@ push_once() {
 
 while true; do
   push_once
-  grep -q "TOTAL:" "$LOG" 2>/dev/null && { push_once; echo "final pushed"; exit 0; }
+  finished && { push_once; echo "final pushed"; exit 0; }
   sleep "$INTERVAL"
 done

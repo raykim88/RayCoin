@@ -25,15 +25,16 @@ let etag = null, base = null, live = {}, liveAt = null;
 
 function withLive(st) {
   if (!st || !st.positions || st.phase === "done") return st;
-  const s = structuredClone(st), budget = 10 * (s.usdkrw || 0);
+  const s = structuredClone(st);
   let cost = 0, value = 0;
   for (const p of s.positions) {
+    const budget = (p.cost_usd || 10) * (p.usdkrw || s.usdkrw || 0);
     if (p.status === "OPEN" && live[p.market] && budget) {
       p.last = live[p.market];
       p.pnl = (p.qty * p.last * (1 - FEE)) / budget * 100 - 100;
       p.series = [...(p.series || []), p.pnl];
     }
-    cost += 10; value += 10 * (1 + p.pnl / 100);
+    cost += p.cost_usd || 10; value += (p.cost_usd || 10) * (1 + p.pnl / 100);
   }
   if (s.positions.length) s.total = {cost_usd: cost, value_usd: value, pnl: (value / cost - 1) * 100, estimate: true};
   return s;

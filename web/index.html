@@ -1,4 +1,4 @@
-<title>RayCoin 단타 모니터</title>
+<title>RayCoin</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -72,6 +72,12 @@ svg.spark{width:100%;height:64px;display:block}
 .tag{font-weight:700;font-size:.7rem;padding:1px 6px;border-radius:4px;margin-right:6px}
 .tag.BUY{background:var(--up-bg);color:var(--up)} .tag.SELL{background:var(--down-bg);color:var(--down)}
 .tag.HOLD,.tag.RECOVER{background:var(--warn-bg);color:var(--warn)}
+.tag.SWAP,.tag.ADD{background:var(--chip);color:var(--accent)}
+.reports{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.report{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.report .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.report h3{margin:0;font-size:.95rem}.report h3 span{font-weight:500;color:var(--muted);font-size:.75rem;margin-left:6px}
+.report p{margin:0;font-size:.82rem;color:var(--muted)}
 .tablebox{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px}
 table{border-collapse:collapse;width:100%;font-size:.82rem;min-width:560px}
 th,td{padding:8px 12px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
@@ -92,7 +98,7 @@ footer{font-size:.75rem;color:var(--muted)}
 
 <div class="wrap">
   <header>
-    <h1><small>Upbit KRW · 모의매매</small>RayCoin 단타 모니터</h1>
+    <h1><small id="sub">Upbit KRW · 모의매매</small>RayCoin</h1>
     <div class="meta">
       <span class="pill" id="phase"><span class="dot"></span><span id="phaseText">연결 중</span></span>
       <span id="clock" class="num">–</span>
@@ -108,9 +114,14 @@ footer{font-size:.75rem;color:var(--muted)}
   <div class="summary">
     <div><label>총 수익률</label><b id="sPnl" class="num">–</b><span id="sNote">수수료 0.05% 양방향 반영</span></div>
     <div><label>평가 금액</label><b id="sVal" class="num">–</b><span id="sCost">투입 –</span></div>
-    <div><label>보유 / 매도</label><b id="sCnt" class="num">–</b><span>5개 코인 × $10</span></div>
+    <div><label>보유 / 매도</label><b id="sCnt" class="num">–</b><span id="sCntNote">코인당 $10</span></div>
     <div><label>최고 / 최저 종목</label><b id="sBest" class="num">–</b><span id="sWorst">–</span></div>
   </div>
+
+  <section id="reportsBox" hidden>
+    <h2>라운드 보고서</h2>
+    <div class="reports" id="reports"></div>
+  </section>
 
   <div class="board">
     <section>
@@ -136,6 +147,7 @@ footer{font-size:.75rem;color:var(--muted)}
     <div class="rules">
       <div><b class="up">+20% 익절</b>수익 20%에서 매도. 직전 5분 기울기가 분당 +1% 이상이면 보유하고, 고점 대비 -5% 또는 기울기 0 이하에서 매도.</div>
       <div><b class="down">-20% 손절</b>손실 20%에서 매도. RSI 30 이하 + 양봉/아래꼬리 같은 반등 신호가 있으면 보유. -30%는 무조건 매도.</div>
+      <div><b>교체 매매</b>1분마다 후보를 다시 평가합니다. 보유 중 가장 약한 코인보다 점수가 0.8 이상 높고, 10분 기대 변동 차이가 수수료(매도+매수 0.10%)의 3배 이상이면 교체합니다. 약한 코인이 아직 상승 중이면 팔지 않고 추가 매수만 합니다(최대 8개).</div>
       <div><b>선정 점수</b>1분 변동성 35% · 거래대금 급증 30% · 15분 모멘텀 20% · 24시간 고저폭 15%. RSI 80 초과는 감점, 거래소 유의종목은 제외.</div>
     </div>
   </section>
@@ -177,7 +189,18 @@ function render(st) {
   $("phaseText").textContent = PHASE[ph] || ph;
   const total = st.minutes_total || 30, m = Math.min(st.minute || 0, total);
   $("bar").style.width = (ph === "done" ? 100 : m / total * 100) + "%";
-  $("minuteText").textContent = `경과 ${m} / ${total}분` + (st.started ? ` · 시작 ${st.started}` : "");
+  $("minuteText").textContent = (st.round ? `라운드 ${st.round} · ` : "") + `경과 ${m} / ${total}분` + (st.started ? ` · 시작 ${st.started}` : "");
+  $("sub").textContent = "Upbit KRW · 모의매매" + (st.round ? ` · 라운드 ${st.round}/${st.rounds_total || st.round}` : "");
+  const R = (st.reports || []).slice().reverse();
+  $("reportsBox").hidden = !R.length;
+  if (R.length) $("reports").innerHTML = R.map(r => `<article class="report">
+      <div class="top"><h3>라운드 ${r.round}<span class="num">${esc(r.start)} – ${esc(r.end)}</span></h3>
+        <span class="pnl num ${cls(r.round_pnl_usd)}">${r.round_pnl_usd >= 0 ? "+" : "-"}$${Math.abs(r.round_pnl_usd).toFixed(3)}</span></div>
+      <dl class="kv num"><dt>누적 수익률</dt><dd class="${cls(r.pnl_pct)}">${pct(r.pnl_pct)}</dd>
+        <dt>평가 / 투입</dt><dd>$${Number(r.value_usd).toFixed(2)} / $${Number(r.invested_usd).toFixed(2)}</dd>
+        <dt>매수 · 매도</dt><dd>${r.buys} · ${r.sells}</dd><dt>교체 · 추가</dt><dd>${r.swaps} · ${r.adds}</dd>
+        <dt>최고</dt><dd>${esc(r.best)}</dd><dt>최저</dt><dd>${esc(r.worst)}</dd></dl>
+      <p>${esc(r.note)}</p></article>`).join("");
   $("updated").textContent = "업데이트 " + (st.updated || "–");
 
   const t = st.total;
@@ -190,6 +213,7 @@ function render(st) {
   const P = st.positions || [];
   const open = P.filter(p => p.status === "OPEN").length;
   $("sCnt").textContent = P.length ? `${open} / ${P.length - open}` : "–";
+  $("sCntNote").textContent = P.length ? `총 ${P.length}건 × $10` : "코인당 $10";
   if (P.length) {
     const s = [...P].sort((a, b) => b.pnl - a.pnl), b = s[0], w = s[s.length - 1];
     $("sBest").innerHTML = `<span class="${cls(b.pnl)}">${esc(b.symbol)} ${pct(b.pnl)}</span>`;
@@ -200,7 +224,7 @@ function render(st) {
         : p.mode === "rebound" ? `<span class="chip rebound">반등 대기 보유</span>`
         : `<span class="chip">보유 중</span>`;
       return `<article class="card ${p.status === "CLOSED" ? "closed" : ""}">
-        <div class="top"><span class="sym">${esc(p.symbol)}<em>${esc(p.market)}</em></span>
+        <div class="top"><span class="sym">${esc(p.symbol)}<em>${p.round ? "R" + p.round + " 매수" : esc(p.market)}</em></span>
           <span class="pnl num ${cls(p.pnl)}">${pct(p.pnl)}</span></div>
         ${spark(p.series || [0])}
         <div class="chips">${chip}<span class="chip num">기울기 ${pct(p.slope ?? 0)}/분</span><span class="chip num">RSI ${esc(p.rsi ?? "–")}</span></div>
