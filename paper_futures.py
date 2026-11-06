@@ -29,6 +29,7 @@ FLIP_MIN_HOLD = 10    # minutes a position must be held before it may be reverse
 MIN_SIGNAL = 1.0      # |momentum signal| (%) needed to open a new position
 MAX_WEIGHT = 0.40     # at most 40% of equity in one position
 MIN_MARGIN = 3.0      # skip entries smaller than $3
+STOP_BAN = 60          # minutes a coin is banned after a stop-loss (review-5)
 
 
 class FuturesBot(v2.Bot):
@@ -109,6 +110,9 @@ class FuturesBot(v2.Bot):
         p.update(status="CLOSED", last=px, pnl=round(pnl * 100, 3), reason=why, exit_time=v1.now_kst())
         p["series"].append(round(pnl * 100, 3))
         self.sold_at[p["market"]] = self.gmin
+        if pnl < 0 and ("손절" in why or why == "청산"):
+            self.stopped_at = getattr(self, "stopped_at", {})
+            self.stopped_at[p["market"]] = self.gmin   # no re-entry for STOP_BAN minutes
         tag = f"{p.get('side', 'SPOT')} {p.get('lev', 1)}x"
         self.log(f"CLOSE {tag:<9} {p['market']:<12} @ {px:,.4f}  ROE {pnl*100:+.2f}%  [{why}]")
         self.event(kind, p["market"], f"{tag} 종료 @ {px:,.4f} · ROE {pnl*100:+.2f}% · {why}")
@@ -244,6 +248,8 @@ class FuturesBot(v2.Bot):
         out = []
         for r in rows:
             if r["warned"] or self.gmin - self.sold_at.get(r["market"], -99) < v2.COOLDOWN:
+                continue
+            if self.gmin - getattr(self, "stopped_at", {}).get(r["market"], -999) < self.params.get("stop_ban", STOP_BAN):
                 continue
             self.decide(r)
             strong_dir = abs(self.signal(r)) >= MIN_SIGNAL or r["rsi"] > 78 or r["rsi"] < 22
