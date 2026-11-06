@@ -24,7 +24,8 @@ import paper_trader_v2 as v2
 FEE = 0.0005          # per side, on notional
 MMR = 0.005           # maintenance margin rate
 LEVS = [2, 3, 5, 10]
-FLIP_SIGNAL = 1.5     # |momentum signal| (%) needed to reverse a held position
+FLIP_SIGNAL = 2.5     # default |momentum signal| (%) needed to reverse a held position (tuned hourly)
+FLIP_MIN_HOLD = 10    # minutes a position must be held before it may be reversed
 
 
 class FuturesBot(v2.Bot):
@@ -34,7 +35,8 @@ class FuturesBot(v2.Bot):
 
     def __init__(self, args):
         super().__init__(args)
-        self.params = dict(tp=20.0, sl=-20.0, hard=-40.0, trail=5.0, steep=0.4, margin=0.7)
+        self.params = dict(tp=20.0, sl=-20.0, hard=-40.0, trail=5.0, steep=0.4, margin=0.7, flip=FLIP_SIGNAL)
+        self.flips = []      # keys of positions opened by a direction flip
 
     # ---------- direction & leverage ----------
     @staticmethod
@@ -126,8 +128,23 @@ class FuturesBot(v2.Bot):
         self.event("TUNE", "", "선물 모드 전환 · ROE 기준 익절 +20% / 손절 -20%")
 
     def resume(self, path):
+        st = json.load(open(path, encoding="utf-8"))
         super().resume(path)
+        self.flips = st.get("flips", [])
+        self.params.setdefault("flip", FLIP_SIGNAL)
+        if self.params["flip"] < FLIP_SIGNAL and not st.get("flips_tuned"):
+            self.params["flip"] = FLIP_SIGNAL
         self.convert_from_spot()
+
+    def write_status(self):
+        super().write_status()
+        st = json.load(open(self.args.status, encoding="utf-8"))
+        st["flips"] = self.flips
+        tmp = self.args.status + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(st, f, ensure_ascii=False)
+        import os
+        os.replace(tmp, self.args.status)
 
     # ---------- per-minute rules ----------
     def exits(self, prices):
@@ -195,17 +212,37 @@ class FuturesBot(v2.Bot):
         score = {r["market"]: r for r in rows}
         for p in self.open_pos():
             r = score.get(p["market"])
-            if not r or "side" not in p or p["mode"] != "normal" or self.gmin - p["bought_min"] < v2.MIN_HOLD:
+            if not r or "side" not in p or p["mode"] != "normal" or self.gmin - p["bought_min"] < FLIP_MIN_HOLD:
                 continue
             sig = self.signal(r)
             want = "LONG" if sig > 0 else "SHORT"
             exp_move = abs(sig) / 15 * v2.HORIZON          # momentum per minute x horizon, %
-            if want != p["side"] and abs(sig) >= FLIP_SIGNAL and exp_move > 3 * 2 * FEE * 100:
+            if want != p["side"] and abs(sig) >= self.params.get("flip", FLIP_SIGNAL) and exp_move > 3 * 2 * FEE * 100:
                 self.sell(p, r["price"], f"방향 전환 → {want} (신호 {sig:+.2f}%)", kind="SWAP")
                 self.buy(r, f"{p['side']}→{want} 방향 전환")
+                self.flips.append(list(self.pos)[-1])
                 self.counts["swaps"] += 1
                 return
         super().rotate(rows)
+
+    def tune(self, upto_round):
+        old_flip = self.params.get("flip", FLIP_SIGNAL)
+        judged = [self.pos[k]["pnl"] for k in self.flips if k in self.pos]
+        super().tune(upto_round)
+        if judged:
+            avg = sum(judged) / len(judged)
+            new = min(5.0, old_flip + 0.5) if avg < 0 else max(1.5, old_flip - 0.25)
+            why = f"방향 전환 {len(judged)}건의 평균 ROE {avg:+.2f}% → 전환 기준 {old_flip}→{new}."
+        else:
+            new = max(1.5, old_flip - 0.25)
+            why = f"방향 전환 없음 → 전환 기준 소폭 완화 {old_flip}→{new}."
+        self.params["flip"] = new
+        self.flips = []
+        rep = self.reports[-1]
+        rep["params"] = dict(self.params)
+        if new != old_flip:
+            rep["changes"]["flip"] = [old_flip, new]
+        rep["note"] += " " + why
 
     def round_report(self, start_equity):
         super().round_report(start_equity)

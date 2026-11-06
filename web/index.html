@@ -206,7 +206,7 @@ function render(st) {
     $("ruleMargin").textContent = P0.margin;
   }
   $("nextTune").textContent = st.next_tune_round ? `다음 조정: 라운드 ${st.next_tune_round} 종료 후.` : "";
-  const NAMES = {tp: "익절", sl: "손절", hard: "강제손절", trail: "추적폭", steep: "추세기준", margin: "교체점수차"};
+  const NAMES = {tp: "익절", sl: "손절", hard: "강제손절", trail: "추적폭", steep: "추세기준", margin: "교체점수차", flip: "전환기준"};
   if (R.length) $("reports").innerHTML = R.map(r => r.kind === "tuning" ? `<article class="report">
       <div class="top"><h3>기준 조정<span class="num">라운드 ${r.round} 후 · ${esc(r.time)}</span></h3><span class="tag TUNE">TUNE</span></div>
       <dl class="kv num">${Object.entries(r.changes || {}).map(([k, [a, b]]) => `<dt>${NAMES[k] || esc(k)}</dt><dd>${a} → <b>${b}</b></dd>`).join("") || "<dt>변경</dt><dd>없음</dd>"}</dl>
