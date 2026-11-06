@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#151a24"/>
+  <g transform="translate(46 30) scale(0.82)">
+  <!-- candles: fall (blue) then rise (red) -->
+  <line x1="150" y1="130" x2="150" y2="300" stroke="#5c9bff" stroke-width="10" stroke-linecap="round"/>
+  <rect x="122" y="160" width="56" height="110" rx="8" fill="#5c9bff"/>
+  <line x1="236" y1="190" x2="236" y2="395" stroke="#ff5c6c" stroke-width="10" stroke-linecap="round"/>
+  <rect x="208" y="215" width="56" height="150" rx="8" fill="#ff5c6c"/>
+  <!-- R -->
+  <text x="372" y="372" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700"
+        font-size="230" fill="#ffffff">R</text>
+  <!-- rising line -->
+  <polyline points="100,450 190,425 260,440 330,405" fill="none" stroke="#8a98ff" stroke-width="12"
+            stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>
+  </g>
+</svg>

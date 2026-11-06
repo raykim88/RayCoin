@@ -33,6 +33,7 @@ SCORE_MARGIN = 0.8      # z-score units
 HORIZON = 10            # minutes used to compare expected movement
 SWITCH_COST = 2 * FEE * 100   # % (sell + buy)
 COOLDOWN = 5            # minutes before a sold coin may be bought again
+TUNE_EVERY = 2          # rounds (2 x 30 min = hourly)
 
 
 def scan(extra):
@@ -97,6 +98,105 @@ class Bot:
         self.sold_at = {}       # market -> minute index (global)
         self.gmin = 0
         self.phase = "trading"
+        # tunable rules (retuned every TUNE_EVERY rounds)
+        self.params = dict(tp=v1.TAKE_PROFIT * 100, sl=v1.STOP_LOSS * 100, hard=v1.HARD_STOP * 100,
+                           trail=v1.TRAIL_FROM_PEAK * 100, steep=v1.STEEP_SLOPE, margin=SCORE_MARGIN)
+        self.swaps = []         # [{out_market, out_price, in_key, round}]
+        self.tuned_rounds = set()
+
+    # ---------- resume from a previous status.json ----------
+    def resume(self, path):
+        st = json.load(open(path, encoding="utf-8"))
+        self.pos = {p["key"]: p for p in st["positions"]}
+        self.events, self.reports = st.get("events", []), st.get("reports", [])
+        self.params.update(st.get("params") or {})
+        self.swaps = st.get("swaps", [])
+        self.tuned_rounds = set(st.get("tuned_rounds", []))
+        self.gmin = st.get("gmin", 0)
+        self.round = st["round"] + (1 if st.get("phase") == "done" else 0)
+        self.loglines = st.get("log", [])[-40:]
+        self.log(f"=== RESUME from round {st['round']} · {len(self.open_pos())} open positions ===")
+        prev = st["round"] if st.get("phase") == "done" else self.round - 1
+        if prev % TUNE_EVERY == 0 and prev not in self.tuned_rounds:
+            self.tune(prev)
+        self.started = v1.now_kst()
+        self.log(f"=== ROUND {self.round} start ===")
+
+    # ---------- hourly tuning ----------
+    def tune(self, upto_round):
+        """Back-test TP/SL combinations on the last hour's 1-minute PnL paths and adopt the best."""
+        old = dict(self.params)
+        paths = []
+        for p in self.pos.values():
+            s = p.get("series") or []
+            i = p.get("tune_idx", 0)
+            seg = s[i:]
+            if len(seg) >= 3:
+                paths.append(seg)
+        fee = 2 * FEE * 100
+
+        def sim(tp, sl):
+            tot = 0.0
+            for seg in paths:
+                base = seg[0]
+                out = seg[-1] - base
+                for v in seg[1:]:
+                    d = v - base
+                    if d >= tp:
+                        out = tp - fee  # exit near the target (+ cost of re-entering elsewhere)
+                        break
+                    if d <= sl:
+                        out = sl - fee
+                        break
+                tot += out
+            return tot / max(len(paths), 1)
+
+        tps = [1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 7.0, 10.0, 15.0, 20.0]
+        sls = [-1.0, -1.5, -2.0, -3.0, -4.0, -5.0, -7.0, -10.0, -15.0, -20.0]
+        cur = sim(old["tp"], old["sl"])
+        best = max(((sim(t, s), t, s) for t in tps for s in sls), key=lambda x: (round(x[0], 4), x[1], -x[2]))
+        why = []
+        if paths and best[0] > cur + 0.05:
+            self.params["tp"], self.params["sl"] = best[1], best[2]
+            why.append(f"지난 1시간 {len(paths)}개 코인의 1분 경로로 시험해 보니 익절 +{best[1]:g}% / 손절 {best[2]:g}%가 "
+                       f"평균 {best[0]:+.2f}%로 기존 기준({cur:+.2f}%)보다 좋음.")
+        else:
+            why.append(f"익절/손절 후보 중 기존 기준({cur:+.2f}%)보다 0.05%p 넘게 나은 조합이 없어 유지.")
+        tp, sl = self.params["tp"], self.params["sl"]
+        self.params["steep"] = round(max(0.3, tp / 10), 2)
+        self.params["trail"] = round(max(0.5, tp / 4), 2)
+        self.params["hard"] = round(min(sl * 1.5, sl - 1), 2)
+
+        outcomes = []
+        for sw in self.swaps:
+            if sw.get("judged") or sw["in_key"] not in self.pos:
+                continue
+            try:
+                now_out = v1.get("ticker", markets=sw["out_market"])[0]["trade_price"]
+            except Exception:  # noqa: BLE001
+                continue
+            out_ret = (now_out / sw["out_price"] - 1) * 100
+            outcomes.append(self.pos[sw["in_key"]]["pnl"] - out_ret)
+            sw["judged"] = True
+        avg_abs = statistics.mean(abs(seg[-1] - seg[0]) for seg in paths) if paths else 0
+        if outcomes:
+            gain = statistics.mean(outcomes)
+            step = -0.1 if gain > 0 else 0.2
+            self.params["margin"] = round(min(2.0, max(0.4, self.params["margin"] + step)), 2)
+            why.append(f"교체 {len(outcomes)}건이 안 했을 때보다 평균 {gain:+.2f}%p → 교체 기준 "
+                       f"{'완화' if step < 0 else '강화'} ({old['margin']}→{self.params['margin']}).")
+        elif avg_abs < 1.5:
+            self.params["margin"] = round(max(0.4, self.params["margin"] - 0.1), 2)
+            why.append(f"교체 없이 평균 움직임이 {avg_abs:.2f}%로 작아 더 활발한 코인으로 갈아타도록 교체 기준 완화 "
+                       f"({old['margin']}→{self.params['margin']}).")
+        for p in self.pos.values():
+            p["tune_idx"] = len(p.get("series") or [])
+        self.tuned_rounds.add(upto_round)
+        changes = {k: [old[k], self.params[k]] for k in self.params if old[k] != self.params[k]}
+        self.reports.append(dict(kind="tuning", round=upto_round, time=v1.now_kst(), params=dict(self.params),
+                                 changes=changes, note=" ".join(why)))
+        self.event("TUNE", "", "기준 조정: " + (", ".join(f"{k} {a}→{b}" for k, (a, b) in changes.items()) or "변경 없음"))
+        self.log(f"=== TUNE after round {upto_round}: {changes or 'no change'} · {' '.join(why)}")
 
     # ---------- helpers ----------
     def log(self, msg):
@@ -191,20 +291,21 @@ class Bot:
             p.update(pnl=round(pnl * 100, 3), slope=round(sl5, 3), rsi=round(r14))
             p["series"].append(round(pnl * 100, 3))
             action = None
-            if pnl >= v1.TAKE_PROFIT:
-                if p["mode"] != "ride" and sl5 >= v1.STEEP_SLOPE:
+            P = self.params
+            if pnl * 100 >= P["tp"]:
+                if p["mode"] != "ride" and sl5 >= P["steep"]:
                     p["mode"] = "ride"
                     self.log(f"HOLD {p['market']}: +{pnl*100:.1f}% but curve is steep ({sl5:.2f}%/min) -> riding")
                     self.event("HOLD", p["market"], f"+{pnl*100:.1f}% · 급등 추세라 보유")
-                elif p["mode"] == "ride" and (px <= p["peak"] * (1 - v1.TRAIL_FROM_PEAK) or sl5 <= 0):
+                elif p["mode"] == "ride" and (px <= p["peak"] * (1 - P["trail"] / 100) or sl5 <= 0):
                     action = "익절 (추세 꺾임)"
                 elif p["mode"] != "ride":
                     action = f"익절 +{pnl*100:.1f}%"
             elif p["mode"] == "ride":
-                action = "익절 (+20% 아래로 되돌림)"
-            elif pnl <= v1.STOP_LOSS:
+                action = f"익절 (+{P['tp']:g}% 아래로 되돌림)"
+            elif pnl * 100 <= P["sl"]:
                 rebound = (r14 <= 30 and (green or wick >= 1.0)) or (sl5 > 0 and r14 < 40)
-                if pnl <= v1.HARD_STOP:
+                if pnl * 100 <= P["hard"]:
                     action = f"강제 손절 {pnl*100:.1f}%"
                 elif rebound:
                     if p["mode"] != "rebound":
@@ -214,7 +315,7 @@ class Bot:
                     action = f"손절 {pnl*100:.1f}%"
             elif p["mode"] == "rebound":
                 p["mode"] = "normal"
-                self.event("RECOVER", p["market"], f"-20% 위로 회복 ({pnl*100:.1f}%)")
+                self.event("RECOVER", p["market"], f"{P['sl']:g}% 위로 회복 ({pnl*100:.1f}%)")
             if action:
                 self.sell(p, px, action)
 
@@ -242,7 +343,7 @@ class Bot:
         ws = score[weak["market"]]
         edge = best["score"] - ws["score"]
         exp_gain = (best["vol"] - ws["vol"]) * math.sqrt(HORIZON)
-        if edge < SCORE_MARGIN or exp_gain < 3 * SWITCH_COST:
+        if edge < self.params["margin"] or exp_gain < 3 * SWITCH_COST:
             return
         healthy = weak["pnl"] > 0.3 and weak["slope"] > 0
         if healthy and len(opens) < MAX_OPEN:
@@ -253,6 +354,8 @@ class Bot:
             self.sell(weak, ws["price"], f"교체 → {best['market'][4:]} (점수 {ws['score']:.2f}→{best['score']:.2f}, "
                                          f"기대 변동 +{exp_gain:.2f}% > 수수료 {SWITCH_COST:.2f}%)", kind="SWAP")
             self.buy(best, f"{weak['symbol']} 대신 교체 매수")
+            self.swaps.append(dict(out_market=weak["market"], out_price=ws["price"], round=self.round,
+                                   in_key=[k for k in self.pos if self.pos[k]["status"] == "OPEN"][-1]))
             self.counts["swaps"] += 1
 
     # ---------- output ----------
@@ -269,7 +372,9 @@ class Bot:
             events=self.events[-80:], log=self.loglines[-40:], reports=self.reports,
             total=dict(cost_usd=invested, value_usd=round(value, 4),
                        pnl=round((value / invested - 1) * 100, 3) if invested else 0, estimate=self.phase != "done"),
-            rules=dict(min_open=MIN_OPEN, max_open=MAX_OPEN, switch_cost=SWITCH_COST, margin=SCORE_MARGIN))
+            rules=dict(min_open=MIN_OPEN, max_open=MAX_OPEN, switch_cost=SWITCH_COST),
+            params=self.params, swaps=self.swaps, tuned_rounds=sorted(self.tuned_rounds), gmin=self.gmin,
+            next_tune_round=(self.round + (TUNE_EVERY - self.round % TUNE_EVERY) % TUNE_EVERY))
         tmp = self.args.status + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(st, f, ensure_ascii=False)
@@ -292,6 +397,7 @@ class Bot:
         else:
             note.append("교체 조건(점수차 0.8 이상, 기대 변동이 수수료의 3배 이상)을 넘는 후보가 없어 교체 없음.")
         note.append(f"이번 라운드 손익 {r_pnl:+.3f}$, 누적 {(value/invested-1)*100:+.2f}%.")
+        note.append(f"적용 기준: 익절 +{self.params['tp']:g}% / 손절 {self.params['sl']:g}%.")
         self.reports.append(dict(
             round=self.round, start=self.started, end=v1.now_kst(), invested_usd=invested, value_usd=round(value, 3),
             pnl_pct=round((value / invested - 1) * 100, 3), round_pnl_usd=round(r_pnl, 3),
@@ -303,7 +409,7 @@ class Bot:
 
     # ---------- main loop ----------
     def run(self):
-        while self.round <= self.args.last_round:
+        while self.args.last_round == 0 or self.round <= self.args.last_round:
             self.counts = dict(buys=0, sells=0, swaps=0, adds=0)
             start_equity = self.equity()
             n_buy0, n_sell0 = (sum(1 for e in self.events if e["kind"] in ("BUY", "ADD")),
@@ -332,6 +438,8 @@ class Bot:
             self.counts["buys"] = sum(1 for e in self.events if e["kind"] in ("BUY", "ADD")) - n_buy0
             self.counts["sells"] = sum(1 for e in self.events if e["kind"] in ("SELL", "SWAP")) - n_sell0
             self.round_report(start_equity)
+            if self.round % TUNE_EVERY == 0:
+                self.tune(self.round)
             if self.round == self.args.last_round:
                 break
             self.round += 1
@@ -347,13 +455,17 @@ def main():
     ap.add_argument("--seed", default="trade_result.json", help="v1 result to carry over as round 1")
     ap.add_argument("--r1-start", default="21:50:53")
     ap.add_argument("--r1-end", default="22:21")
-    ap.add_argument("--last-round", type=int, default=2)
+    ap.add_argument("--last-round", type=int, default=0, help="0 = run until stopped")
+    ap.add_argument("--resume", default=None, help="continue from a previous status.json")
     ap.add_argument("--round-min", type=int, default=30)
     ap.add_argument("--log", default="trade_log_v2.txt")
     ap.add_argument("--status", default="status.json")
     args = ap.parse_args()
     bot = Bot(args)
-    bot.seed_from_v1(args.seed)
+    if args.resume:
+        bot.resume(args.resume)
+    else:
+        bot.seed_from_v1(args.seed)
     bot.run()
 
 

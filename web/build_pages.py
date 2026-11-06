@@ -91,6 +91,14 @@ body = body.replace("봇이 1분마다 Upbit 시세를 읽고, Claude가 그 결
 
 page = ("<!doctype html>\n<html lang=\"ko\">\n<head>\n<meta charset=\"utf-8\">\n"
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\">\n"
+        "<link rel=\"manifest\" href=\"manifest.webmanifest\">\n"
+        "<link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"favicon-32.png\">\n"
+        "<link rel=\"apple-touch-icon\" href=\"apple-touch-icon.png\">\n"
+        "<meta name=\"theme-color\" content=\"#151a24\">\n"
+        "<meta name=\"mobile-web-app-capable\" content=\"yes\">\n"
+        "<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">\n"
+        "<meta name=\"apple-mobile-web-app-title\" content=\"RayCoin\">\n"
+        "<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\">\n"
         + head_bits + body.replace("</style>", "</style>\n</head>\n<body>", 1) + "\n</body>\n</html>\n")
 (ROOT / "index.html").write_text(page, encoding="utf-8")
 print("wrote", ROOT / "index.html")

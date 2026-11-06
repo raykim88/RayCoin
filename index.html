@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#151a24">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="RayCoin">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>RayCoin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -76,7 +84,7 @@ svg.spark{width:100%;height:64px;display:block}
 .tag{font-weight:700;font-size:.7rem;padding:1px 6px;border-radius:4px;margin-right:6px}
 .tag.BUY{background:var(--up-bg);color:var(--up)} .tag.SELL{background:var(--down-bg);color:var(--down)}
 .tag.HOLD,.tag.RECOVER{background:var(--warn-bg);color:var(--warn)}
-.tag.SWAP,.tag.ADD{background:var(--chip);color:var(--accent)}
+.tag.SWAP,.tag.ADD,.tag.TUNE{background:var(--chip);color:var(--accent)}
 .reports{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
 .report{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
 .report .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
@@ -151,9 +159,10 @@ footer{font-size:.75rem;color:var(--muted)}
   <section>
     <h2>매매 규칙</h2>
     <div class="rules">
-      <div><b class="up">+20% 익절</b>수익 20%에서 매도. 직전 5분 기울기가 분당 +1% 이상이면 보유하고, 고점 대비 -5% 또는 기울기 0 이하에서 매도.</div>
-      <div><b class="down">-20% 손절</b>손실 20%에서 매도. RSI 30 이하 + 양봉/아래꼬리 같은 반등 신호가 있으면 보유. -30%는 무조건 매도.</div>
-      <div><b>교체 매매</b>1분마다 후보를 다시 평가합니다. 보유 중 가장 약한 코인보다 점수가 0.8 이상 높고, 10분 기대 변동 차이가 수수료(매도+매수 0.10%)의 3배 이상이면 교체합니다. 약한 코인이 아직 상승 중이면 팔지 않고 추가 매수만 합니다(최대 8개).</div>
+      <div><b class="up" id="ruleTp">+20% 익절</b><span id="ruleTpText">수익 20%에서 매도. 직전 5분 기울기가 분당 +1% 이상이면 보유하고, 고점 대비 -5% 또는 기울기 0 이하에서 매도.</span></div>
+      <div><b class="down" id="ruleSl">-20% 손절</b><span id="ruleSlText">손실 20%에서 매도. RSI 30 이하 + 양봉/아래꼬리 같은 반등 신호가 있으면 보유. -30%는 무조건 매도.</span></div>
+      <div><b>1시간마다 자동 조정</b>30분 라운드 2개가 끝날 때마다 지난 1시간의 1분 단위 수익률 경로에 익절·손절 조합을 대입해 보고, 수수료를 뺀 결과가 가장 좋은 조합으로 바꿉니다. 교체가 손해였으면 교체 기준을 높이고, 움직임이 작으면 낮춥니다. <span id="nextTune"></span></div>
+      <div><b>교체 매매</b>1분마다 후보를 다시 평가합니다. 보유 중 가장 약한 코인보다 점수가 <span id="ruleMargin">0.8</span> 이상 높고, 10분 기대 변동 차이가 수수료(매도+매수 0.10%)의 3배 이상이면 교체합니다. 약한 코인이 아직 상승 중이면 팔지 않고 추가 매수만 합니다(최대 8개).</div>
       <div><b>선정 점수</b>1분 변동성 35% · 거래대금 급증 30% · 15분 모멘텀 20% · 24시간 고저폭 15%. RSI 80 초과는 감점, 거래소 유의종목은 제외.</div>
     </div>
   </section>
@@ -199,7 +208,20 @@ function render(st) {
   $("sub").textContent = "Upbit KRW · 모의매매" + (st.round ? ` · 라운드 ${st.round}/${st.rounds_total || st.round}` : "");
   const R = (st.reports || []).slice().reverse();
   $("reportsBox").hidden = !R.length;
-  if (R.length) $("reports").innerHTML = R.map(r => `<article class="report">
+  const P0 = st.params;
+  if (P0) {
+    $("ruleTp").textContent = `+${P0.tp}% 익절`;
+    $("ruleTpText").textContent = `수익 ${P0.tp}%에서 매도. 직전 5분 기울기가 분당 +${P0.steep}% 이상이면 보유하고, 고점 대비 -${P0.trail}% 또는 기울기 0 이하에서 매도.`;
+    $("ruleSl").textContent = `${P0.sl}% 손절`;
+    $("ruleSlText").textContent = `손실 ${Math.abs(P0.sl)}%에서 매도. RSI 30 이하 + 양봉/아래꼬리 같은 반등 신호가 있으면 보유. ${P0.hard}%는 무조건 매도.`;
+    $("ruleMargin").textContent = P0.margin;
+  }
+  $("nextTune").textContent = st.next_tune_round ? `다음 조정: 라운드 ${st.next_tune_round} 종료 후.` : "";
+  const NAMES = {tp: "익절", sl: "손절", hard: "강제손절", trail: "추적폭", steep: "추세기준", margin: "교체점수차"};
+  if (R.length) $("reports").innerHTML = R.map(r => r.kind === "tuning" ? `<article class="report">
+      <div class="top"><h3>기준 조정<span class="num">라운드 ${r.round} 후 · ${esc(r.time)}</span></h3><span class="tag TUNE">TUNE</span></div>
+      <dl class="kv num">${Object.entries(r.changes || {}).map(([k, [a, b]]) => `<dt>${NAMES[k] || esc(k)}</dt><dd>${a} → <b>${b}</b></dd>`).join("") || "<dt>변경</dt><dd>없음</dd>"}</dl>
+      <p>${esc(r.note)}</p></article>` : `<article class="report">
       <div class="top"><h3>라운드 ${r.round}<span class="num">${esc(r.start)} – ${esc(r.end)}</span></h3>
         <span class="pnl num ${cls(r.round_pnl_usd)}">${r.round_pnl_usd >= 0 ? "+" : "-"}$${Math.abs(r.round_pnl_usd).toFixed(3)}</span></div>
       <dl class="kv num"><dt>누적 수익률</dt><dd class="${cls(r.pnl_pct)}">${pct(r.pnl_pct)}</dd>
