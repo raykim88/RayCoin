@@ -8,3 +8,5 @@ trade_log_v2.txt
 run_v2_stdout.txt
 push_v2.out
 push_v3.out
+backtest/data/
+backtest/__pycache__/
