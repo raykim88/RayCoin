@@ -37,8 +37,9 @@ function withLive(st) {
       } else p.pnl = (p.qty * p.last * (1 - FEE)) / budget * 100 - 100;
       p.series = [...(p.series || []), p.pnl];
     }
-    cost += p.cost_usd || 10; value += (p.cost_usd || 10) * (1 + p.pnl / 100);
+    value += (p.cost_usd || 10) * p.pnl / 100;
   }
+  cost = (st.total && st.total.cost_usd) || 50; value += cost;
   if (s.positions.length) s.total = {cost_usd: cost, value_usd: value, pnl: (value / cost - 1) * 100, estimate: true};
   return s;
 }

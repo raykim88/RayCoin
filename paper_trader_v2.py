@@ -114,6 +114,7 @@ class Bot:
         self.swaps = st.get("swaps", [])
         self.tuned_rounds = set(st.get("tuned_rounds", []))
         self.gmin = st.get("gmin", 0)
+        self.peak_open = st.get("peak_open", MIN_OPEN)
         self.round = st["round"] + (1 if st.get("phase") == "done" else 0)
         self.loglines = st.get("log", [])[-40:]
         self.log(f"=== RESUME from round {st['round']} · {len(self.open_pos())} open positions ===")
@@ -238,9 +239,12 @@ class Bot:
         return p["qty"] * px * (1 - FEE) / self.budget_krw(p) - 1
 
     def equity(self):
-        invested = sum(p["cost_usd"] for p in self.pos.values())
-        value = sum(p["cost_usd"] * (1 + p["pnl"] / 100) for p in self.pos.values())
-        return invested, value
+        """Capital = $10 x the most positions ever held at once (normally 5 slots = $50);
+        proceeds are recycled into the next position, so re-entries are not new money."""
+        self.peak_open = max(getattr(self, "peak_open", 0), MIN_OPEN, len(self.open_pos()))
+        capital = BUDGET_USD * self.peak_open
+        pnl_usd = sum(p["cost_usd"] * p["pnl"] / 100 for p in self.pos.values())
+        return capital, capital + pnl_usd
 
     def buy(self, row, why):
         m, px = row["market"], row["price"]
@@ -394,6 +398,7 @@ class Bot:
                        pnl=round((value / invested - 1) * 100, 3) if invested else 0, estimate=self.phase != "done"),
             rules=dict(min_open=MIN_OPEN, max_open=MAX_OPEN, switch_cost=SWITCH_COST),
             round_start_equity=list(getattr(self, "round_start_equity", self.equity())),
+            peak_open=getattr(self, "peak_open", MIN_OPEN),
             params=self.params, swaps=self.swaps, tuned_rounds=sorted(self.tuned_rounds), gmin=self.gmin,
             next_tune_round=(self.round + (TUNE_EVERY - self.round % TUNE_EVERY) % TUNE_EVERY))
         tmp = self.args.status + ".tmp"

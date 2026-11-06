@@ -214,7 +214,7 @@ function render(st) {
       <div class="top"><h3>라운드 ${r.round}<span class="num">${esc(r.start)} – ${esc(r.end)}</span></h3>
         <span class="pnl num ${cls(r.round_pnl_usd)}">${r.round_pnl_usd >= 0 ? "+" : "-"}$${Math.abs(r.round_pnl_usd).toFixed(3)}</span></div>
       <dl class="kv num"><dt>누적 수익률</dt><dd class="${cls(r.pnl_pct)}">${pct(r.pnl_pct)}</dd>
-        <dt>평가 / 투입</dt><dd>$${Number(r.value_usd).toFixed(2)} / $${Number(r.invested_usd).toFixed(2)}</dd>
+        <dt>평가 / 운용 자금</dt><dd>$${Number(r.value_usd).toFixed(2)} / $${Number(r.invested_usd).toFixed(2)}</dd>
         <dt>매수 · 매도</dt><dd>${r.buys} · ${r.sells}</dd><dt>교체 · 추가</dt><dd>${r.swaps} · ${r.adds}</dd>
         <dt>최고</dt><dd>${esc(r.best)}</dd><dt>최저</dt><dd>${esc(r.worst)}</dd></dl>
       <p>${esc(r.note)}</p></article>`).join("");
@@ -224,7 +224,7 @@ function render(st) {
   if (t) {
     $("sPnl").textContent = pct(t.pnl); $("sPnl").className = "num " + cls(t.pnl);
     $("sVal").textContent = "$" + Number(t.value_usd).toFixed(2); $("sVal").className = "num " + cls(t.pnl);
-    $("sCost").textContent = `투입 $${Number(t.cost_usd).toFixed(2)}` + (st.usdkrw ? ` · ₩${krw(st.usdkrw)}/$` : "");
+    $("sCost").textContent = `운용 자금 $${Number(t.cost_usd).toFixed(2)}` + (st.usdkrw ? ` · ₩${krw(st.usdkrw)}/$` : "");
     $("sNote").textContent = t.estimate ? "1분 단위 추정치 · 수수료 반영" : "최종 확정 · 수수료 반영";
   }
   const P = st.positions || [];
