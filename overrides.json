@@ -1,6 +1,12 @@
 {
-  "id": "review-1",
-  "params": {
-    "flip_enabled": 0
-  }
+ "id": "review-3",
+ "params": {
+  "max_lev": 3,
+  "allow_long": 0,
+  "tp": 15.0,
+  "sl": -12.0,
+  "hard": -25.0,
+  "trail": 4.0,
+  "steep": 0.3
+ }
 }

@@ -33,8 +33,9 @@ MIN_MARGIN = 3.0      # skip entries smaller than $3
 
 class FuturesBot(v2.Bot):
     MODE = "futures"
-    TPS = [3.0, 5.0, 7.0, 10.0, 15.0, 20.0, 30.0, 50.0]
-    SLS = [-3.0, -5.0, -7.0, -10.0, -15.0, -20.0, -30.0, -50.0]
+    # bounded grids: very tight stops / far targets overfit one hour of noise (review-3)
+    TPS = [8.0, 10.0, 12.0, 15.0, 20.0, 25.0, 30.0]
+    SLS = [-8.0, -10.0, -12.0, -15.0, -20.0, -25.0]
 
     def __init__(self, args):
         super().__init__(args)
@@ -56,6 +57,7 @@ class FuturesBot(v2.Bot):
             side = 1
         move30 = max(row["vol"], 0.05) * math.sqrt(30)          # expected 30-min move, %
         lev = max([l for l in LEVS if 100 / l >= 4 * move30] or [LEVS[0]])
+        lev = min(lev, int(self.params.get("max_lev", 10)))
         row["side"], row["lev"] = ("LONG" if side > 0 else "SHORT"), lev
         return side, lev
 
@@ -245,6 +247,10 @@ class FuturesBot(v2.Bot):
                 continue
             self.decide(r)
             strong_dir = abs(self.signal(r)) >= MIN_SIGNAL or r["rsi"] > 78 or r["rsi"] < 22
+            if r["side"] == "LONG" and not self.params.get("allow_long", 1):
+                continue
+            if r["side"] == "SHORT" and not self.params.get("allow_short", 1):
+                continue
             if r["score"] >= self.params.get("entry_min", 0.5) and strong_dir:
                 out.append(r)
         return out
