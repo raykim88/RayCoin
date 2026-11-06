@@ -120,8 +120,15 @@ class Bot:
         prev = st["round"] if st.get("phase") == "done" else self.round - 1
         if prev % TUNE_EVERY == 0 and prev not in self.tuned_rounds:
             self.tune(prev)
-        self.started = v1.now_kst()
-        self.log(f"=== ROUND {self.round} start ===")
+        self.resume_minute, self.resume_equity = 0, None
+        if st.get("phase") != "done":   # restarted mid-round: keep the round's clock and baseline
+            self.resume_minute = int(st.get("minute", 0))
+            self.resume_equity = tuple(st["round_start_equity"]) if st.get("round_start_equity") else None
+            self.started = st.get("started") or v1.now_kst()
+            self.log(f"=== ROUND {self.round} continues at minute {self.resume_minute} ===")
+        else:
+            self.started = v1.now_kst()
+            self.log(f"=== ROUND {self.round} start ===")
 
     # ---------- hourly tuning ----------
     def tune(self, upto_round):
@@ -386,6 +393,7 @@ class Bot:
             total=dict(cost_usd=invested, value_usd=round(value, 4),
                        pnl=round((value / invested - 1) * 100, 3) if invested else 0, estimate=self.phase != "done"),
             rules=dict(min_open=MIN_OPEN, max_open=MAX_OPEN, switch_cost=SWITCH_COST),
+            round_start_equity=list(getattr(self, "round_start_equity", self.equity())),
             params=self.params, swaps=self.swaps, tuned_rounds=sorted(self.tuned_rounds), gmin=self.gmin,
             next_tune_round=(self.round + (TUNE_EVERY - self.round % TUNE_EVERY) % TUNE_EVERY))
         tmp = self.args.status + ".tmp"
@@ -424,15 +432,18 @@ class Bot:
     def run(self):
         while self.args.last_round == 0 or self.round <= self.args.last_round:
             self.counts = dict(buys=0, sells=0, swaps=0, adds=0)
-            start_equity = self.equity()
+            skip = getattr(self, "resume_minute", 0)
+            start_equity = (getattr(self, "resume_equity", None) if skip else None) or self.equity()
+            self.resume_minute, self.resume_equity = 0, None
+            self.round_start_equity = start_equity
             n_buy0, n_sell0 = (sum(1 for e in self.events if e["kind"] in ("BUY", "ADD")),
                                sum(1 for e in self.events if e["kind"] in ("SELL", "SWAP")))
-            t0 = time.time()
-            self.minute = 0
+            t0 = time.time() - skip * 60
+            self.minute = skip
             self.candidates = self.scan({p["market"] for p in self.open_pos()})
             self.rotate(self.candidates)
             self.write_status()
-            for minute in range(1, self.args.round_min + 1):
+            for minute in range(skip + 1, self.args.round_min + 1):
                 time.sleep(max(0, t0 + minute * 60 - time.time()))
                 self.minute, self.gmin = minute, self.gmin + 1
                 try:

@@ -215,7 +215,8 @@ class FuturesBot(v2.Bot):
             if not r or "side" not in p or p["mode"] != "normal" or self.gmin - p["bought_min"] < FLIP_MIN_HOLD:
                 continue
             sig = self.signal(r)
-            want = "LONG" if sig > 0 else "SHORT"
+            self.decide(r)
+            want = r["side"]          # the side we would actually open (includes the RSI overrides)
             exp_move = abs(sig) / 15 * v2.HORIZON          # momentum per minute x horizon, %
             if want != p["side"] and abs(sig) >= self.params.get("flip", FLIP_SIGNAL) and exp_move > 3 * 2 * FEE * 100:
                 self.sell(p, r["price"], f"방향 전환 → {want} (신호 {sig:+.2f}%)", kind="SWAP")
