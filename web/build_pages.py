@@ -98,9 +98,9 @@ SPLASH = """
 <style>
 #splash{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:26px;background:#151a24;transition:opacity 1.6s ease .4s, visibility 0s linear 2s}
-#splash img{width:140px;height:140px;border-radius:32px;box-shadow:0 18px 50px rgba(0,0,0,.45);
+#splash img{width:156px;height:156px;border-radius:36px;box-shadow:0 18px 50px rgba(0,0,0,.45);
   animation:splashIcon 1.1s cubic-bezier(.2,.8,.2,1) both}
-#splash span{color:#ffffff;font:700 2.1rem/1 "IBM Plex Sans KR",system-ui,sans-serif;letter-spacing:.08em;
+#splash span{color:#ffffff;font:700 3rem/1"IBM Plex Sans KR",system-ui,sans-serif;letter-spacing:.08em;
   animation:splashText 1s .55s cubic-bezier(.2,.8,.2,1) both}
 #splash.out{opacity:0;visibility:hidden}
 #splash.out img{transform:scale(1.35);opacity:0;transition:transform 2s cubic-bezier(.4,0,.2,1), opacity 1.6s ease .3s}
