@@ -1,12 +1,10 @@
 {
- "id": "review-3",
+ "id": "review-7",
  "params": {
-  "max_lev": 3,
-  "allow_long": 0,
   "tp": 15.0,
-  "sl": -12.0,
-  "hard": -25.0,
-  "trail": 4.0,
-  "steep": 0.3
+  "sl": -10.0,
+  "hard": -20.0,
+  "trail": 3.75,
+  "steep": 0.4
  }
 }
