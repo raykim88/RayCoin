@@ -92,6 +92,19 @@ svg.spark{width:100%;height:64px;display:block}
 .report .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .report h3{margin:0;font-size:.95rem}.report h3 span{font-weight:500;color:var(--muted);font-size:.75rem;margin-left:6px}
 .report p{margin:0;font-size:.82rem;color:var(--muted)}
+.chart{position:relative;width:100%}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart .base{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 4}
+.chart .ax{fill:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
+.chart .line{fill:none;stroke:var(--accent);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.chart .area-up{fill:var(--up);opacity:.10} .chart .area-dn{fill:var(--down);opacity:.10}
+.chart .pt{fill:var(--panel);stroke:var(--accent);stroke-width:2}
+.chart .pt.now{fill:var(--accent)}
+.chart .hit{fill:transparent;cursor:pointer}
+.chart .tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  padding:6px 8px;font-size:.78rem;line-height:1.35;box-shadow:0 4px 14px rgba(0,0,0,.12);white-space:nowrap;transform:translate(-50%,-110%)}
+.chartnote{font-size:.75rem;color:var(--muted);margin-top:6px}
 details.report{gap:0}
 details.report > summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 details.report > summary::-webkit-details-marker,.fold > summary::-webkit-details-marker{display:none}
@@ -192,6 +205,12 @@ footer{font-size:.75rem;color:var(--muted)}
     <div><label>최고 / 최저 종목</label><b id="sBest" class="num">–</b><span id="sWorst">–</span></div>
   </div>
 
+  <section id="chartBox" hidden>
+    <h2>수익률 · 평가 금액 추이</h2>
+    <div class="chart" id="chart"></div>
+    <div class="chartnote" id="chartNote"></div>
+  </section>
+
   <section id="reportsBox" hidden>
     <details class="fold" id="reportsFold">
       <summary><h2>라운드 보고서 <span id="reportsCount" class="num"></span></h2></summary>
@@ -261,7 +280,60 @@ function spark(series) {
     <circle cx="${x(series.length - 1)}" cy="${y(last)}" r="3.5" fill="${c}"/></svg>`;
 }
 
+function renderChart(st) {
+  const cap = Number((st.total || {}).cost_usd || st.initial_capital || 50);
+  const rounds = (st.reports || []).filter(r => r.kind !== "tuning" && r.value_usd != null);
+  const pts = [{label: "시작", time: (rounds[0] || {}).start || "", v: cap}]
+    .concat(rounds.map(r => ({label: `라운드 ${r.round}`, time: r.end, v: Number(r.value_usd)})));
+  const live = Number((st.total || {}).value_usd);
+  if (st.phase !== "done" && isFinite(live)) pts.push({label: "현재", time: st.updated || "", v: live, now: true});
+  const box = $("chartBox"); box.hidden = pts.length < 2; if (box.hidden) return;
+  const el = $("chart"), W = Math.max(300, Math.round(el.clientWidth || 600)), H = W < 480 ? 190 : 220;
+  const L = 46, Rr = 44, T = 12, B = 24, iw = W - L - Rr, ih = H - T - B;
+  const vs = pts.map(p => p.v); let lo = Math.min(cap, ...vs), hi = Math.max(cap, ...vs);
+  const pad = Math.max(0.5, (hi - lo) * 0.12); lo -= pad; hi += pad;
+  const X = i => L + (pts.length === 1 ? iw / 2 : i * iw / (pts.length - 1));
+  const Y = v => T + (hi - v) / (hi - lo) * ih;
+  const step = [0.5, 1, 2, 2.5, 5, 10].find(s => (hi - lo) / s <= 5) || 10;
+  let ticks = ""; for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) {
+    const y = Y(v).toFixed(1), p = (v / cap - 1) * 100;
+    ticks += `<line class="grid" x1="${L}" x2="${W - Rr}" y1="${y}" y2="${y}"/>
+      <text class="ax" x="${L - 6}" y="${y}" dy="4" text-anchor="end">$${v % 1 ? v.toFixed(1) : v}</text>
+      <text class="ax" x="${W - Rr + 6}" y="${y}" dy="4">${(p > 0 ? "+" : "") + p.toFixed(0)}%</text>`;
+  }
+  const yb = Y(cap), path = pts.map((p, i) => `${i ? "L" : "M"}${X(i).toFixed(1)},${Y(p.v).toFixed(1)}`).join("");
+  const area = `${path}L${X(pts.length - 1).toFixed(1)},${yb.toFixed(1)}L${X(0).toFixed(1)},${yb.toFixed(1)}Z`;
+  const every = Math.ceil(pts.length / (W < 480 ? 6 : 10));
+  const xl = pts.map((p, i) => (i % every === 0 || i === pts.length - 1) && !(i !== pts.length - 1 && pts.length - 1 - i < every / 2)
+      ? `<text class="ax" x="${X(i).toFixed(1)}" y="${H - 6}" text-anchor="middle">${p.now ? "현재" : i ? "R" + p.label.split(" ")[1] : "시작"}</text>` : "").join("");
+  const dots = pts.map((p, i) => `<circle class="pt${p.now ? " now" : ""}" cx="${X(i).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="${p.now ? 4 : 3}"/>`).join("");
+  const hits = pts.map((p, i) => `<rect class="hit" data-i="${i}" x="${(X(i) - iw / (pts.length - 1) / 2).toFixed(1)}" y="${T}" width="${(iw / (pts.length - 1)).toFixed(1)}" height="${ih}"/>`).join("");
+  const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="평가 금액 추이: 시작 $${cap} → 현재 $${pts[pts.length - 1].v.toFixed(2)}">
+    <defs><clipPath id="cUp"><rect x="0" y="0" width="${W}" height="${yb.toFixed(1)}"/></clipPath>
+      <clipPath id="cDn"><rect x="0" y="${yb.toFixed(1)}" width="${W}" height="${H}"/></clipPath></defs>
+    ${ticks}<path class="area-up" clip-path="url(#cUp)" d="${area}"/><path class="area-dn" clip-path="url(#cDn)" d="${area}"/>
+    <line class="base" x1="${L}" x2="${W - Rr}" y1="${yb.toFixed(1)}" y2="${yb.toFixed(1)}"/>
+    <path class="line" d="${path}"/>${dots}${xl}${hits}</svg><div class="tip" id="chartTip" hidden></div>`;
+  if (svg !== window.__chartSvg) {
+    window.__chartSvg = svg; el.innerHTML = svg;
+    const tip = $("chartTip"), show = i => {
+      const p = pts[i], pc = (p.v / cap - 1) * 100;
+      tip.innerHTML = `<b>${esc(p.label)}</b> ${esc(p.time || "")}<br>$${p.v.toFixed(2)} · <span class="${cls(pc)}">${pct(pc)}</span>`;
+      tip.style.left = (X(i) / W * 100) + "%"; tip.style.top = (Y(p.v) / H * el.clientHeight) + "px"; tip.hidden = false;
+    };
+    el.querySelectorAll(".hit").forEach(r => {
+      r.addEventListener("pointerenter", () => show(+r.dataset.i));
+      r.addEventListener("click", () => show(+r.dataset.i));
+    });
+    el.querySelector("svg").addEventListener("pointerleave", () => { tip.hidden = true; });
+  }
+  const last = pts[pts.length - 1], peak = pts.reduce((a, b) => b.v > a.v ? b : a), low = pts.reduce((a, b) => b.v < a.v ? b : a);
+  $("chartNote").textContent = `$${cap} 기준 · 라운드(30분) 종료 시점 평가 금액 · 최고 $${peak.v.toFixed(2)}(${peak.label}) · 최저 $${low.v.toFixed(2)}(${low.label})`;
+}
+if (!window.__chartResize) { window.__chartResize = 1; addEventListener("resize", () => { window.__chartSvg = ""; window.__lastSt && renderChart(window.__lastSt); }); }
+
 function render(st) {
+  window.__lastSt = st;
   const ph = st.phase || "selecting";
   $("phase").className = "pill " + (ph === "done" ? "done" : ph === "trading" ? "live" : "");
   $("phaseText").textContent = PHASE[ph] || ph;
@@ -277,6 +349,7 @@ function render(st) {
     })
     .sort((a, b) => a._t - b._t).reverse();
   $("reportsBox").hidden = !R.length;
+  renderChart(st);
   const P0 = st.params;
   if (P0) {
     $("ruleTp").textContent = `+${P0.tp}% 익절`;
