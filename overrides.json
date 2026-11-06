@@ -1,10 +1,12 @@
 {
- "id": "review-7",
+ "id": "review-8",
  "params": {
   "tp": 15.0,
   "sl": -10.0,
   "hard": -20.0,
   "trail": 3.75,
-  "steep": 0.4
+  "steep": 0.4,
+  "tpsl_lock": 1,
+  "entry_min": 1.2
  }
 }

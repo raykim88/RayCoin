@@ -107,7 +107,7 @@ class FuturesBot(v2.Bot):
 
     def sell(self, p, px, why, kind="SELL"):
         pnl = self.pnl(p, px) if why != "청산" else -1.0
-        p.update(status="CLOSED", last=px, pnl=round(pnl * 100, 3), reason=why, exit_time=v1.now_kst())
+        p.update(status="CLOSED", last=px, pnl=round(pnl * 100, 3), reason=why, exit_time=v1.now_kst(), exit_round=self.round)
         p["series"].append(round(pnl * 100, 3))
         self.sold_at[p["market"]] = self.gmin
         if pnl < 0 and ("손절" in why or why == "청산"):
@@ -272,7 +272,14 @@ class FuturesBot(v2.Bot):
     def tune(self, upto_round):
         old_flip = self.params.get("flip", FLIP_SIGNAL)
         judged = [self.pos[k]["pnl"] for k in self.flips if k in self.pos]
+        LOCK = ("tp", "sl", "hard", "trail", "steep")
+        locked = {k: self.params.get(k) for k in LOCK} if self.params.get("tpsl_lock") else None
         super().tune(upto_round)
+        if locked:   # review-8: hourly grid kept overfitting (50/-3, 10/-8, 30/-8, 8/-25) -> keep Claude's TP/SL
+            rep0 = self.reports[-1]
+            if any(rep0["changes"].pop(k, None) for k in LOCK):
+                rep0["note"] += " (익절/손절 고정 중이라 자동 조정 결과는 적용하지 않음)"
+            self.params.update(locked)
         if judged:
             avg = sum(judged) / len(judged)
             new = min(5.0, old_flip + 0.5) if avg < 0 else max(1.5, old_flip - 0.25)
@@ -285,7 +292,7 @@ class FuturesBot(v2.Bot):
         # entry selectivity from the last hour's closed trades (dollar-weighted ROE)
         old_entry = self.params.get("entry_min", 0.5)
         closed = [p for p in self.pos.values() if p["status"] == "CLOSED" and "side" in p
-                  and p.get("round", 0) >= upto_round - 1]
+                  and p.get("exit_round", p.get("round", 0)) >= upto_round - 1]
         if closed:
             usd = sum(p["cost_usd"] * p["pnl"] / 100 for p in closed)
             new_entry = round(min(2.0, old_entry + 0.2), 2) if usd < 0 else round(max(0.2, old_entry - 0.1), 2)
