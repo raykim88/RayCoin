@@ -29,6 +29,12 @@ FLIP_MIN_HOLD = 10    # minutes a position must be held before it may be reverse
 MIN_SIGNAL = 1.0      # |momentum signal| (%) needed to open a new position
 MAX_WEIGHT = 0.40     # at most 40% of equity in one position
 MIN_MARGIN = 3.0      # skip entries smaller than $3
+# cross-sectional reversal (backtest/xs12h.py): every 12h at 09:00/21:00 KST rank the 30 most-traded
+# coins by their 24h return, LONG the 3 biggest losers and SHORT the 3 biggest winners at 1x.
+XS_K = 3
+XS_LOOKBACK_H = 24
+XS_SL = 5.0            # price % against the position -> stop
+XS_UNIVERSE = 30
 STOP_BAN = 60          # minutes a coin is banned after a stop-loss (review-5)
 
 
@@ -50,6 +56,9 @@ class FuturesBot(v2.Bot):
         return row["mom15"] + 3 * row.get("slope5", 0.0)
 
     def decide(self, row):
+        if row.get("force_side"):
+            row["side"], row["lev"] = row["force_side"], 1
+            return (1 if row["force_side"] == "LONG" else -1), 1
         sig = self.signal(row)
         side = 1 if sig >= 0 else -1
         if row["rsi"] > 78:
@@ -63,6 +72,8 @@ class FuturesBot(v2.Bot):
         return side, lev
 
     def scan(self, extra):
+        if self.xs_mode():
+            return []
         rows = v2.scan(extra)
         for r in rows:
             self.decide(r)
@@ -145,15 +156,19 @@ class FuturesBot(v2.Bot):
         st = json.load(open(path, encoding="utf-8"))
         super().resume(path)
         self.flips = st.get("flips", [])
+        self.xs_last = st.get("xs_last")
         self.params.setdefault("flip", FLIP_SIGNAL)
         if self.params["flip"] < FLIP_SIGNAL and not st.get("flips_tuned"):
             self.params["flip"] = FLIP_SIGNAL
         self.convert_from_spot()
+        self.apply_overrides()      # a pending strategy switch must apply before the first rotate
 
     def write_status(self):
         super().write_status()
         st = json.load(open(self.args.status, encoding="utf-8"))
         st["flips"] = self.flips
+        st["xs_last"] = getattr(self, "xs_last", None)
+        st["strategy"] = self.params.get("strategy", "momentum")
         tmp = self.args.status + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(st, f, ensure_ascii=False)
@@ -162,6 +177,8 @@ class FuturesBot(v2.Bot):
 
     # ---------- per-minute rules ----------
     def exits(self, prices):
+        if self.xs_mode():
+            return self.xs_exits(prices)
         P = self.params
         for p in self.open_pos():
             if "side" not in p:
@@ -212,6 +229,8 @@ class FuturesBot(v2.Bot):
                 self.sell(p, px, action)
 
     def rotate(self, rows):
+        if self.xs_mode():
+            return self.xs_rotate()
         # fill every empty slot at once (e.g. right after switching from spot or after liquidations)
         held = {p["market"] for p in self.open_pos()}
         good = [r for r in self.qualified(rows) if r["market"] not in held]
@@ -263,11 +282,104 @@ class FuturesBot(v2.Bot):
 
     def alloc_for(self, row):
         """Conviction sizing: free cash split over empty slots, scaled by score, capped at 40% of equity."""
+        if self.xs_mode():   # equal weight: equity / (2k), never more than the free cash
+            k = int(self.params.get("xs_k", XS_K))
+            return round(min(max(0.0, self.cash()), self.equity()[1] / (2 * k)), 4)
         free = max(0.0, self.cash())
         slots = max(1, v2.MIN_OPEN - len(self.open_pos()))
         weight = min(3.0, max(0.5, row.get("score", 1.0)))
         equity = self.equity()[1]
         return round(min(free, MAX_WEIGHT * equity, free / slots * weight), 4)
+
+    # ---------- cross-sectional reversal (twice a day) ----------
+    def xs_mode(self):
+        return self.params.get("strategy") == "xs_rev"
+
+    @staticmethod
+    def xs_slot():
+        """Id of the current 12h window: 09:00-21:00 KST is 'AM', 21:00-09:00 is 'PM' of the day it began."""
+        from datetime import datetime, timedelta
+        now = datetime.now(v1.KST)
+        start = now if now.hour >= 9 else now - timedelta(days=1)
+        return start.strftime("%m-%d") + ("AM" if 9 <= now.hour < 21 else "PM")
+
+    def xs_rank(self):
+        markets = v1.get("market/all", isDetails="true")
+        krw, warned = [], set()
+        for m in markets:
+            code = m["market"]
+            if not code.startswith("KRW-") or code in v1.EXCLUDE:
+                continue
+            ev = m.get("market_event") or {}
+            if ev.get("warning") is True or m.get("market_warning") == "CAUTION":
+                warned.add(code)
+            krw.append(code)
+        tickers = []
+        for i in range(0, len(krw), 100):
+            tickers += v1.get("ticker", markets=",".join(krw[i:i + 100]))
+        tickers.sort(key=lambda t: t["acc_trade_price_24h"], reverse=True)
+        pool = [t for t in tickers if t["market"] not in warned][:int(self.params.get("xs_universe", XS_UNIVERSE))]
+        look = int(self.params.get("xs_lookback_h", XS_LOOKBACK_H))
+        rows = []
+        for t in pool:
+            c = v1.get("candles/minutes/60", market=t["market"], count=look + 1)
+            v1.time.sleep(0.12)
+            if len(c) < look + 1:
+                continue
+            ret = (c[0]["trade_price"] / c[look]["trade_price"] - 1) * 100     # newest first
+            rows.append(dict(market=t["market"], price=t["trade_price"], ret=ret, score=round(ret, 2), vol=0.0))
+        rows.sort(key=lambda r: r["ret"])
+        return rows
+
+    def xs_rotate(self):
+        slot = self.xs_slot()
+        if slot == getattr(self, "xs_last", None):
+            return
+        rows = self.xs_rank()
+        k = int(self.params.get("xs_k", XS_K))
+        if len(rows) < 2 * k:
+            self.log(f"WARN xs: only {len(rows)} ranked markets, retry next minute")
+            return
+        longs, shorts = rows[:k], rows[-k:]
+        for r in longs:
+            r["force_side"] = "LONG"
+        for r in shorts:
+            r["force_side"] = "SHORT"
+        want = {r["market"]: r for r in longs + shorts}
+        opens = self.open_pos()
+        px = {r["market"]: r["price"] for r in rows}
+        missing = sorted({p["market"] for p in opens} - set(px))
+        if missing:
+            px.update({t["market"]: t["trade_price"] for t in v1.get("ticker", markets=",".join(missing))})
+        kept = []
+        for p in opens:
+            r = want.get(p["market"])
+            if r and r["force_side"] == p.get("side") and p.get("lev") == 1:
+                kept.append(p["market"])
+                continue
+            self.sell(p, px[p["market"]], "12시간 교체", kind="SWAP")
+            self.counts["swaps"] = self.counts.get("swaps", 0) + 1
+        for m, r in want.items():
+            if m not in kept:
+                self.buy(r, f"24시간 {r['ret']:+.1f}% → {'역추세 롱' if r['force_side'] == 'LONG' else '역추세 숏'}")
+        self.xs_last = slot
+        desc = lambda rs: ", ".join(f"{r['market'][4:]} {r['ret']:+.1f}%" for r in rs)
+        self.log(f"=== XS REBALANCE {slot}: LONG {desc(longs)} | SHORT {desc(shorts)} | kept {kept}")
+        self.event("TUNE", "", f"12시간 교체 ({slot}): 롱 {desc(longs)} · 숏 {desc(shorts)}")
+
+    def xs_exits(self, prices):
+        sl = float(self.params.get("xs_sl", XS_SL))
+        for p in self.open_pos():
+            if "side" not in p or p["market"] not in prices:
+                continue
+            px = prices[p["market"]]
+            side = 1 if p["side"] == "LONG" else -1
+            roe = self.pnl(p, px) * 100
+            p.update(last=px, pnl=round(roe, 3))
+            p["peak_roe"] = max(p.get("peak_roe", roe), roe)
+            p["series"].append(round(roe, 3))
+            if side * (px / p["entry"] - 1) * 100 <= -sl:
+                self.sell(p, px, f"손절 (가격 -{sl:g}%)")
 
     def tune(self, upto_round):
         old_flip = self.params.get("flip", FLIP_SIGNAL)

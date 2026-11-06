@@ -1,12 +1,1 @@
-{
- "id": "review-8",
- "params": {
-  "tp": 15.0,
-  "sl": -10.0,
-  "hard": -20.0,
-  "trail": 3.75,
-  "steep": 0.4,
-  "tpsl_lock": 1,
-  "entry_min": 1.2
- }
-}
+{"id": "xs-1", "params": {"strategy": "xs_rev", "xs_k": 3, "xs_sl": 5.0, "xs_lookback_h": 24, "xs_universe": 30}}
