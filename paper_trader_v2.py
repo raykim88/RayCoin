@@ -115,6 +115,7 @@ class Bot:
         self.swaps = st.get("swaps", [])
         self.tuned_rounds = set(st.get("tuned_rounds", []))
         self.gmin = st.get("gmin", 0)
+        self.applied_overrides = st.get("applied_overrides", [])
         for r in self.reports:   # restate older reports against the initial $50
             if r.get("kind") != "tuning" and r.get("invested_usd") not in (None, INITIAL_CAPITAL):
                 pnl_usd = r["value_usd"] - r["invested_usd"]
@@ -233,6 +234,37 @@ class Bot:
 
     def scan(self, extra):
         return scan(extra)
+
+    def apply_overrides(self, path="overrides.json"):
+        """Claude's hourly review writes overrides.json; apply it once per change, without a restart."""
+        import os
+        try:
+            mtime = os.path.getmtime(path)
+        except OSError:
+            return
+        if mtime == getattr(self, "_ovr_mtime", None):
+            return
+        self._ovr_mtime = mtime
+        try:
+            ovr = json.load(open(path, encoding="utf-8"))
+        except (OSError, ValueError):
+            return
+        if ovr.get("id") == getattr(self, "_ovr_id", None) or ovr.get("id") in getattr(self, "applied_overrides", []):
+            return
+        old = dict(self.params)
+        self.params.update({k: v for k, v in ovr.get("params", {}).items()})
+        self._ovr_id = ovr.get("id")
+        self.applied_overrides = getattr(self, "applied_overrides", []) + [ovr.get("id")]
+        changes = {k: [old.get(k), v] for k, v in self.params.items() if old.get(k) != v}
+        self.log(f"=== OVERRIDE {ovr.get('id')}: {changes}")
+        self.event("TUNE", "", "Claude 검토 반영: " + (", ".join(f"{k} {a}→{b}" for k, (a, b) in changes.items()) or "변경 없음"))
+
+    @staticmethod
+    def load_reviews(path="reviews.json"):
+        try:
+            return json.load(open(path, encoding="utf-8"))
+        except (OSError, ValueError):
+            return []
 
     def open_pos(self):
         return [p for p in self.pos.values() if p["status"] == "OPEN"]
@@ -416,6 +448,7 @@ class Bot:
             rules=dict(min_open=MIN_OPEN, max_open=MAX_OPEN, switch_cost=SWITCH_COST),
             round_start_equity=list(getattr(self, "round_start_equity", self.equity())),
             cash=round(self.cash(), 4), initial_capital=INITIAL_CAPITAL,
+            reviews=self.load_reviews(), applied_overrides=getattr(self, "applied_overrides", []),
             params=self.params, swaps=self.swaps, tuned_rounds=sorted(self.tuned_rounds), gmin=self.gmin,
             next_tune_round=(self.round + (TUNE_EVERY - self.round % TUNE_EVERY) % TUNE_EVERY))
         tmp = self.args.status + ".tmp"
@@ -468,6 +501,7 @@ class Bot:
             for minute in range(skip + 1, self.args.round_min + 1):
                 time.sleep(max(0, t0 + minute * 60 - time.time()))
                 self.minute, self.gmin = minute, self.gmin + 1
+                self.apply_overrides()
                 try:
                     opens = self.open_pos()
                     if opens:

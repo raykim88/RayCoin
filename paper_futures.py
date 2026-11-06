@@ -227,7 +227,8 @@ class FuturesBot(v2.Bot):
             self.decide(r)
             want = r["side"]          # the side we would actually open (includes the RSI overrides)
             exp_move = abs(sig) / 15 * v2.HORIZON          # momentum per minute x horizon, %
-            if want != p["side"] and abs(sig) >= self.params.get("flip", FLIP_SIGNAL) and exp_move > 3 * 2 * FEE * 100:
+            if self.params.get("flip_enabled", 1) and want != p["side"] and abs(sig) >= self.params.get("flip", FLIP_SIGNAL) \
+                    and exp_move > 3 * 2 * FEE * 100:
                 self.sell(p, r["price"], f"방향 전환 → {want} (신호 {sig:+.2f}%)", kind="SWAP")
                 self.buy(r, f"{p['side']}→{want} 방향 전환")
                 self.flips.append(list(self.pos)[-1])

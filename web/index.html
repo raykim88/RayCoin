@@ -80,6 +80,9 @@ svg.spark{width:100%;height:64px;display:block}
 .report .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .report h3{margin:0;font-size:.95rem}.report h3 span{font-weight:500;color:var(--muted);font-size:.75rem;margin-left:6px}
 .report p{margin:0;font-size:.82rem;color:var(--muted)}
+.report ul{margin:0;padding-left:18px;font-size:.82rem;color:var(--muted);display:grid;gap:3px}
+.report.review{border-color:var(--accent)}
+.report.review p b{color:var(--ink)}
 .tablebox{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px}
 table{border-collapse:collapse;width:100%;font-size:.82rem;min-width:560px}
 th,td{padding:8px 12px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
@@ -195,7 +198,8 @@ function render(st) {
   $("bar").style.width = (ph === "done" ? 100 : m / total * 100) + "%";
   $("minuteText").textContent = (st.round ? `라운드 ${st.round} · ` : "") + `경과 ${m} / ${total}분` + (st.started ? ` · 시작 ${st.started}` : "");
   $("sub").textContent = (st.mode === "futures" ? "선물 시뮬레이션 · 업비트 시세" : "Upbit KRW · 모의매매") + (st.round ? ` · 라운드 ${st.round}` : "");
-  const R = (st.reports || []).slice().reverse();
+  const R = [...(st.reports || []), ...(st.reviews || []).map(v => ({...v, kind: "review"}))]
+    .sort((a, b) => String(a.time || a.end || "").localeCompare(String(b.time || b.end || ""))).reverse();
   $("reportsBox").hidden = !R.length;
   const P0 = st.params;
   if (P0) {
@@ -207,7 +211,12 @@ function render(st) {
   }
   $("nextTune").textContent = st.next_tune_round ? `다음 조정: 라운드 ${st.next_tune_round} 종료 후.` : "";
   const NAMES = {tp: "익절", sl: "손절", hard: "강제손절", trail: "추적폭", steep: "추세기준", margin: "교체점수차", flip: "전환기준", entry_min: "진입기준"};
-  if (R.length) $("reports").innerHTML = R.map(r => r.kind === "tuning" ? `<article class="report">
+  if (R.length) $("reports").innerHTML = R.map(r => r.kind === "review" ? `<article class="report review">
+      <div class="top"><h3>Claude 검토<span class="num">${esc(r.time)}</span></h3><span class="tag TUNE">REVIEW</span></div>
+      ${r.verdict ? `<p><b>평가</b> ${esc(r.verdict)}</p>` : ""}
+      ${(r.findings || []).length ? `<p><b>반성</b></p><ul>${r.findings.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+      ${(r.actions || []).length ? `<p><b>개선 조치</b></p><ul>${r.actions.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+      ${r.next ? `<p><b>다음 확인</b> ${esc(r.next)}</p>` : ""}</article>` : r.kind === "tuning" ? `<article class="report">
       <div class="top"><h3>기준 조정<span class="num">라운드 ${r.round} 후 · ${esc(r.time)}</span></h3><span class="tag TUNE">TUNE</span></div>
       <dl class="kv num">${Object.entries(r.changes || {}).map(([k, [a, b]]) => `<dt>${NAMES[k] || esc(k)}</dt><dd>${a} → <b>${b}</b></dd>`).join("") || "<dt>변경</dt><dd>없음</dd>"}</dl>
       <p>${esc(r.note)}</p></article>` : `<article class="report">
