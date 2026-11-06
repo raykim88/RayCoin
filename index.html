@@ -337,6 +337,7 @@ async function loadPrices() {
   } catch (_) {}
 }
 
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 loadStatus().then(loadPrices);
 setInterval(loadStatus, 60000);
 setInterval(loadPrices, 5000);
