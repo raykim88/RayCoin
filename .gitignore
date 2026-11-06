@@ -1,2 +1,4 @@
 run_stdout.txt
 __pycache__/
+trade_log.txt
+trade_result.json
