@@ -60,6 +60,8 @@ section h2{font-size:.8rem;letter-spacing:.07em;text-transform:uppercase;color:v
 .chip.ride{background:var(--up-bg);color:var(--up)}
 .chip.rebound{background:var(--warn-bg);color:var(--warn)}
 .chip.sold{background:var(--down-bg);color:var(--down)}
+.chip.long{background:var(--up-bg);color:var(--up);font-weight:700}
+.chip.short{background:var(--down-bg);color:var(--down);font-weight:700}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:.8rem}
 .kv dt{color:var(--muted)} .kv dd{margin:0;text-align:right}
 svg.spark{width:100%;height:64px;display:block}
@@ -137,7 +139,7 @@ footer{font-size:.75rem;color:var(--muted)}
   <section>
     <h2>후보 랭킹 (거래대금 상위 40개 중 상위 10)</h2>
     <div class="tablebox"><table>
-      <thead><tr><th>마켓</th><th>점수</th><th>1분 변동성</th><th>거래 급증</th><th>15분 모멘텀</th><th>24h 등락</th><th>24h 고저폭</th><th>RSI</th></tr></thead>
+      <thead><tr><th>마켓</th><th>방향</th><th>점수</th><th>1분 변동성</th><th>거래 급증</th><th>15분 모멘텀</th><th>24h 등락</th><th>24h 고저폭</th><th>RSI</th></tr></thead>
       <tbody id="cand"><tr><td colspan="8" style="text-align:center;color:var(--muted)">랭킹 대기 중</td></tr></tbody>
     </table></div>
   </section>
@@ -149,6 +151,7 @@ footer{font-size:.75rem;color:var(--muted)}
       <div><b class="down" id="ruleSl">-20% 손절</b><span id="ruleSlText">손실 20%에서 매도. RSI 30 이하 + 양봉/아래꼬리 같은 반등 신호가 있으면 보유. -30%는 무조건 매도.</span></div>
       <div><b>1시간마다 자동 조정</b>30분 라운드 2개가 끝날 때마다 지난 1시간의 1분 단위 수익률 경로에 익절·손절 조합을 대입해 보고, 수수료를 뺀 결과가 가장 좋은 조합으로 바꿉니다. 교체가 손해였으면 교체 기준을 높이고, 움직임이 작으면 낮춥니다. <span id="nextTune"></span></div>
       <div><b>교체 매매</b>1분마다 후보를 다시 평가합니다. 보유 중 가장 약한 코인보다 점수가 <span id="ruleMargin">0.8</span> 이상 높고, 10분 기대 변동 차이가 수수료(매도+매수 0.10%)의 3배 이상이면 교체합니다. 약한 코인이 아직 상승 중이면 팔지 않고 추가 매수만 합니다(최대 8개).</div>
+      <div><b>레버리지 선물 (라운드 3부터)</b>업비트 시세로 무기한 선물을 시뮬레이션합니다. 방향은 15분 모멘텀 + 5분 기울기로 정하고 RSI 과열이면 숏, 과매도면 롱. 배수는 2·3·5·10x 중 청산가가 30분 예상 변동폭의 4배보다 먼 최대값. 수수료는 거래금액의 0.05%, 익절·손절은 증거금 대비 수익률(ROE) 기준. 신호가 강하게 뒤집히면 방향을 바꿉니다.</div>
       <div><b>선정 점수</b>1분 변동성 35% · 거래대금 급증 30% · 15분 모멘텀 20% · 24시간 고저폭 15%. RSI 80 초과는 감점, 거래소 유의종목은 제외.</div>
     </div>
   </section>
@@ -191,7 +194,7 @@ function render(st) {
   const total = st.minutes_total || 30, m = Math.min(st.minute || 0, total);
   $("bar").style.width = (ph === "done" ? 100 : m / total * 100) + "%";
   $("minuteText").textContent = (st.round ? `라운드 ${st.round} · ` : "") + `경과 ${m} / ${total}분` + (st.started ? ` · 시작 ${st.started}` : "");
-  $("sub").textContent = "Upbit KRW · 모의매매" + (st.round ? ` · 라운드 ${st.round}/${st.rounds_total || st.round}` : "");
+  $("sub").textContent = (st.mode === "futures" ? "선물 시뮬레이션 · 업비트 시세" : "Upbit KRW · 모의매매") + (st.round ? ` · 라운드 ${st.round}` : "");
   const R = (st.reports || []).slice().reverse();
   $("reportsBox").hidden = !R.length;
   const P0 = st.params;
@@ -238,11 +241,11 @@ function render(st) {
         : p.mode === "rebound" ? `<span class="chip rebound">반등 대기 보유</span>`
         : `<span class="chip">보유 중</span>`;
       return `<article class="card ${p.status === "CLOSED" ? "closed" : ""}">
-        <div class="top"><span class="sym">${esc(p.symbol)}<em>${p.round ? "R" + p.round + " 매수" : esc(p.market)}</em></span>
+        <div class="top"><span class="sym">${esc(p.symbol)}<em>${p.round ? "R" + p.round + (p.side ? " 진입" : " 매수") : esc(p.market)}</em></span>
           <span class="pnl num ${cls(p.pnl)}">${pct(p.pnl)}</span></div>
         ${spark(p.series || [0])}
-        <div class="chips">${chip}<span class="chip num">기울기 ${pct(p.slope ?? 0)}/분</span><span class="chip num">RSI ${esc(p.rsi ?? "–")}</span></div>
-        <dl class="kv num"><dt>매수가</dt><dd>₩${krw(p.entry)}</dd><dt>현재가</dt><dd class="${cls(p.pnl)}">₩${krw(p.last)}</dd>
+        <div class="chips">${p.side ? `<span class="chip ${p.side === "LONG" ? "long" : "short"}">${esc(p.side)} ${p.lev}x</span>` : ""}${chip}<span class="chip num">기울기 ${pct(p.slope ?? 0)}/분</span><span class="chip num">RSI ${esc(p.rsi ?? "–")}</span></div>
+        <dl class="kv num"><dt>${p.side ? "진입가" : "매수가"}</dt><dd>₩${krw(p.entry)}</dd>${p.liq ? `<dt>청산가</dt><dd>₩${krw(p.liq)}</dd>` : ""}<dt>현재가</dt><dd class="${cls(p.pnl)}">₩${krw(p.last)}</dd>
           <dt>평가</dt><dd>$${(p.value_usd ?? 10 * (1 + p.pnl / 100)).toFixed(3)}</dd>
           ${p.max_up != null ? `<dt>최고/최저</dt><dd><span class="up">+${p.max_up}%</span> / <span class="down">${p.max_down}%</span></dd>` : ""}</dl>
         ${p.reason ? `<div class="reason">사유: ${esc(p.reason)}</div>` : ""}
@@ -255,7 +258,7 @@ function render(st) {
   const picks = new Set(P.map(p => p.market));
   const C = st.candidates || [];
   if (C.length) $("cand").innerHTML = C.map(c => `<tr class="${picks.has(c.market) ? "pick" : ""}">
-      <td>${esc(c.market.replace("KRW-", ""))}</td><td class="num">${c.score.toFixed(2)}</td><td class="num">${c.vol.toFixed(3)}%</td>
+      <td>${esc(c.market.replace("KRW-", ""))}</td><td class="num ${c.side === "SHORT" ? "down" : c.side ? "up" : ""}">${c.side ? esc(c.side) + " " + c.lev + "x" : "–"}</td><td class="num">${c.score.toFixed(2)}</td><td class="num">${c.vol.toFixed(3)}%</td>
       <td class="num">${c.surge.toFixed(2)}×</td><td class="num ${cls(c.mom15)}">${pct(c.mom15)}</td>
       <td class="num ${cls(c.chg24)}">${pct(c.chg24)}</td><td class="num">${c.rng24.toFixed(1)}%</td><td class="num">${c.rsi.toFixed(0)}</td></tr>`).join("");
   if (st.log) $("log").textContent = st.log.join("\n");

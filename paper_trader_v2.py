@@ -70,6 +70,7 @@ def scan(extra):
             surge=(sum(tv[-10:]) / 10) / max(sum(tv[:-10]) / max(len(tv) - 10, 1), 1),
             mom15=(closes[-1] / closes[-16] - 1) * 100, chg24=t["signed_change_rate"] * 100,
             rng24=(t["high_price"] / t["low_price"] - 1) * 100, rsi=v1.rsi(closes),
+            slope5=v1.slope_pct_per_min(closes[-5:]),
             warned=t["market"] in warned))
 
     def z(key, f=lambda v: v):
@@ -132,12 +133,11 @@ class Bot:
             i = p.get("tune_idx", 0)
             seg = s[i:]
             if len(seg) >= 3:
-                paths.append(seg)
-        fee = 2 * FEE * 100
+                paths.append((seg, self.path_fee(p)))
 
         def sim(tp, sl):
             tot = 0.0
-            for seg in paths:
+            for seg, fee in paths:
                 base = seg[0]
                 out = seg[-1] - base
                 for v in seg[1:]:
@@ -151,8 +151,7 @@ class Bot:
                 tot += out
             return tot / max(len(paths), 1)
 
-        tps = [1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 7.0, 10.0, 15.0, 20.0]
-        sls = [-1.0, -1.5, -2.0, -3.0, -4.0, -5.0, -7.0, -10.0, -15.0, -20.0]
+        tps, sls = self.TPS, self.SLS
         cur = sim(old["tp"], old["sl"])
         best = max(((sim(t, s), t, s) for t in tps for s in sls), key=lambda x: (round(x[0], 4), x[1], -x[2]))
         why = []
@@ -162,10 +161,7 @@ class Bot:
                        f"평균 {best[0]:+.2f}%로 기존 기준({cur:+.2f}%)보다 좋음.")
         else:
             why.append(f"익절/손절 후보 중 기존 기준({cur:+.2f}%)보다 0.05%p 넘게 나은 조합이 없어 유지.")
-        tp, sl = self.params["tp"], self.params["sl"]
-        self.params["steep"] = round(max(0.3, tp / 10), 2)
-        self.params["trail"] = round(max(0.5, tp / 4), 2)
-        self.params["hard"] = round(min(sl * 1.5, sl - 1), 2)
+        self.derive_params()
 
         outcomes = []
         for sw in self.swaps:
@@ -178,7 +174,7 @@ class Bot:
             out_ret = (now_out / sw["out_price"] - 1) * 100
             outcomes.append(self.pos[sw["in_key"]]["pnl"] - out_ret)
             sw["judged"] = True
-        avg_abs = statistics.mean(abs(seg[-1] - seg[0]) for seg in paths) if paths else 0
+        avg_abs = statistics.mean(abs(seg[-1] - seg[0]) for seg, _ in paths) if paths else 0
         if outcomes:
             gain = statistics.mean(outcomes)
             step = -0.1 if gain > 0 else 0.2
@@ -198,6 +194,18 @@ class Bot:
         self.event("TUNE", "", "기준 조정: " + (", ".join(f"{k} {a}→{b}" for k, (a, b) in changes.items()) or "변경 없음"))
         self.log(f"=== TUNE after round {upto_round}: {changes or 'no change'} · {' '.join(why)}")
 
+    TPS = [1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 7.0, 10.0, 15.0, 20.0]
+    SLS = [-1.0, -1.5, -2.0, -3.0, -4.0, -5.0, -7.0, -10.0, -15.0, -20.0]
+
+    def path_fee(self, p):
+        return 2 * FEE * 100
+
+    def derive_params(self):
+        tp, sl = self.params["tp"], self.params["sl"]
+        self.params["steep"] = round(max(0.3, tp / 10), 2)
+        self.params["trail"] = round(max(0.5, tp / 4), 2)
+        self.params["hard"] = round(min(sl * 1.5, sl - 1), 2)
+
     # ---------- helpers ----------
     def log(self, msg):
         line = f"[{v1.now_kst()}] {msg}"
@@ -209,6 +217,9 @@ class Bot:
 
     def event(self, kind, market, text):
         self.events.append(dict(t=v1.now_kst(), kind=kind, market=market, text=text, round=self.round))
+
+    def scan(self, extra):
+        return scan(extra)
 
     def open_pos(self):
         return [p for p in self.pos.values() if p["status"] == "OPEN"]
@@ -365,7 +376,9 @@ class Bot:
             title="RayCoin", phase=self.phase, round=self.round, rounds_total=self.args.last_round,
             minute=self.minute, minutes_total=self.args.round_min, started=self.started,
             updated=datetime.now(v1.KST).strftime("%Y-%m-%d %H:%M:%S KST"), usdkrw=self.usdkrw,
+            mode=getattr(self, "MODE", "spot"),
             candidates=[dict(market=r["market"], score=round(r["score"], 2), vol=r["vol"], surge=r["surge"],
+                             side=r.get("side"), lev=r.get("lev"),
                              mom15=r["mom15"], chg24=r["chg24"], rng24=r["rng24"], rsi=r["rsi"])
                         for r in self.candidates[:10]],
             positions=sorted(self.pos.values(), key=lambda p: (p["status"] != "OPEN", -p["pnl"])),
@@ -416,7 +429,7 @@ class Bot:
                                sum(1 for e in self.events if e["kind"] in ("SELL", "SWAP")))
             t0 = time.time()
             self.minute = 0
-            self.candidates = scan({p["market"] for p in self.open_pos()})
+            self.candidates = self.scan({p["market"] for p in self.open_pos()})
             self.rotate(self.candidates)
             self.write_status()
             for minute in range(1, self.args.round_min + 1):
@@ -428,7 +441,7 @@ class Bot:
                         prices = {t["market"]: t["trade_price"]
                                   for t in v1.get("ticker", markets=",".join(sorted({p["market"] for p in opens})))}
                         self.exits(prices)
-                    self.candidates = scan({p["market"] for p in self.open_pos()})
+                    self.candidates = self.scan({p["market"] for p in self.open_pos()})
                     self.rotate(self.candidates)
                 except Exception as e:  # keep the loop alive on transient API errors
                     self.log(f"WARN minute {minute}: {e!r}")

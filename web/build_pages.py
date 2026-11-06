@@ -31,7 +31,10 @@ function withLive(st) {
     const budget = (p.cost_usd || 10) * (p.usdkrw || s.usdkrw || 0);
     if (p.status === "OPEN" && live[p.market] && budget) {
       p.last = live[p.market];
-      p.pnl = (p.qty * p.last * (1 - FEE)) / budget * 100 - 100;
+      if (p.side) {
+        const d = p.side === "LONG" ? 1 : -1, r = p.last / p.entry;
+        p.pnl = (p.lev * (r - 1) * d - FEE * p.lev * (1 + r)) * 100;
+      } else p.pnl = (p.qty * p.last * (1 - FEE)) / budget * 100 - 100;
       p.series = [...(p.series || []), p.pnl];
     }
     cost += p.cost_usd || 10; value += (p.cost_usd || 10) * (1 + p.pnl / 100);
@@ -90,6 +93,30 @@ body = body[:loader_at] + loader.strip() + body[end_at:]
 body = body.replace("봇이 1분마다 Upbit 시세를 읽고, Claude가 그 결과를 이 페이지로 보냅니다.",
                     "봇 기록은 1분마다 GitHub(live-data 브랜치)에서, 시세는 5초마다 Upbit에서 직접 읽습니다.")
 
+SPLASH = """
+<div id="splash" aria-hidden="true"><img src="icon-512.png" alt=""><span>RayCoin</span></div>
+<style>
+#splash{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:18px;background:#151a24;transition:opacity .7s ease .15s, visibility 0s linear .85s}
+#splash img{width:132px;height:132px;border-radius:30px;box-shadow:0 18px 50px rgba(0,0,0,.45);
+  animation:splashIn .55s cubic-bezier(.2,.8,.2,1) both}
+#splash span{color:#e7eaf2;font:600 1.15rem/1 "IBM Plex Sans KR",system-ui,sans-serif;letter-spacing:.06em;
+  animation:splashIn .55s .1s cubic-bezier(.2,.8,.2,1) both}
+#splash.out{opacity:0;visibility:hidden}
+#splash.out img{transform:scale(1.25);transition:transform .8s cubic-bezier(.4,0,.2,1)}
+@keyframes splashIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){#splash,#splash img,#splash span{animation:none;transition:opacity .2s}}
+</style>
+<script>
+(() => {
+  const el = document.getElementById("splash");
+  const hide = () => { el.classList.add("out"); setTimeout(() => el.remove(), 1000); };
+  addEventListener("load", () => setTimeout(hide, 900));
+  setTimeout(hide, 3000);   // never block the page if fonts or icons are slow
+})();
+</script>
+"""
+
 page = ("<!doctype html>\n<html lang=\"ko\">\n<head>\n<meta charset=\"utf-8\">\n"
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\">\n"
         "<link rel=\"manifest\" href=\"manifest.webmanifest\">\n"
@@ -100,6 +127,6 @@ page = ("<!doctype html>\n<html lang=\"ko\">\n<head>\n<meta charset=\"utf-8\">\n
         "<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">\n"
         "<meta name=\"apple-mobile-web-app-title\" content=\"RayCoin\">\n"
         "<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\">\n"
-        + head_bits + body.replace("</style>", "</style>\n</head>\n<body>", 1) + "\n</body>\n</html>\n")
+        + head_bits + body.replace("</style>", "</style>\n</head>\n<body>" + SPLASH, 1) + "\n</body>\n</html>\n")
 (ROOT / "index.html").write_text(page, encoding="utf-8")
 print("wrote", ROOT / "index.html")
