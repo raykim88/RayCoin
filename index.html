@@ -92,6 +92,19 @@ svg.spark{width:100%;height:64px;display:block}
 .report .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .report h3{margin:0;font-size:.95rem}.report h3 span{font-weight:500;color:var(--muted);font-size:.75rem;margin-left:6px}
 .report p{margin:0;font-size:.82rem;color:var(--muted)}
+details.report{gap:0}
+details.report > summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+details.report > summary::-webkit-details-marker,.fold > summary::-webkit-details-marker{display:none}
+details.report > summary::after{content:"▸";color:var(--muted);font-size:.8rem;margin-left:4px}
+details.report[open] > summary::after{content:"▾"}
+details.report[open] > summary{margin-bottom:10px}
+details.report > :not(summary){margin-top:8px}
+.fold > summary{list-style:none;cursor:pointer}
+.fold > summary h2{display:inline-flex;align-items:center;gap:6px;margin:0}
+.fold > summary h2::after{content:"펼치기 ▸";font-weight:500;letter-spacing:0;text-transform:none}
+.fold[open] > summary h2::after{content:"접기 ▾"}
+.fold[open] > summary{margin-bottom:10px}
+summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .report ul{margin:0;padding-left:18px;font-size:.82rem;color:var(--muted);display:grid;gap:3px}
 .report.review{border-color:var(--accent)}
 .report.review p b{color:var(--ink)}
@@ -180,8 +193,10 @@ footer{font-size:.75rem;color:var(--muted)}
   </div>
 
   <section id="reportsBox" hidden>
-    <h2>라운드 보고서</h2>
-    <div class="reports" id="reports"></div>
+    <details class="fold" id="reportsFold">
+      <summary><h2>라운드 보고서 <span id="reportsCount" class="num"></span></h2></summary>
+      <div class="reports" id="reports"></div>
+    </details>
   </section>
 
   <div class="board">
@@ -255,7 +270,12 @@ function render(st) {
   $("minuteText").textContent = (st.round ? `라운드 ${st.round} · ` : "") + `경과 ${m} / ${total}분` + (st.started ? ` · 시작 ${st.started}` : "");
   $("sub").textContent = (st.mode === "futures" ? "선물 시뮬레이션 · 업비트 시세" : "Upbit KRW · 모의매매") + (st.round ? ` · 라운드 ${st.round}` : "");
   const R = [...(st.reports || []), ...(st.reviews || []).map(v => ({...v, kind: "review"}))]
-    .sort((a, b) => String(a.time || a.end || "").localeCompare(String(b.time || b.end || ""))).reverse();
+    .map((r, i) => {   // order by clock time; times after midnight belong to the same evening session
+      const m = /^(\d\d):(\d\d)/.exec(String(r.time || r.end || "")); let t = m ? +m[1] * 60 + +m[2] : 0;
+      if (m && +m[1] < 12) t += 1440;
+      return {...r, _t: t + i / 1000};
+    })
+    .sort((a, b) => a._t - b._t).reverse();
   $("reportsBox").hidden = !R.length;
   const P0 = st.params;
   if (P0) {
@@ -267,22 +287,36 @@ function render(st) {
   }
   $("nextTune").textContent = st.next_tune_round ? `다음 조정: 라운드 ${st.next_tune_round} 종료 후.` : "";
   const NAMES = {tp: "익절", sl: "손절", hard: "강제손절", trail: "추적폭", steep: "추세기준", margin: "교체점수차", flip: "전환기준", entry_min: "진입기준"};
-  if (R.length) $("reports").innerHTML = R.map(r => r.kind === "review" ? `<article class="report review">
-      <div class="top"><h3>Claude 검토<span class="num">${esc(r.time)}</span></h3><span class="tag TUNE">REVIEW</span></div>
-      ${r.verdict ? `<p><b>평가</b> ${esc(r.verdict)}</p>` : ""}
+  const OPENREP = window.__openRep || (window.__openRep = new Set());
+  const repKey = r => r.kind === "review" ? "v" + r.id : r.kind === "tuning" ? "t" + r.round + (r.time || "") : "r" + r.round;
+  const fold = (r, extra, head, body) => `<details class="report ${extra}" data-k="${esc(repKey(r))}"><summary>${head}</summary>${body}</details>`;
+  const repHtml = R.map(r => r.kind === "review" ? fold(r, "review",
+      `<h3>Claude 검토<span class="num">${esc(r.time)}</span></h3><span class="tag TUNE">REVIEW</span>`,
+      `${r.verdict ? `<p><b>평가</b> ${esc(r.verdict)}</p>` : ""}
       ${(r.findings || []).length ? `<p><b>반성</b></p><ul>${r.findings.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
       ${(r.actions || []).length ? `<p><b>개선 조치</b></p><ul>${r.actions.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
-      ${r.next ? `<p><b>다음 확인</b> ${esc(r.next)}</p>` : ""}</article>` : r.kind === "tuning" ? `<article class="report">
-      <div class="top"><h3>기준 조정<span class="num">라운드 ${r.round} 후 · ${esc(r.time)}</span></h3><span class="tag TUNE">TUNE</span></div>
-      <dl class="kv num">${Object.entries(r.changes || {}).map(([k, [a, b]]) => `<dt>${NAMES[k] || esc(k)}</dt><dd>${a} → <b>${b}</b></dd>`).join("") || "<dt>변경</dt><dd>없음</dd>"}</dl>
-      <p>${esc(r.note)}</p></article>` : `<article class="report">
-      <div class="top"><h3>라운드 ${r.round}<span class="num">${esc(r.start)} – ${esc(r.end)}</span></h3>
-        <span class="pnl num ${cls(r.round_pnl_usd)}">${r.round_pnl_usd >= 0 ? "+" : "-"}$${Math.abs(r.round_pnl_usd).toFixed(3)}</span></div>
-      <dl class="kv num"><dt>누적 수익률</dt><dd class="${cls(r.pnl_pct)}">${pct(r.pnl_pct)}</dd>
+      ${r.next ? `<p><b>다음 확인</b> ${esc(r.next)}</p>` : ""}`)
+    : r.kind === "tuning" ? fold(r, "",
+      `<h3>기준 조정<span class="num">라운드 ${r.round} 후 · ${esc(r.time)}</span></h3><span class="tag TUNE">TUNE</span>`,
+      `<dl class="kv num">${Object.entries(r.changes || {}).map(([k, [a, b]]) => `<dt>${NAMES[k] || esc(k)}</dt><dd>${a} → <b>${b}</b></dd>`).join("") || "<dt>변경</dt><dd>없음</dd>"}</dl>
+      <p>${esc(r.note)}</p>`)
+    : fold(r, "",
+      `<h3>라운드 ${r.round}<span class="num">${esc(r.start)} – ${esc(r.end)}</span></h3>
+        <span class="pnl num ${cls(r.round_pnl_usd)}">${r.round_pnl_usd >= 0 ? "+" : "-"}$${Math.abs(r.round_pnl_usd).toFixed(3)}</span>`,
+      `<dl class="kv num"><dt>누적 수익률</dt><dd class="${cls(r.pnl_pct)}">${pct(r.pnl_pct)}</dd>
         <dt>평가 / 운용 자금</dt><dd>$${Number(r.value_usd).toFixed(2)} / $${Number(r.invested_usd).toFixed(2)}</dd>
         <dt>매수 · 매도</dt><dd>${r.buys} · ${r.sells}</dd><dt>교체 · 추가</dt><dd>${r.swaps} · ${r.adds}</dd>
         <dt>최고</dt><dd>${esc(r.best)}</dd><dt>최저</dt><dd>${esc(r.worst)}</dd></dl>
-      <p>${esc(r.note)}</p></article>`).join("");
+      <p>${esc(r.note)}</p>`)).join("");
+  $("reportsCount").textContent = R.length ? `(${R.length})` : "";
+  if (repHtml !== window.__repHtml) {   // re-render only on change so open/closed state is kept
+    window.__repHtml = repHtml;
+    $("reports").innerHTML = repHtml;
+    $("reports").querySelectorAll("details").forEach(d => {
+      if (OPENREP.has(d.dataset.k)) d.open = true;
+      d.addEventListener("toggle", () => d.open ? OPENREP.add(d.dataset.k) : OPENREP.delete(d.dataset.k));
+    });
+  }
   $("updated").textContent = "업데이트 " + (st.updated || "–");
 
   const t = st.total;
