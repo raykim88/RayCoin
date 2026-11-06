@@ -244,7 +244,9 @@ function render(st) {
     const s = [...P].sort((a, b) => b.pnl - a.pnl), b = s[0], w = s[s.length - 1];
     $("sBest").innerHTML = `<span class="${cls(b.pnl)}">${esc(b.symbol)} ${pct(b.pnl)}</span>`;
     $("sWorst").innerHTML = `최저 <span class="${cls(w.pnl)}">${esc(w.symbol)} ${pct(w.pnl)}</span>`;
-    $("cards").innerHTML = P.map(p => {
+    const OP = P.filter(p => p.status === "OPEN");
+    $("cards").innerHTML = OP.length ? "" : `<div class="empty">지금 들고 있는 포지션이 없습니다. 진입 기준을 넘는 후보가 나오면 매수합니다.</div>`;
+    if (OP.length) $("cards").innerHTML = OP.map(p => {
       const chip = p.status === "CLOSED" ? `<span class="chip sold">매도 ${esc(p.exit_time || "")}</span>`
         : p.mode === "ride" ? `<span class="chip ride">급등 추세 보유</span>`
         : p.mode === "rebound" ? `<span class="chip rebound">반등 대기 보유</span>`
