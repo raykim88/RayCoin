@@ -26,6 +26,9 @@ MMR = 0.005           # maintenance margin rate
 LEVS = [2, 3, 5, 10]
 FLIP_SIGNAL = 2.5     # default |momentum signal| (%) needed to reverse a held position (tuned hourly)
 FLIP_MIN_HOLD = 10    # minutes a position must be held before it may be reversed
+MIN_SIGNAL = 1.0      # |momentum signal| (%) needed to open a new position
+MAX_WEIGHT = 0.40     # at most 40% of equity in one position
+MIN_MARGIN = 3.0      # skip entries smaller than $3
 
 
 class FuturesBot(v2.Bot):
@@ -35,7 +38,8 @@ class FuturesBot(v2.Bot):
 
     def __init__(self, args):
         super().__init__(args)
-        self.params = dict(tp=20.0, sl=-20.0, hard=-40.0, trail=5.0, steep=0.4, margin=0.7, flip=FLIP_SIGNAL)
+        self.params = dict(tp=20.0, sl=-20.0, hard=-40.0, trail=5.0, steep=0.4, margin=0.7, flip=FLIP_SIGNAL,
+                           entry_min=0.5)
         self.flips = []      # keys of positions opened by a direction flip
 
     # ---------- direction & leverage ----------
@@ -85,8 +89,8 @@ class FuturesBot(v2.Bot):
         key = f"{m}#{sum(1 for k in self.pos if k.startswith(m + '#')) + 1}"
         liq = px * (1 - 1 / lev + MMR) if side > 0 else px * (1 + 1 / lev - MMR)
         label = f"{row['side']} {lev}x"
-        margin = self.alloc()
-        if margin < 1:
+        margin = self.alloc_for(row)
+        if margin < MIN_MARGIN:
             self.log(f"SKIP {m}: no free cash")
             return
         self.pos[key] = dict(key=key, market=m, symbol=m[4:], entry=px, qty=margin * lev * self.usdkrw / px,
@@ -204,12 +208,13 @@ class FuturesBot(v2.Bot):
     def rotate(self, rows):
         # fill every empty slot at once (e.g. right after switching from spot or after liquidations)
         held = {p["market"] for p in self.open_pos()}
-        fresh = [r for r in rows if r["market"] not in held and not r["warned"]
-                 and self.gmin - self.sold_at.get(r["market"], -99) >= v2.COOLDOWN]
+        good = [r for r in self.qualified(rows) if r["market"] not in held]
         filled = False
-        while len(self.open_pos()) < v2.MIN_OPEN and fresh:
-            self.buy(fresh.pop(0), "빈 자리 채움")
-            filled = True
+        while len(self.open_pos()) < v2.MIN_OPEN and good and self.cash() >= MIN_MARGIN:
+            r = good.pop(0)
+            n = len(self.open_pos())
+            self.buy(r, f"확신 진입 (점수 {r['score']:.2f}, 신호 {self.signal(r):+.2f}%)")
+            filled = filled or len(self.open_pos()) > n
         if filled:
             return
         # reverse a position whose direction signal flipped strongly (fee-checked)
@@ -228,7 +233,28 @@ class FuturesBot(v2.Bot):
                 self.flips.append(list(self.pos)[-1])
                 self.counts["swaps"] += 1
                 return
-        super().rotate(rows)
+        if len(self.open_pos()) >= v2.MIN_OPEN:   # all slots used: consider swapping the weakest
+            super().rotate(self.qualified(rows) + [r for r in rows if r["market"] in held])
+
+    def qualified(self, rows):
+        """Candidates worth money: strong enough score and a clear direction."""
+        out = []
+        for r in rows:
+            if r["warned"] or self.gmin - self.sold_at.get(r["market"], -99) < v2.COOLDOWN:
+                continue
+            self.decide(r)
+            strong_dir = abs(self.signal(r)) >= MIN_SIGNAL or r["rsi"] > 78 or r["rsi"] < 22
+            if r["score"] >= self.params.get("entry_min", 0.5) and strong_dir:
+                out.append(r)
+        return out
+
+    def alloc_for(self, row):
+        """Conviction sizing: free cash split over empty slots, scaled by score, capped at 40% of equity."""
+        free = max(0.0, self.cash())
+        slots = max(1, v2.MIN_OPEN - len(self.open_pos()))
+        weight = min(3.0, max(0.5, row.get("score", 1.0)))
+        equity = self.equity()[1]
+        return round(min(free, MAX_WEIGHT * equity, free / slots * weight), 4)
 
     def tune(self, upto_round):
         old_flip = self.params.get("flip", FLIP_SIGNAL)
@@ -243,10 +269,21 @@ class FuturesBot(v2.Bot):
             why = f"방향 전환 없음 → 전환 기준 소폭 완화 {old_flip}→{new}."
         self.params["flip"] = new
         self.flips = []
+        # entry selectivity from the last hour's closed trades (dollar-weighted ROE)
+        old_entry = self.params.get("entry_min", 0.5)
+        closed = [p for p in self.pos.values() if p["status"] == "CLOSED" and "side" in p
+                  and p.get("round", 0) >= upto_round - 1]
+        if closed:
+            usd = sum(p["cost_usd"] * p["pnl"] / 100 for p in closed)
+            new_entry = round(min(2.0, old_entry + 0.2), 2) if usd < 0 else round(max(0.2, old_entry - 0.1), 2)
+            why += f" 지난 1시간 마감 {len(closed)}건 손익 ${usd:+.2f} → 진입 기준 {old_entry}→{new_entry}."
+            self.params["entry_min"] = new_entry
         rep = self.reports[-1]
         rep["params"] = dict(self.params)
         if new != old_flip:
             rep["changes"]["flip"] = [old_flip, new]
+        if self.params.get("entry_min") != old_entry:
+            rep["changes"]["entry_min"] = [old_entry, self.params["entry_min"]]
         rep["note"] += " " + why
 
     def round_report(self, start_equity):
