@@ -1,1 +1,1 @@
-{"id": "xs-2", "params": {"strategy": "xs_rev", "xs_k": 3, "xs_sl": 5.0, "xs_lookback_h": 24, "xs_universe": 30, "xs_sides": "short"}}
+{"id": "xs-3", "params": {"strategy": "xs_rev", "xs_k": 3, "xs_sl": 5.0, "xs_lookback_h": 24, "xs_universe": 30, "xs_sides": "short", "xs_tp": 8.0}}

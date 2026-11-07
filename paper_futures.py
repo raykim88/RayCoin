@@ -380,8 +380,12 @@ class FuturesBot(v2.Bot):
             p.update(last=px, pnl=round(roe, 3))
             p["peak_roe"] = max(p.get("peak_roe", roe), roe)
             p["series"].append(round(roe, 3))
-            if side * (px / p["entry"] - 1) * 100 <= -sl:
+            move = side * (px / p["entry"] - 1) * 100
+            tp = float(self.params.get("xs_tp", 0) or 0)
+            if move <= -sl:
                 self.sell(p, px, f"손절 (가격 -{sl:g}%)")
+            elif tp and move >= tp:
+                self.sell(p, px, f"익절 (가격 +{tp:g}%)")
 
     def tune(self, upto_round):
         old_flip = self.params.get("flip", FLIP_SIGNAL)
