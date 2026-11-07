@@ -10,3 +10,4 @@ push_v2.out
 push_v3.out
 backtest/data/
 backtest/__pycache__/
+watchdog.out
