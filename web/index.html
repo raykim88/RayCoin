@@ -309,6 +309,10 @@ function render(st) {
     document.querySelectorAll(".xsK").forEach(e => e.textContent = k);
     $("xsN").textContent = 2 * k; $("xsSl").textContent = P0.xs_sl || 5;
     $("xsL").textContent = P0.xs_lookback_h || 24; $("xsU").textContent = P0.xs_universe || 30;
+    if (P0.xs_sides === "short") {
+      $("rulesXs").firstElementChild.innerHTML = `<b>12시간마다 교체 (09:00 · 21:00) · 숏 전용</b>거래대금 상위 ${P0.xs_universe || 30}개 코인을 지난 ${P0.xs_lookback_h || 24}시간 수익률로 줄 세워, 가장 많이 오른 ${k}개를 숏으로 잡습니다(과열 되돌림에 베팅). 롱(급락 코인 매수)은 백테스트 수익 기여가 -0.4%, 실전에서도 손실이라 11/7 21:00부터 뺐습니다. 다시 뽑힌 코인은 그대로 둡니다.`;
+      $("rulesXs").children[1].innerHTML = `<b>1배 · 같은 금액</b>레버리지 없이 자산의 1/${2 * k}씩 담고 나머지는 현금입니다. 백테스트(3주): 롱+숏 +10.2%(낙폭 14.3%, 비용 2배 +1.7%) → 숏만 +9.9%(낙폭 11.2%, 비용 2배 +5.6%).`;
+    }
   }
   if (P0) {
     $("ruleTp").textContent = `+${P0.tp}% 익절`;

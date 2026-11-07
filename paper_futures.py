@@ -340,7 +340,9 @@ class FuturesBot(v2.Bot):
         if len(rows) < 2 * k:
             self.log(f"WARN xs: only {len(rows)} ranked markets, retry next minute")
             return
-        longs, shorts = rows[:k], rows[-k:]
+        sides = str(self.params.get("xs_sides", "long,short"))
+        longs = rows[:k] if "long" in sides else []
+        shorts = rows[-k:] if "short" in sides else []
         for r in longs:
             r["force_side"] = "LONG"
         for r in shorts:
