@@ -342,7 +342,15 @@ class FuturesBot(v2.Bot):
             return
         sides = str(self.params.get("xs_sides", "long,short"))
         longs = rows[:k] if "long" in sides else []
-        shorts = rows[-k:] if "short" in sides else []
+        skip = int(self.params.get("xs_skip_top", 0))
+        shorts = rows[len(rows) - k - skip:len(rows) - skip] if "short" in sides else []
+        btc_max = self.params.get("xs_btc_max")
+        if btc_max is not None and shorts:
+            c = v1.get("candles/minutes/60", market="KRW-BTC", count=25)
+            btc = (c[0]["trade_price"] / c[24]["trade_price"] - 1) * 100
+            if btc > float(btc_max):
+                self.log(f"xs: BTC 24h {btc:+.1f}% > +{float(btc_max):g}% -> no shorts this window")
+                shorts = []
         for r in longs:
             r["force_side"] = "LONG"
         for r in shorts:
