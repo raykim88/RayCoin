@@ -229,6 +229,8 @@ class FuturesBot(v2.Bot):
                 self.sell(p, px, action)
 
     def rotate(self, rows):
+        if self.params.get("strategy") == "pump":
+            return self.pump_rotate()
         if self.xs_mode():
             return self.xs_rotate()
         # fill every empty slot at once (e.g. right after switching from spot or after liquidations)
@@ -282,6 +284,8 @@ class FuturesBot(v2.Bot):
 
     def alloc_for(self, row):
         """Conviction sizing: free cash split over empty slots, scaled by score, capped at 40% of equity."""
+        if self.params.get("strategy") == "pump":   # equal weight: equity / pump_k
+            return round(min(max(0.0, self.cash()), self.equity()[1] / int(self.params.get("pump_k", 4))), 4)
         if self.xs_mode():   # equal weight: equity / (2k), never more than the free cash
             k = int(self.params.get("xs_k", XS_K))
             return round(min(max(0.0, self.cash()), self.equity()[1] / (2 * k)), 4)
@@ -300,7 +304,7 @@ class FuturesBot(v2.Bot):
             self.log("=== XS REBALANCE requested by review: rebalancing now")
 
     def xs_mode(self):
-        return self.params.get("strategy") == "xs_rev"
+        return self.params.get("strategy") in ("xs_rev", "pump")
 
     @staticmethod
     def xs_slot():
@@ -397,10 +401,59 @@ class FuturesBot(v2.Bot):
             p["series"].append(round(roe, 3))
             move = side * (px / p["entry"] - 1) * 100
             tp = float(self.params.get("xs_tp", 0) or 0)
+            hold = float(self.params.get("xs_hold_h", 0) or 0)
             if move <= -sl:
                 self.sell(p, px, f"손절 (가격 -{sl:g}%)")
             elif tp and move >= tp:
                 self.sell(p, px, f"익절 (가격 +{tp:g}%)")
+            elif hold and self.gmin - p.get("bought_min", self.gmin) >= hold * 60:
+                self.sell(p, px, f"보유 {hold:g}시간 만료")
+
+    # ---------- pump fade: short a coin right after a sharp spike (backtest/xs_boost.py) ----------
+    def pump_rotate(self):
+        """Every 5 minutes, scan the most-traded KRW coins; short any whose 2h rise exceeds pump_th %."""
+        if self.gmin % 5 and getattr(self, "pump_scanned", False):
+            return
+        self.pump_scanned = True
+        k = int(self.params.get("pump_k", 4))
+        if len(self.open_pos()) >= k:
+            return
+        markets = v1.get("market/all", isDetails="true")
+        krw, warned = [], set()
+        for m in markets:
+            code = m["market"]
+            if not code.startswith("KRW-") or code in v1.EXCLUDE:
+                continue
+            ev = m.get("market_event") or {}
+            if ev.get("warning") is True or m.get("market_warning") == "CAUTION":
+                warned.add(code)
+            krw.append(code)
+        tickers = []
+        for i in range(0, len(krw), 100):
+            tickers += v1.get("ticker", markets=",".join(krw[i:i + 100]))
+        tickers.sort(key=lambda t: t["acc_trade_price_24h"], reverse=True)
+        n = int(self.params.get("pump_universe", 40))
+        pool = [t for t in tickers if t["market"] not in warned and t["market"] != "KRW-BTC"][:n]
+        held = {p["market"] for p in self.open_pos()}
+        look = int(round(float(self.params.get("pump_look_h", 2)) * 12))      # 5-minute bars
+        th = float(self.params.get("pump_th", 20.0))
+        hits = []
+        for t in pool:
+            if t["market"] in held:
+                continue
+            c = v1.get("candles/minutes/5", market=t["market"], count=look + 1)
+            v1.time.sleep(0.12)
+            if len(c) < look + 1:
+                continue
+            ret = (c[0]["trade_price"] / c[look]["trade_price"] - 1) * 100     # newest first
+            if ret > th:
+                hits.append(dict(market=t["market"], price=t["trade_price"], ret=ret, score=round(ret, 2),
+                                 vol=0.0, force_side="SHORT"))
+        hits.sort(key=lambda r: -r["ret"])
+        for r in hits[:k - len(self.open_pos())]:
+            self.buy(r, f"{self.params.get('pump_look_h', 2):g}시간 {r['ret']:+.1f}% 급등 → 되돌림 숏")
+        if hits:
+            self.log("pump: " + ", ".join(f"{r['market'][4:]} {r['ret']:+.1f}%" for r in hits))
 
     def tune(self, upto_round):
         old_flip = self.params.get("flip", FLIP_SIGNAL)
