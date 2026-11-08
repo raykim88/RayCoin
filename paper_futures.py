@@ -292,6 +292,13 @@ class FuturesBot(v2.Bot):
         return round(min(free, MAX_WEIGHT * equity, free / slots * weight), 4)
 
     # ---------- cross-sectional reversal (twice a day) ----------
+    def apply_overrides(self, path="overrides.json"):
+        """Same as v2, plus a one-shot "xs_rebalance_now": true that re-runs the 12h rebalance at once."""
+        super().apply_overrides(path)
+        if self.params.pop("xs_rebalance_now", None):
+            self.xs_last = None
+            self.log("=== XS REBALANCE requested by review: rebalancing now")
+
     def xs_mode(self):
         return self.params.get("strategy") == "xs_rev"
 
