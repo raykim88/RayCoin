@@ -1,1 +1,1 @@
-{"id": "pump-1", "params": {"strategy": "pump", "pump_th": 20.0, "pump_look_h": 2, "pump_k": 4, "pump_universe": 40, "xs_sl": 7.0, "xs_tp": 10.0, "xs_hold_h": 12}}
+{"id": "pump-2", "params": {"xs_tp": 12.0, "xs_trail_at": 6.0, "xs_trail_gap": 3.0}}

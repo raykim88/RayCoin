@@ -402,10 +402,15 @@ class FuturesBot(v2.Bot):
             move = side * (px / p["entry"] - 1) * 100
             tp = float(self.params.get("xs_tp", 0) or 0)
             hold = float(self.params.get("xs_hold_h", 0) or 0)
+            p["peak_move"] = max(p.get("peak_move", move), move)
+            ta = float(self.params.get("xs_trail_at", 0) or 0)
+            tb = float(self.params.get("xs_trail_gap", 0) or 0)
             if move <= -sl:
                 self.sell(p, px, f"손절 (가격 -{sl:g}%)")
             elif tp and move >= tp:
                 self.sell(p, px, f"익절 (가격 +{tp:g}%)")
+            elif ta and p["peak_move"] >= ta and move <= p["peak_move"] - tb:
+                self.sell(p, px, f"추적 청산 (최고 +{p['peak_move']:.1f}%에서 {tb:g}%p 반납)")
             elif hold and self.gmin - p.get("bought_min", self.gmin) >= hold * 60:
                 self.sell(p, px, f"보유 {hold:g}시간 만료")
 
