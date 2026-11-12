@@ -114,7 +114,7 @@ SPLASH = """
 <script>
 (() => {
   const el = document.getElementById("splash"), mark = el.querySelector(".mark");
-  // fade in together (1.8 s) -> hold -> fade out together (1.8 s) -> reveal the dashboard
+  // fade in together (0.9 s) -> hold -> fade out together (0.9 s) -> reveal the dashboard
   requestAnimationFrame(() => requestAnimationFrame(() => mark.classList.add("in")));
   setTimeout(() => mark.classList.replace("in", "leave"), 1700);
   setTimeout(() => el.classList.add("out"), 2600);
