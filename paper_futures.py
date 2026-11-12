@@ -57,8 +57,9 @@ class FuturesBot(v2.Bot):
 
     def decide(self, row):
         if row.get("force_side"):
-            row["side"], row["lev"] = row["force_side"], 1
-            return (1 if row["force_side"] == "LONG" else -1), 1
+            lev = int(self.params.get("force_lev", 1)) if self.params.get("strategy") == "pump" else 1
+            row["side"], row["lev"] = row["force_side"], lev
+            return (1 if row["force_side"] == "LONG" else -1), lev
         sig = self.signal(row)
         side = 1 if sig >= 0 else -1
         if row["rsi"] > 78:
