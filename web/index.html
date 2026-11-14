@@ -292,7 +292,7 @@ function render(st) {
   $("bar").style.width = (ph === "done" ? 100 : m / total * 100) + "%";
   $("minuteText").textContent = (st.round ? `라운드 ${st.round} · ` : "") + `경과 ${m} / ${total}분` + (st.started ? ` · 시작 ${st.started}` : "");
   $("sub").textContent = (st.mode === "futures" ? "선물 시뮬레이션 · 업비트 시세" : "Upbit KRW · 모의매매") + (st.round ? ` · 라운드 ${st.round}` : "");
-  const R = [...(st.reports || []), ...(st.reviews || []).map(v => ({...v, kind: "review"}))]
+  const R = [...(st.reports || []).filter(r => r.kind !== "tuning"), ...(st.reviews || []).map(v => ({...v, kind: "review"}))]
     .map((r, i) => {   // order by clock time; times after midnight belong to the same evening session
       const m = /^(\d\d):(\d\d)/.exec(String(r.time || r.end || "")); let t = m ? +m[1] * 60 + +m[2] : 0;
       if (m && +m[1] < 12) t += 1440;
@@ -396,7 +396,8 @@ function render(st) {
       </article>`;
     }).join("");
   }
-  const ev = (st.events || []).slice().reverse();
+  // automatic "기준 조정" events belong to the retired v2 tuner and never change the live pump strategy
+  const ev = (st.events || []).filter(e => !(e.kind === "TUNE" && /^기준 조정/.test(e.text || ""))).slice().reverse();
   if (ev.length) $("timeline").innerHTML = ev.map(e =>
     `<li><time class="num">${esc(e.t)}</time><span><span class="tag ${esc(e.kind)}">${esc(e.kind)}</span><b>${esc((e.market || "").replace("KRW-", ""))}</b> ${esc(e.text)}</span></li>`).join("");
   const picks = new Set(P.map(p => p.market));
