@@ -1,5 +1,6 @@
+import sys
 import pickle,numpy as np
-d=pickle.load(open('d.pkl','rb'));D=d['D']
+d=pickle.load(open(sys.argv[1] if len(sys.argv)>1 else 'd.pkl','rb'));D=d['D']
 START='2026-11-13T03:17'  # 11-13 12:17 KST in UTC
 def sim(c,h,l,i,sl=.07,tp=.12,arm=.06,gb=.03,hold=144):
     e=c[i];best=0
@@ -10,7 +11,7 @@ def sim(c,h,l,i,sl=.07,tp=.12,arm=.06,gb=.03,hold=144):
         if g>=tp: return tp
         if best>=arm and (-(c[j]/e-1))<=best-gb: return -(c[j]/e-1)
     return -(c[min(i+hold,len(c)-1)]/e-1)
-for th in (0.10,0.12,0.15,0.20):
+for th in (0.10,):
     res=[]
     for mk,v in D.items():
         f=v['five'];t=[x['candle_date_time_utc'] for x in f]
@@ -21,7 +22,7 @@ for th in (0.10,0.12,0.15,0.20):
             if c[i]/c[i-24]-1>th:
                 r=sim(c,h,l,i); res.append((t[i],mk,round(r*100,1))); busy=i+144
     rs=[r[2] for r in res]
-    print(f"th {th}: n {len(res)} sum(2x,net) {sum(2*(x-0.2) for x in rs):+.1f}%p", res[:12])
+    print(f"th {th}: n {len(res)} sum(2x,net) {sum(2*(x-0.2) for x in rs):+.1f}%p", sorted(r[2] for r in res))
 # best long holds in window
 out=[]
 for mk,v in D.items():
