@@ -455,13 +455,42 @@ class FuturesBot(v2.Bot):
                 continue
             ret = (c[0]["trade_price"] / c[look]["trade_price"] - 1) * 100     # newest first
             if ret > th_lo:
+                lev = None if ret > th else lev_lo
+                sc, why = self.pump_conviction(t["market"], c, ret)
+                if sc is not None and self.params.get("pump_conv"):
+                    if sc == 0 and self.params.get("pump_skip0"):
+                        self.log(f"pump skip {t['market'][4:]} {ret:+.1f}%: 확신 점수 0 ({why})")
+                        continue
+                    if sc >= int(self.params.get("pump_conv_need", 2)):
+                        lev = int(self.params.get("pump_lev_hi", 3))
                 hits.append(dict(market=t["market"], price=t["trade_price"], ret=ret, score=round(ret, 2),
-                                 vol=0.0, force_side="SHORT", lev_hint=None if ret > th else lev_lo))
+                                 vol=0.0, force_side="SHORT", lev_hint=lev, conv=sc, conv_why=why))
         hits.sort(key=lambda r: -r["ret"])
         for r in hits[:k - len(self.open_pos())]:
-            self.buy(r, f"{self.params.get('pump_look_h', 2):g}시간 {r['ret']:+.1f}% 급등 → 되돌림 숏")
+            conv = f" · 확신 {r['conv']}점({r['conv_why']})" if r.get("conv") is not None else ""
+            self.buy(r, f"{self.params.get('pump_look_h', 2):g}시간 {r['ret']:+.1f}% 급등 → 되돌림 숏{conv}")
         if hits:
             self.log("pump: " + ", ".join(f"{r['market'][4:]} {r['ret']:+.1f}%" for r in hits))
+
+    def pump_conviction(self, market, c5, ret2):
+        """review-204 (backtest/conviction.py): one point each for a 30-min rise of 6-10%, 2h traded value 4-8x
+        the prior 22h pace, a 24h rise under 20%, and a 2h rise of 20-30%. Avg 1x trade by score over 4 weeks:
+        0 -> -0.17%, 1 -> +0.79%, 2 -> +1.71%, 3 -> +4.14%, the same order in both halves of the sample."""
+        try:
+            r30 = c5[0]["trade_price"] / c5[6]["trade_price"] - 1
+            v2h = sum(x["candle_acc_trade_price"] for x in c5[:24])
+            h = v1.get("candles/minutes/60", market=market, count=25)
+            v1.time.sleep(0.12)
+            prior = [x["candle_acc_trade_price"] for x in h[3:25]]
+            vs = v2h / max(sum(prior) / len(prior) * 2, 1e-9)
+            r24 = c5[0]["trade_price"] / h[24]["trade_price"] - 1
+        except Exception as e:      # missing data -> no score, fall back to the plain tiers
+            self.log(f"pump conviction {market}: {e}")
+            return None, ""
+        pts = [("30분 +6~10%", 0.06 <= r30 < 0.10), ("거래대금 4~8배", 4 <= vs < 8),
+               ("24시간 +20% 미만", r24 < 0.20), ("2시간 +20~30%", 20 <= ret2 < 30)]
+        why = f"30분 {100*r30:+.1f}%, 거래대금 {vs:.1f}배, 24시간 {100*r24:+.1f}%"
+        return sum(ok for _, ok in pts), why
 
     def tune(self, upto_round):
         old_flip = self.params.get("flip", FLIP_SIGNAL)
