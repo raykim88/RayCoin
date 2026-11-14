@@ -57,7 +57,7 @@ class FuturesBot(v2.Bot):
 
     def decide(self, row):
         if row.get("force_side"):
-            lev = int(self.params.get("force_lev", 1)) if self.params.get("strategy") == "pump" else 1
+            lev = int(row.get("lev_hint") or self.params.get("force_lev", 1)) if self.params.get("strategy") == "pump" else 1
             row["side"], row["lev"] = row["force_side"], lev
             return (1 if row["force_side"] == "LONG" else -1), lev
         sig = self.signal(row)
@@ -443,6 +443,8 @@ class FuturesBot(v2.Bot):
         held = {p["market"] for p in self.open_pos()}
         look = int(round(float(self.params.get("pump_look_h", 2)) * 12))      # 5-minute bars
         th = float(self.params.get("pump_th", 20.0))
+        th_lo = float(self.params.get("pump_th_lo", th))       # review-203: smaller spikes also fade, at lower leverage
+        lev_lo = int(self.params.get("pump_lev_lo", 1))
         hits = []
         for t in pool:
             if t["market"] in held:
@@ -452,9 +454,9 @@ class FuturesBot(v2.Bot):
             if len(c) < look + 1:
                 continue
             ret = (c[0]["trade_price"] / c[look]["trade_price"] - 1) * 100     # newest first
-            if ret > th:
+            if ret > th_lo:
                 hits.append(dict(market=t["market"], price=t["trade_price"], ret=ret, score=round(ret, 2),
-                                 vol=0.0, force_side="SHORT"))
+                                 vol=0.0, force_side="SHORT", lev_hint=None if ret > th else lev_lo))
         hits.sort(key=lambda r: -r["ret"])
         for r in hits[:k - len(self.open_pos())]:
             self.buy(r, f"{self.params.get('pump_look_h', 2):g}시간 {r['ret']:+.1f}% 급등 → 되돌림 숏")
