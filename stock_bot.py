@@ -85,6 +85,12 @@ class Bot:
         self.log(f"{kind} {market} {text}")
 
     def save(self):
+        rv = self.path.parent / "reviews.json"      # Claude's hourly reviews, written outside the bot
+        if rv.exists():
+            try:
+                self.s["reviews"] = json.loads(rv.read_text(encoding="utf-8"))
+            except ValueError:
+                pass
         tmp = self.path.with_suffix(".tmp")
         tmp.write_text(json.dumps(self.s, ensure_ascii=False, indent=1), encoding="utf-8")
         tmp.replace(self.path)
