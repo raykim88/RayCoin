@@ -285,6 +285,13 @@ footer{font-size:.75rem;color:var(--muted)}
       <h2>수익률 · 평가 금액 추이</h2>
       <div class="empty" id="kChart">첫 매매가 시작되면 여기에 그래프가 나타납니다.</div>
     </section>
+    <section>
+      <h2>신호 현황 <span class="num" id="kUpdated" style="font-weight:400;color:var(--muted);font-size:.75rem"></span></h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>종목</th><th>현재가</th><th>RSI(2)</th><th>200일 평균</th><th>5일 평균</th><th>판단</th></tr></thead>
+        <tbody id="kSignals"><tr><td colspan="6" style="text-align:center;color:var(--muted)">봇 연결 대기</td></tr></tbody>
+      </table></div>
+    </section>
     <div class="board">
       <section>
         <h2>보유 종목</h2>
@@ -328,11 +335,30 @@ let firstTab = location.hash.slice(1);
 if (!SUB[firstTab]) { try { firstTab = localStorage.getItem("rt-tab"); } catch (_) {} }
 showTab(SUB[firstTab] ? firstTab : "coin");
 setInterval(() => { if (!$("tabStock").hidden) loadStock(); }, 60000);
+async function fetchStock() {
+  // live copy pushed every minute with the coin status; the committed file is the fallback
+  for (const u of [`https://raw.githubusercontent.com/raykim88/RayCoin/live-data/stock_status.json?t=${Date.now()}`,
+                   `stock/status.json?t=${Date.now()}`]) {
+    try { const r = await fetch(u, {cache: "no-store"}); if (r.ok) return await r.json(); } catch (_) {}
+  }
+  return null;
+}
+function stockChart(curve, cost) {
+  const W = 600, H = 150, pad = 6, v = curve.map(x => x[1]);
+  const lo = Math.min(cost * 0.97, ...v), hi = Math.max(cost * 1.03, ...v), n = Math.max(v.length - 1, 1);
+  const x = i => i / n * W, y = q => pad + (hi - q) / (hi - lo) * (H - 2 * pad);
+  const pts = v.map((q, i) => `${x(i).toFixed(1)},${y(q).toFixed(1)}`).join(" ");
+  const last = v[v.length - 1], c = `var(--${last > cost ? "up" : last < cost ? "down" : "flat"})`;
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="width:100%;height:150px;display:block" role="img" aria-label="평가 금액 추이">
+    <line x1="0" x2="${W}" y1="${y(cost)}" y2="${y(cost)}" stroke="var(--line)" stroke-dasharray="4 4"/>
+    <polyline points="${pts}" fill="none" stroke="${c}" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+    <div class="chartnote">$${cost} 기준 · ${esc(curve[0][0])} ~ ${esc(curve[curve.length - 1][0])} · 현재 $${last.toFixed(2)}</div>`;
+}
 async function loadStock() {
   try {
-    const r = await fetch(`stock/status.json?t=${Date.now()}`, {cache: "no-store"});
-    if (!r.ok) return;
-    const k = await r.json(), tot = k.total || {};
+    const k = await fetchStock();
+    if (!k) return;
+    const tot = k.total || {};
     const pnl = tot.pnl || 0;
     $("kPnl").textContent = (pnl > 0 ? "+" : "") + pnl.toFixed(2) + "%"; $("kPnl").className = "num " + (pnl > 0.005 ? "up" : pnl < -0.005 ? "down" : "flat");
     $("kVal").textContent = "$" + (tot.value_usd ?? 100).toFixed(2);
@@ -341,6 +367,18 @@ async function loadStock() {
     if (k.phase_label) $("kPhase").textContent = k.phase_label;
     if (k.phase_note) $("kPhaseNote").textContent = k.phase_note;
     if (ev.length) $("kTimeline").innerHTML = ev.slice().reverse().map(e => `<li><time class="num">${e.d ? esc(e.d.replace("-", "/")) + "<br>" : ""}${esc(e.t)}</time><span><span class="tag ${esc(e.kind)}">${esc(e.kind)}</span><b>${esc(e.market || "")}</b> ${esc(e.text)}</span></li>`).join("");
+    if ((k.curve || []).length > 1) { $("kChart").className = "panel"; $("kChart").innerHTML = stockChart(k.curve, tot.cost_usd || 100); }
+    if (k.updated) $("kUpdated").textContent = "· " + k.updated;
+    if ((k.signals || []).length) $("kSignals").innerHTML = k.signals.map(g => {
+      const held = pos.some(p => p.market === g.market);
+      const verdict = held ? (g.exit ? "5일선 위 → 다음 장 매도" : "보유 유지") : !g.above200 ? "하락 추세 · 매수 안 함" : g.buy ? "매수 신호" : `RSI ${g.rsi2} ≥ 20 · 대기`;
+      return `<tr><td><b>${esc(g.market)}</b></td><td class="num">$${Number(g.price).toFixed(2)}</td><td class="num">${g.rsi2 ?? "–"}</td>
+        <td class="num ${g.above200 ? "up" : "down"}">$${g.sma200 ?? "–"}</td><td class="num">$${g.sma5 ?? "–"}</td><td>${esc(verdict)}</td></tr>`;
+    }).join("");
+    if (pos.length) $("kCards").innerHTML = pos.map(p => `<div class="panel" style="padding:14px"><b>${esc(p.market)}</b> · ${p.qty.toFixed(4)}주 @ $${p.entry}
+      <div class="num ${p.pnl > 0 ? "up" : p.pnl < 0 ? "down" : "flat"}" style="font-size:1.4rem;font-weight:600">${p.pnl > 0 ? "+" : ""}${p.pnl.toFixed(2)}%</div>
+      <span style="color:var(--muted);font-size:.8rem">현재 $${Number(p.last).toFixed(2)} · 매수 ${esc(p.opened)} · 보유 ${p.sessions}거래일</span></div>`).join("");
+    else $("kCards").innerHTML = `<div class="empty">보유 종목이 없습니다. ${k.pending ? "다음 장 시가에 " + esc(k.pending.market) + " 매수 예약됨." : "매수 신호를 기다리는 중입니다."}</div>`;
     if ((k.rules || []).length) $("kRules").innerHTML = k.rules.map(x => `<div><b>${esc(x.title)}</b>${esc(x.text)}</div>`).join("");
     if ((k.reviews || []).length) $("kReviews").innerHTML = k.reviews.slice().reverse().map(v =>
       `<details class="report review"><summary><h3>${esc(v.title)}<span class="num">${esc(v.time)}</span></h3></summary>${(v.findings || []).length ? `<ul>${v.findings.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}</details>`).join("");
