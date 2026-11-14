@@ -1,7 +1,7 @@
 {
-  "name": "RayCoin",
-  "short_name": "RayCoin",
-  "description": "Upbit 모의 단타 실시간 모니터",
+  "name": "RayTrade",
+  "short_name": "RayTrade",
+  "description": "코인 · 주식 모의 단타 실시간 모니터",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

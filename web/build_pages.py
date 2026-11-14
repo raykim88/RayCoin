@@ -95,7 +95,7 @@ body = body.replace("봇이 1분마다 Upbit 시세를 읽고, Claude가 그 결
                     "봇 기록은 1분마다 GitHub(live-data 브랜치)에서, 시세는 5초마다 Upbit에서 직접 읽습니다.")
 
 SPLASH = """
-<div id="splash" aria-hidden="true"><div class="mark">__ICON__<span>RayCoin</span></div></div>
+<div id="splash" aria-hidden="true"><div class="mark">__ICON__<span>RayTrade</span></div></div>
 <style>
 #splash{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:#151a24;
   transition:opacity .3s ease, visibility 0s linear .3s}
@@ -131,7 +131,7 @@ page = ("<!doctype html>\n<html lang=\"ko\">\n<head>\n<meta charset=\"utf-8\">\n
         "<meta name=\"theme-color\" content=\"#151a24\">\n"
         "<meta name=\"mobile-web-app-capable\" content=\"yes\">\n"
         "<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">\n"
-        "<meta name=\"apple-mobile-web-app-title\" content=\"RayCoin\">\n"
+        "<meta name=\"apple-mobile-web-app-title\" content=\"RayTrade\">\n"
         "<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\">\n"
         + head_bits + body.replace("</style>", "</style>\n</head>\n<body>" + SPLASH, 1) + "\n</body>\n</html>\n")
 (ROOT / "index.html").write_text(page, encoding="utf-8")

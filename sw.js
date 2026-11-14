@@ -1,4 +1,4 @@
-// Minimal service worker so Chrome offers "Install" for RayCoin.
+// Minimal service worker so Chrome offers "Install" for RayTrade.
 // Network-only and cache-bypassing: the app always loads the latest page and live data.
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", (e) => e.waitUntil(self.clients.claim()));
