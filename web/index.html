@@ -399,7 +399,7 @@ function render(st) {
   // automatic "기준 조정" events belong to the retired v2 tuner and never change the live pump strategy
   const ev = (st.events || []).filter(e => !(e.kind === "TUNE" && /^기준 조정/.test(e.text || ""))).slice().reverse();
   if (ev.length) $("timeline").innerHTML = ev.map(e =>
-    `<li><time class="num">${esc(e.t)}</time><span><span class="tag ${esc(e.kind)}">${esc(e.kind)}</span><b>${esc((e.market || "").replace("KRW-", ""))}</b> ${esc(e.text)}</span></li>`).join("");
+    `<li><time class="num">${e.d ? esc(e.d.replace("-", "/")) + "<br>" : ""}${esc(e.t)}</time><span><span class="tag ${esc(e.kind)}">${esc(e.kind)}</span><b>${esc((e.market || "").replace("KRW-", ""))}</b> ${esc(e.text)}</span></li>`).join("");
   const picks = new Set(P.map(p => p.market));
   const C = st.candidates || [];
   if (C.length) $("cand").innerHTML = C.map(c => `<tr class="${picks.has(c.market) ? "pick" : ""}">

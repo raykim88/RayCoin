@@ -230,7 +230,8 @@ class Bot:
         self.loglines = self.loglines[-60:]
 
     def event(self, kind, market, text):
-        self.events.append(dict(t=v1.now_kst(), kind=kind, market=market, text=text, round=self.round))
+        self.events.append(dict(d=datetime.now(v1.KST).strftime("%m-%d"), t=v1.now_kst(), kind=kind,
+                                market=market, text=text, round=self.round))
 
     def scan(self, extra):
         return scan(extra)
