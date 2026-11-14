@@ -6,13 +6,14 @@
 - Portfolio: K slots, each entry uses equity/K of current equity as margin; trades that arrive while
   all slots are busy are skipped. Isolated margin: a trade can lose at most its margin.
 """
+import os
 import csv
 from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
 
-DATA = Path(__file__).resolve().parent / "data"
+DATA = Path(os.environ["RC_DATA"]).resolve() if os.environ.get("RC_DATA") else Path(__file__).resolve().parent / "data"
 FEE, SLIP = 0.0005, 0.0005
 COST = FEE + SLIP
 
