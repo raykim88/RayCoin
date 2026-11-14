@@ -12,5 +12,9 @@ while true; do
     echo "[$(date +%H:%M:%S)] WATCHDOG restart pusher" >> trade_log_v2.txt
     nohup web/push_live.sh status.json 60 > push_v3.out 2>&1 &
   fi
+  if ! pgrep -f "stock_bot.py" >/dev/null; then
+    echo "[$(date +%H:%M:%S)] WATCHDOG restart stock bot" >> stock/trade_log.txt
+    nohup python3 stock_bot.py --status stock/status.json --log stock/trade_log.txt >> stock/stdout.txt 2>&1 &
+  fi
   sleep 60
 done

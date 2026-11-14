@@ -24,7 +24,12 @@ finished() {
 push_once() {
   build || return 1
   blob=$(git -C "$REPO" hash-object -w "$OUT")
-  tree=$(printf "100644 blob %s\tstatus.json\n" "$blob" | git -C "$REPO" mktree)
+  entries=$(printf "100644 blob %s\tstatus.json\n" "$blob")
+  if [[ -f "$REPO/stock/status.json" ]]; then      # RayTrade stock tab rides on the same commit
+    sblob=$(git -C "$REPO" hash-object -w "$REPO/stock/status.json")
+    entries+=$'\n'$(printf "100644 blob %s\tstock_status.json" "$sblob")
+  fi
+  tree=$(printf "%s\n" "$entries" | git -C "$REPO" mktree)
   commit=$(git -C "$REPO" commit-tree "$tree" -m "live status $(date -u +%FT%TZ)")
   for d in 2 4 8 16; do
     git -C "$REPO" push -q -f origin "$commit:refs/heads/live-data" 2>/dev/null && { echo "pushed $(date +%T)"; return 0; }

@@ -12,3 +12,5 @@ backtest/data/
 backtest/__pycache__/
 watchdog.out
 stock/bt/data/
+stock/stdout.txt
+stock/*.tmp
