@@ -276,8 +276,8 @@ footer{font-size:.75rem;color:var(--muted)}
 
   <div id="tabStock" class="tabpane" role="tabpanel" aria-labelledby="tabBtnStock" hidden>
     <div class="summary">
-      <div><label>총 수익률</label><b id="kPnl" class="num">+0.00%</b><span>시작 $50</span></div>
-      <div><label>평가 금액</label><b id="kVal" class="num">$50.00</b><span>투입 $50.00</span></div>
+      <div><label>총 수익률</label><b id="kPnl" class="num">+0.00%</b><span>시작 $100</span></div>
+      <div><label>평가 금액</label><b id="kVal" class="num">$100.00</b><span>투입 $100.00</span></div>
       <div><label>보유 / 거래</label><b id="kCnt" class="num">0 / 0</b><span id="kCntNote">아직 매매 없음</span></div>
       <div><label>상태</label><b id="kPhase">전략 검토</b><span id="kPhaseNote">전략 확정 전 · 매수 안 함</span></div>
     </div>
@@ -303,7 +303,7 @@ footer{font-size:.75rem;color:var(--muted)}
       <h2>Claude 검토</h2>
       <div class="reports" id="kReviews"><div class="empty">아직 검토 기록이 없습니다.</div></div>
     </section>
-    <footer>실제 주문은 넣지 않는 모의매매입니다. 시작 금액 $50, 추가 입금 없음. 투자 권유가 아닙니다.</footer>
+    <footer>실제 주문은 넣지 않는 모의매매입니다. 시작 금액 $100, 추가 입금 없음. 투자 권유가 아닙니다.</footer>
   </div>
   <div id="coinFooter"><footer>실제 주문은 넣지 않는 모의매매입니다. 봇 기록은 1분마다 GitHub(live-data 브랜치)에서, 시세는 5초마다 Upbit에서 직접 읽습니다. 투자 권유가 아닙니다.</footer></div>
 </div>
@@ -335,7 +335,7 @@ async function loadStock() {
     const k = await r.json(), tot = k.total || {};
     const pnl = tot.pnl || 0;
     $("kPnl").textContent = (pnl > 0 ? "+" : "") + pnl.toFixed(2) + "%"; $("kPnl").className = "num " + (pnl > 0.005 ? "up" : pnl < -0.005 ? "down" : "flat");
-    $("kVal").textContent = "$" + (tot.value_usd ?? 50).toFixed(2);
+    $("kVal").textContent = "$" + (tot.value_usd ?? 100).toFixed(2);
     const pos = (k.positions || []).filter(p => p.status === "OPEN"), ev = k.events || [];
     $("kCnt").textContent = `${pos.length} / ${ev.filter(e => e.kind === "SELL").length}`;
     if (k.phase_label) $("kPhase").textContent = k.phase_label;
