@@ -168,8 +168,11 @@ def collect():
                                "ETF", YAHOO, "Global") if rel.search(x["title"])]   # drop single-stock noise
     mkt = re.compile(r"stock|market|Nasdaq|S&P|Dow|Fed|rate|inflation|Treasur|yield|earnings|Nvidia|AI", re.I)
     stock = [x for x in stock if x["query"] != "MarketWatch" or mkt.search(x["title"])]
-    noise = re.compile(r"Key Takeaways|Fair Value|Too Expensive|Stocks? To (Watch|Buy)|Worth Watching|Multibagger|Undervalued|Got (Right|Wrong)|Stocks With|That Can Turn|Shoppers|Class Action|Stocks That Could|Will Impact|Am I wrong|Should I|Was I|Should a |Could Be A Bargain|What Comes Next For|Shares Jumped|Impairment|Surges After Results|In Latest Session|Investors Are Watching|Missed .*Run", re.I)
+    noise = re.compile(r"Key Takeaways|Fair Value|Too Expensive|Stocks? To (Watch|Buy)|Worth Watching|Multibagger|Undervalued|Got (Right|Wrong)|Stocks With|That Can Turn|Shoppers|Class Action|Stocks That Could|Will Impact|Am I wrong|Should I|Was I|Should a |Could Be A Bargain|What Comes Next For|Shares Jumped|Impairment|Surges After Results|In Latest Session|Investors Are Watching|Missed .*Run|Brokerage Stocks|What Changed|Book Value", re.I)
     stock = [x for x in stock if not noise.search(x["title"])]       # listicles from the US "stock market" search
+    tick = re.compile(r"\((?:(?:NASDAQ|NYSE|TSE|LSE)\s*:\s*)?([A-Z]{1,5})\)")
+    keep = {"TQQQ", "UPRO", "QQQ", "SPY", "VIX", "NVDA"}
+    stock = [x for x in stock if x["region"] != "Global" or all(t in keep for t in tick.findall(x["title"]))]   # single-stock pieces
     cut = time.time() - KEEP_H * 3600
 
     def clean(lst, n):
