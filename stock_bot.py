@@ -28,6 +28,10 @@ from pathlib import Path
 KST = timezone(timedelta(hours=9))
 SYMS = ["TQQQ", "UPRO"]            # swing sleeve
 TREND_SIG, TREND_SYM = "QQQ", "TQQQ"
+# KR session watch (user, 11-16): shown on the page during 09:00-15:30 KST, no trading. stock/bt/kr_etf.py and
+# kr_intraday.py found no KR rule that holds up yet (best: KODEX 레버리지 RSI(2)<20 swing, +44% in 10y).
+KR_WATCH = [("122630.KS", "KODEX 레버리지"), ("233740.KS", "KODEX 코스닥150레버리지"), ("069500.KS", "KODEX 200"),
+            ("229200.KS", "KODEX 코스닥150")]
 COST = 0.0015          # per side: fee + slippage
 P = dict(rsi_lo=30.0, trend=200, exit_ma=5, max_days=10, w_hi=1.0, w_lo=0.5)
 
@@ -280,6 +284,29 @@ class Bot:
         self.s["orders"] = self.orders() + orders
         self.s["pending"] = self.s["orders"][0] if self.s["orders"] else None
 
+    def kr_watch(self):
+        """Korean index ETFs: live price during the KR session, RSI(2), 200-day average. Display only."""
+        rows, live = [], False
+        for sym, name in KR_WATCH:
+            r = yget(sym, "1d", "1y")
+            m, q = r["meta"], r["indicators"]["quote"][0]
+            reg = m["currentTradingPeriod"]["regular"]
+            open_now = reg["start"] <= time.time() < reg["end"]
+            live = live or open_now
+            closes = [c for c in q["close"] if c is not None]
+            done = closes[:-1] if open_now else closes          # completed daily bars only
+            px = m["regularMarketPrice"]
+            sma200 = sum(done[-200:]) / 200 if len(done) >= 200 else None
+            prev = done[-1] if done else None
+            rows.append(dict(market=sym, name=name, price=px, chg=round((px / prev - 1) * 100, 2) if prev else None,
+                             rsi2=round(rsi2(done[-60:]), 1) if len(done) > 60 else None,
+                             sma200=round(sma200) if sma200 else None, above200=bool(sma200 and px > sma200),
+                             signal=bool(sma200 and prev and prev > sma200 and rsi2(done[-60:]) < 20)))
+            time.sleep(0.3)
+        self.s["kr"] = dict(open=live, rows=rows, updated=now().strftime("%m-%d %H:%M"),
+                            note="관찰 전용 · 매매 안 함. 10년 백테스트에서 미국 규칙보다 크게 약해 편입 보류 (KODEX 레버리지 RSI(2)<20 눌림목 +44%, 장중 매매는 2023년 이후 손실).")
+        return live
+
     def step(self):
         snap = self.snapshot()
         ind = {s: self.indicators(d) for s, d in snap.items()}
@@ -311,8 +338,12 @@ class Bot:
                 self.s["curve"] = self.s["curve"][-2000:]
         for p in pos:
             p["series"] = (p.get("series") or [])[-300:] + [p["pnl"]]
+        try:
+            kr_live = self.kr_watch()
+        except Exception as e:
+            self.log(f"KR watch error {type(e).__name__}: {e}"); kr_live = False
         self.save()
-        return live
+        return live or kr_live
 
     def run(self):
         self.log(f"=== STOCK BOT START · ${self.s['total']['value_usd']:.2f} · {len(self.open_pos())} open ===")

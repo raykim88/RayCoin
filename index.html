@@ -323,6 +323,14 @@ footer{font-size:.75rem;color:var(--muted)}
       </table></div>
       <div class="panel" id="kTrend" style="padding:12px 14px;margin-top:10px;font-size:.9rem;color:var(--muted)">추세 보유 정보 대기</div>
     </section>
+    <section id="krSection" hidden>
+      <h2>국장 관찰 <span class="num" id="krState" style="font-weight:400;color:var(--muted);font-size:.75rem"></span></h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>ETF</th><th>현재가</th><th>전일 대비</th><th>RSI(2)</th><th>200일 평균</th><th>참고 신호</th></tr></thead>
+        <tbody id="krRows"></tbody>
+      </table></div>
+      <p id="krNote" style="margin:8px 2px 0;color:var(--muted);font-size:.8rem"></p>
+    </section>
     <div class="board">
       <section>
         <h2>보유 종목</h2>
@@ -493,6 +501,15 @@ async function loadStock() {
       return `<tr><td><b>${esc(g.market)}</b></td><td class="num">$${Number(g.price).toFixed(2)}</td><td class="num">${g.rsi2 ?? "–"}</td>
         <td class="num ${g.above200 ? "up" : "down"}">$${g.sma200 ?? "–"}</td><td class="num">$${g.sma5 ?? "–"}</td><td>${esc(verdict)}</td></tr>`;
     }).join("");
+    if (k.kr && (k.kr.rows || []).length) {
+      $("krSection").hidden = false;
+      $("krState").textContent = (k.kr.open ? "· 국장 열림 · 1분마다 갱신 · " : "· 국장 마감 · ") + (k.kr.updated || "");
+      $("krRows").innerHTML = k.kr.rows.map(g => `<tr><td><b>${esc(g.name)}</b></td><td class="num">${Number(g.price).toLocaleString("ko-KR")}원</td>
+        <td class="num ${g.chg > 0 ? "up" : g.chg < 0 ? "down" : ""}">${g.chg == null ? "–" : (g.chg > 0 ? "+" : "") + g.chg + "%"}</td>
+        <td class="num">${g.rsi2 ?? "–"}</td><td class="num ${g.above200 ? "up" : "down"}">${g.sma200 == null ? "–" : Number(g.sma200).toLocaleString("ko-KR")}</td>
+        <td>${!g.above200 ? "200일선 아래" : g.signal ? "눌림목 (관찰)" : "대기"}</td></tr>`).join("");
+      $("krNote").textContent = k.kr.note || "";
+    }
     if (k.trend && k.trend.close != null) {
       const tr = k.trend, gap = (tr.close / tr.sma200 - 1) * 100;
       $("kTrend").innerHTML = `<b style="color:var(--ink)">자금 절반 · 추세 보유</b> — QQQ 종가 $${Number(tr.close).toFixed(2)}, 200일 평균 $${tr.sma200} (<span class="${gap >= 0 ? "up" : "down"}">${gap >= 0 ? "+" : ""}${gap.toFixed(1)}%</span>) → ` +
