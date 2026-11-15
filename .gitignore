@@ -17,3 +17,5 @@ stock/*.tmp
 backtest/data_bithumb/
 backtest/data_okx/
 news/stdout.txt
+news/news.json
+news/*.tmp
