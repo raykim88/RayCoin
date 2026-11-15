@@ -1,6 +1,87 @@
 {
- "updated": "2026-11-15 10:32 KST",
+ "updated": "2026-11-15 11:33 KST",
  "coin": [
+  {
+   "title": "비트코인 4%대 내린 8630만 원대, 앤트로픽 기업공개 앞두고 수급 이탈",
+   "source": "비즈니스포스트",
+   "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5JVHo0VXp2c1FpaTY3WTR1X0lsc1ZwUkYySHRsX2ExbUZ5QnRRM1l4UjE2MGVvbVZDWWVLaTRRSUNqaWVqYk1jOEtXUGVzQTNwbjNpbzZVcF84aTZOZDEtUk9sSTVNMzdjTnF0OTVrbGZmZEU?oc=5",
+   "ts": 1794709307,
+   "when": "11-15 11:21",
+   "tag": "시장",
+   "query": "비트코인"
+  },
+  {
+   "title": "비트코인, 6만4000달러 회복",
+   "source": "블루밍비트",
+   "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFAtR0xOMDVzSVFaT1BYT1ZXVXJtQWduSENSRG9kMGc4TWZWUnNyS1Faa09OdC1aS0NaMWFzLTRNZlh2c2Q1UEJfT0RMZ1VCOVRa?oc=5",
+   "ts": 1794708920,
+   "when": "11-15 11:15",
+   "tag": "시장",
+   "query": "비트코인"
+  },
+  {
+   "title": "비트코인, 9000만 원 붕괴 왜?…‘젠슨황 사태’ 등 악재 겹쳐",
+   "source": "문화일보",
+   "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFBkTUw2UFFyNEVxU1I3SlNWdDctbWZ2Mm91N3ZkVDc2NGFYUFJfdFhKbXRaSndDVEdfaVBuaFRKZFJ6UXhpYXdVRnN2bGNaNHJk?oc=5",
+   "ts": 1794708502,
+   "when": "11-15 11:08",
+   "tag": "시장",
+   "query": "비트코인"
+  },
+  {
+   "title": "원유 공급 늘어도 비트코인 반등 어렵나…유가 안정 기대에 숨은 변수는?",
+   "source": "코인리더스",
+   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE02UnBiUXgtY1FnRWRkWlVnWFRSVXZkd05wdDhMeko1Uk5ybEJHa1RhVDg2MnFCXy1xNHMzcUxiejBMT3NpaF9PamN3?oc=5",
+   "ts": 1794708360,
+   "when": "11-15 11:06",
+   "tag": "시장",
+   "query": "비트코인"
+  },
+  {
+   "title": "'선물 투자 고수' 고래투자자, 비트코인 롱 포지션에 484만달러 추가",
+   "source": "블루밍비트",
+   "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE5PeTZBQ1FBOXd6ZXo0OUF6ZXlFcXdrVzFSWm5mSVdzX1F3RFlWUHBQSW90R1BqSEhST1A2X2M2ZVVnQ3hrc0dyZXNkQVJQakRW?oc=5",
+   "ts": 1794708327,
+   "when": "11-15 11:05",
+   "tag": "시장",
+   "query": "비트코인"
+  },
+  {
+   "title": "비트코인 6만2000달러대 추락…매수 수요도 19개월 만에 최저",
+   "source": "전자신문",
+   "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE9pOU90RC16UmczTE5WNmZwc1NYREI4X3FJYXp0eW9ERG9QbnU4b3ZlNmZ2V2xfdG5xYnZvak1mVlF1S2swc3J4N3JOblZ4dw?oc=5",
+   "ts": 1794708090,
+   "when": "11-15 11:01",
+   "tag": "시장",
+   "query": "비트코인"
+  },
+  {
+   "title": "[코인 브리핑 11월 15일] 비트코인 6만4000달러 아래로…하루 새 6.5% 하락",
+   "source": "https://www.standingout.kr/",
+   "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBJTl9oSE9PZV9zelVIcEEzLUVIdlF6MGVYVDcyT1ZEbnRKcWxQUmR5TG9XSG54MlVjRHBKNWNGdlNUM21jVThrcUR6dy1KRmxRdkNGVm9uTVRYLWhSNm94ejVKMWU2OHNDM19J?oc=5",
+   "ts": 1794707459,
+   "when": "11-15 10:50",
+   "tag": "시장",
+   "query": "가상자산 시장"
+  },
+  {
+   "title": "가상자산 피로감, 비트와이즈 CIO가 2018년 침체와 비교",
+   "source": "토큰포스트",
+   "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1kdGdTU29kM09QbUdFMFZnSVNRWXNPUGNJZG9Eel9DMEJkWnpYVmtjSkQwN3QwOUxQWjdMNVhWQUpQT3dSUmlxZEMxbVI0M0FtU1VCNTRiOGJoTlY2MWV2ctIBZkFVX3lxTE81THRselFUbzdIamdocWJVSlFzeHY1X0MtZmdwTkpRbjBrb0hkX25pUmxrYlhBVUQ1YUduenB2RHRTLUE4VEVZVlZObEppbzdyY1JlcnltcmNUUDJRbFByeDVTZnN0QQ?oc=5",
+   "ts": 1794706784,
+   "when": "11-15 10:39",
+   "tag": "시장",
+   "query": "가상자산 시장"
+  },
+  {
+   "title": "[분석] 비트코인 상승 막는 2가지 장벽",
+   "source": "디지털애셋",
+   "link": "https://news.google.com/rss/articles/CBMickFVX3lxTFAwNjhqZU5sU0RXQ2ZnSHhad0NuSUY5RXVibVhKU2U0MS1qWXpwZHFsLU1Oa21ocGpVa3FtdGw5d09DQ2lnSG8ycmM4TmMtWjRhLUV5cnhTSW5LNUFCTUdtQkJTRXFpS01ibUR1UC00Zm5HUQ?oc=5",
+   "ts": 1794706200,
+   "when": "11-15 10:30",
+   "tag": "시장",
+   "query": "비트코인"
+  },
   {
    "title": "포워드 인더스트리, 코인베이스에 1억2300만달러어치 솔라나 입금",
    "source": "블루밍비트",
@@ -56,6 +137,15 @@
    "query": "비트코인"
   },
   {
+   "title": "수수료 무료 앞세운 중소형 가상자산 거래소 '약진'…점유율 경쟁 치열",
+   "source": "데일리한국",
+   "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFAtZ1VaV1VFZ3Utb3JLaENUTEU4QVlkLS10WHFnNF9VRER0MWQwTUJ0M1l1VDVPbV9UVmJoOFRKbWhxZVhWaFpGTW9hbEtnMVphcW93Qm5nOG9EaURQbzlVR3JJY1l5ZWJPTjQ1cVhCUFVSb3fSAXNBVV95cUxQLWdVWldVRWd1LW9yS2hDVExFOEFZZC0tdFhxZzRfVUREdDFkME1CdDNZdVQ1T21fVFZiaDhUSm1ocWVYVmhaRk1vYWxLZzFaYXFvd0JuZzhvRGlEUG85VUdySWNZeWViT040NXFYQlBVUm93?oc=5",
+   "ts": 1794703832,
+   "when": "11-15 09:50",
+   "tag": "시장",
+   "query": "가상자산 시장"
+  },
+  {
    "title": "비트코인이 떨어지는 이유",
    "source": "네이버 프리미엄콘텐츠",
    "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxONnE0Rk1XUHcxdXE2NmFKQWtkcC1YY3I4OWtudTFZVjJEaG9uVVgyZTQ1VFZvM1BPaldKSVBVblhiYXFiTmw4dUVmMXNIbnZrX1NTRzRxYTBSYV9tSlBKR2ZTYmNhSlJra2NZX0FTZkkxRmcxWlNHbmZKT1JzSHhDUUpxcw?oc=5",
@@ -67,11 +157,11 @@
   {
    "title": "비트코인, 석 달 만에 9000만원선도 붕괴, 왜?…금리·수급·규제 겹악재",
    "source": "뉴시스",
-   "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1SSzFLZzE5N0tROXlkaDBNQ0l4LW1XTnZON2NfSnhqVERyMmdBWXN0VEpsRlFFdVlMZVVYRXR3cFpMTzd2eG5ocW1EMTdwSDR0SVROSUZoaXRabDIzbjZoRdIBeEFVX3lxTE1td1BlOWJkNUZaTFJtaTU3X3VVQmZJS3NHU19GS3BjNWpLWUJvR1YzSVRHUTU3N0xzNGR3NnRudmhPSlFuUEh1akx1T1ZqOEo1cFAtazVjRjBRenlMZ3hkZ0ZWa0pxUG96aFo1ZVFoakxwUDgtSll5bQ?oc=5",
-   "ts": 1794703226,
-   "when": "11-15 09:40",
+   "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE1td1BlOWJkNUZaTFJtaTU3X3VVQmZJS3NHU19GS3BjNWpLWUJvR1YzSVRHUTU3N0xzNGR3NnRudmhPSlFuUEh1akx1T1ZqOEo1cFAtazVjRjBRenlMZ3hkZ0ZWa0pxUG96aFo1ZVFoakxwUDgtSll5bdIBeEFVX3lxTE1td1BlOWJkNUZaTFJtaTU3X3VVQmZJS3NHU19GS3BjNWpLWUJvR1YzSVRHUTU3N0xzNGR3NnRudmhPSlFuUEh1akx1T1ZqOEo1cFAtazVjRjBRenlMZ3hkZ0ZWa0pxUG96aFo1ZVFoakxwUDgtSll5bQ?oc=5",
+   "ts": 1794703704,
+   "when": "11-15 09:48",
    "tag": "시장",
-   "query": "비트코인"
+   "query": "가상자산 시장"
   },
   {
    "title": "가상자산 공포·탐욕지수, 10점 기록…극단적 공포 유지",
@@ -99,6 +189,15 @@
    "when": "11-15 09:16",
    "tag": "시장",
    "query": "비트코인"
+  },
+  {
+   "title": "가상자산 법인 참여 지연에 거래소들 관련 조직 축소",
+   "source": "연합뉴스TV",
+   "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1LQjhoOExzWkZsSGdZWlQ2ajd1UndoLVQ4RXZoM3pLMjVuUkZUTVdVZU0zazQ3WGRnRGMwTVVmaFV2QUVPMFBuRDlVaGZXY1BtTWdxM3ktSmhvcExBbmVVZ2NEeG5FbWs?oc=5",
+   "ts": 1794701700,
+   "when": "11-15 09:15",
+   "tag": "시장",
+   "query": "가상자산 시장"
   },
   {
    "title": "아스터(ASTER) 0.606달러 회복할까…중동 긴장에 시장 동반 약세",
@@ -155,132 +254,6 @@
    "query": "비트코인"
   },
   {
-   "title": "\"개미들 피눈물, 쓸어담는 세력?\" 비트코인 '4번째 투매'… 지금이 진짜 바닥인 이유",
-   "source": "내외일보",
-   "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1WTEFJNVZnR2RiS2N2WnNwQ2ZvREk5V1gybmxQZEtEdl9qSkVoRW5OZGlQMV9zaG16anFjRm9IVlpnclpfNWJORFEwTWtPaHFxcnNQdkNBc1BHbk1aSXB5bjRuTzlfWV96LS1yQmxaWQ?oc=5",
-   "ts": 1794700976,
-   "when": "11-15 09:02",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "카르다노(ADA) 0.1440달러 지지선 지킬까…시장 전반 매도에 12% 급락",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE5VLWY0ZXpOcGpMOW43ZnFFMS15cXBCVVp6UV9xN2hYV01NUmNpOWVLb2NKdGFLWVJFMXJFMU5VaWJVUmVKaDdlZFhn?oc=5",
-   "ts": 1794700911,
-   "when": "11-15 09:01",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "인플레 압력에 DAT 악재까지…비트코인, 3개월 만에 7만달러 아래로",
-   "source": "한국경제",
-   "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFB0QWxQRkJkM2VXRUMzYWcwSVhqbk90SnRWWnhZd3p6RVlRRkRrT2tpTXFDaEprZ0M5YWhoZ3ptY1pTODRaYWlBWU5ZeU9pRlJGYVZnUnJ3VElXZw?oc=5",
-   "ts": 1794700802,
-   "when": "11-15 09:00",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "[서학개미 생존공식] 엔비디아(NVDA) 1,000억 순매수… 코인 급락 속 실적 시험대",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE1udi1nSlgtbC00a2hxTURyNnM2SHhBanhCU0hWaWh6ckt2X1NIZi1mdEZyM3ZicUhUX3ZPN0g0Z3E0VEd5OHVmWU9R?oc=5",
-   "ts": 1794700063,
-   "when": "11-15 08:47",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "[속보] 비트코인 6만달러 붕괴하나…6만3655달러까지 추락, 추가 하락 우려 고조",
-   "source": "CBC뉴스",
-   "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1MbllpMks1N0xIWGFrZWZGYzdlUjhnTHpFY0xLakQ1cUgzT0h3SHNOZWgwbU9pMTdrMzBBVFdOVVprX3Izb2dSdzhMVWhQc2tRQlJ0ZzFOSEd2U09mVHNmMmRES3hhQWR2?oc=5",
-   "ts": 1794699900,
-   "when": "11-15 08:45",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "앤트로픽 IPO 앞두고 비트코인 20% 넘게 하락…자금 이동 분석",
-   "source": "메디컬투데이",
-   "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE10Q05pVmw0TVgwbFJkMEVqTmJHeWpIb3BpMHVuYlItcGRTbXI3ZkNoUms0Uy1RcWFERWJjOGtIRU81cU5BUEpDWVFqN2JKY2ExRkFDeFZUcDJTY1BZdWdjQ2k0Qy1kclVIQVI4ZA?oc=5",
-   "ts": 1794699433,
-   "when": "11-15 08:37",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "11월 15일 오전 팟캐스트 — 영국 재정법안에 가상자산 사업자 포함, 비트코인 6만5000달러대·롱 청산 8.6억달러",
-   "source": "토큰포스트",
-   "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFBtNzJvSnBpQ0NxMkVOZXBQMDROMlFLWmdQQVFTbkt4a0RZR3RueHNiRmU3Y2lESzVGcTZhMm9mU2JONFo3a0tORmVZeFA2cDBuQlY0ZjVjcTXSAV5BVV95cUxOMEJQb0xPdk95MFlpdFdhb2wwZUxaYks4aU1OaVRpNGhFN0t0Mng2bnVhaVZPXzVoZEFpOUlQOGpWLVVyN0VoTzZLVldxYXVBWmpvM0psZ1AybmowZ3p3?oc=5",
-   "ts": 1794697815,
-   "when": "11-15 08:10",
-   "tag": "시장",
-   "query": "가상자산 시장"
-  },
-  {
-   "title": "비트코인 현물 ETF 10억 7,000만 달러 이탈…기관 매수세 약화에 시장 급락",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE8wSlBhZkJnQXYzVW1JS3A5NmVNRUh1VzQ1QW5XUGVYTXRtYWFIenBBel9aN3NxR3MxRDhFWnZ5YlVfeWRYbF9kUVpB?oc=5",
-   "ts": 1794697800,
-   "when": "11-15 08:10",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "리플XRP 9.79% 하락…테더가 코인 거래 선두로",
-   "source": "톱스타뉴스",
-   "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE0xY0ZLR2RuOTJzOG1hZTVTSXhWTXBlcmtORnRrQUcwY2RhSHdpRGpuOWRnaGdMYV9lSlYzbHlVdXZjbTFTaTF2VWJEVE5jN2VobHNabkpDNVpEOUhIZllGeVBLWklwc0NUcy1obWtid25oQQ?oc=5",
-   "ts": 1794697407,
-   "when": "11-15 08:03",
-   "tag": "시장",
-   "query": "업비트 코인"
-  },
-  {
-   "title": "[크립토 오즈] 비트코인(BTC) 11월 중 6만 달러 터치 확률 61%…하루 새 45%p 급등",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9NZXJKUG12NEZHWmlPb1ZKRHNmd2lBZFR3NWR4Z0Y3a29fRnp5VURnMjlsaE9BRkJnSjB6TS1RU0JBdHNBQjN4NVRR?oc=5",
-   "ts": 1794697339,
-   "when": "11-15 08:02",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "리플(XRP)는 왜 1달러 아래로 폭락했나…비트코인 급락·금리 인상·강제 청산 영향",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTFBGa2Q1a2pjMHN2Q1RienFDalVVMl9jbjh4QjVWdlhjMmF1WkVxaWM2MzJfX0RVMmRxUGpvajFkTzhRYzItazJHMWxR?oc=5",
-   "ts": 1794697320,
-   "when": "11-15 08:02",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "소폰(SOPH) 541억 거래대금 6위…업비트 93% 종목 하락",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE0wSmN5VkExQUFGMWpTcDJJSzY2MUxMWVB0ckhvZmVudFlrMEs0d1pfdmlIaWdaVkFLVm1nSUNfSURyTHdWdzdqcHRn?oc=5",
-   "ts": 1794697300,
-   "when": "11-15 08:01",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "금융위, 해킹 의심 단계서 가상자산거래소 입출금 선제 차단 허용",
-   "source": "서울경제TV",
-   "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5TLUVxUndCNzAwVDhuZDZSYlBhMEQtTzJOTy1ZOG4ta05YdTl2T3o4U0dHbFJSSU95RHR0MUNEdm9fOU1BbjRTQ014TG1XSTJGVG1EWGxoRThZWkNrbS14ejhKQmE?oc=5",
-   "ts": 1794697207,
-   "when": "11-15 08:00",
-   "tag": "시장",
-   "query": "가상자산 시장"
-  },
-  {
-   "title": "비트코인 6만 4,000달러대 추락! ETF 7거래일 연속 순유출·12억 달러 강제 청산",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE1EbFRXRG1udDB6RGY1ckZfM2R4ZWVYUUFhRmVKRWlQWWJOSkFlNGticzZNVi1fQXRYTVBheTdCYm5tRlFwd1c2SnJn?oc=5",
-   "ts": 1794697020,
-   "when": "11-15 07:57",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
    "title": "하이퍼리퀴드·생텀·콜렉터크립트·네오소울 [이주의 상장코인]",
    "source": "IT조선",
    "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBXWUl3Q3hBU2dVQkdobTZBLXhrdFpTS0RkZWYzdXJXSF8xeFZDOHFlcGNGaU0xT2dvci1lc1JZYy15U0xibHFWYWx6aWQyYzJpOXNqdGxxUkxBQjk1VVRrSmlRRHZ3cE1KSklFa0FrVVRGYk5X0gF0QVVfeXFMUFdZSXdDeEFTZ1VCR2htNkEteGt0WlNLRGRlZjN1cldIXzF4VkM4cWVwY0ZpTTFPZ29yLWVzUlljLXlTTGJscVZhbHppZDJjMmk5c2p0bHFSTEFCOTVVVGtKaVFEdndwTUpKSUVrQWtVVEZiTlc?oc=5",
@@ -301,6 +274,36 @@
    "watched": true
   },
   {
+   "title": "비트코인(BTC) 9,135만1,000원 2.01% 하락…업비트 종목 85% 내렸다",
+   "source": "코인리더스",
+   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTFBoSkRyazdmVmNfbEJsZjEtZjczbDBrSTB2Q3dBZjdsMF9qOWNPNXE1cTY0dkZNNkJJSWtJOXpkRWZjS2JwTlVpN2Rn?oc=5",
+   "ts": 1794628873,
+   "when": "11-14 13:01",
+   "tag": "NCT",
+   "query": "폴리스웜",
+   "watched": true
+  },
+  {
+   "title": "[업비트 TOP10] 베라체인(BERA) 14% 급등 1위…10% 넘게 오른 종목 1개",
+   "source": "코인리더스",
+   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE1vT3Fzd2d3cGVId3c5eGNwdzBmb0lHWjcycmwtX29Kc21CZV9iQkM2MVlPVWhhTHJhQnBTQmdOZTB0VncxRVJTTWZ3?oc=5",
+   "ts": 1794625268,
+   "when": "11-14 12:01",
+   "tag": "NCT",
+   "query": "폴리스웜",
+   "watched": true
+  },
+  {
+   "title": "롬바드(BARD) 거래대금 949억원 5위…업비트 68% 종목 하락",
+   "source": "코인리더스",
+   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE1ld0t4bnl4c0ttMzdZODFGeVkyUjR0SmtoQm9CUzdxZ2RXUlZlSjNUX2tING4xek1jS3FqZUhvTGlOX1RQUExrcjRB?oc=5",
+   "ts": 1794610901,
+   "when": "11-14 08:01",
+   "tag": "NCT",
+   "query": "폴리스웜",
+   "watched": true
+  },
+  {
    "title": "[속보] 아케도 146.5% 폭등…널마스크 140%·생텀 119.8%, 코인게코 최고 수익 코인 주목",
    "source": "CBC뉴스",
    "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE8wSGxVaEs3ZEp3WDdfWUpoY25HUHZ2cHRlU25iUUhtUnhUTm8ySnhXUUxYLV9wMDI2NDNKWEpWS2I5ejM4QV9lT2U1WU12djFVWWpYcjNoVUtJS3ZFVnFIN3pxcVlRSUU?oc=5",
@@ -311,6 +314,16 @@
    "watched": true
   },
   {
+   "title": "롬바드(BARD) 27.06% 급등…업비트 거래대금 5위, 비트코인 2.41% 하락",
+   "source": "코인리더스",
+   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9odHdQaXVJdVFDemNOWERXM1MtamtnT0h5S3VIMnZxUjhHcUNJSFlLeGpybk5xaHAxR1JfeHVTbklBNVJKZVFkV0x3?oc=5",
+   "ts": 1794567710,
+   "when": "11-13 20:01",
+   "tag": "NCT",
+   "query": "폴리스웜",
+   "watched": true
+  },
+  {
    "title": "[인기 검색 코인 톱15] 비트코인 6.19% 하락, 생텀 139.3%·아케도 71.53% 급등",
    "source": "이투데이",
    "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9qUlFGRVkzVHpNS2wxdEFWWTBfQzZ1blFfeWFzNlRHUTZ3bVdnak9IWGdoV3N0dEZGbE0wXzRLcFdvX1d4ci1VRkQtc2JXTjJpUlUtSjFQdk5CRzhPd3VscUNnVk41dXp4Ulh6TV8zV1hpemZs?oc=5",
@@ -318,6 +331,16 @@
    "when": "11-13 17:48",
    "tag": "SANC",
    "query": "생텀",
+   "watched": true
+  },
+  {
+   "title": "비트코인(BTC) 3.06% 하락…업비트 원화마켓 93% 종목 약세",
+   "source": "코인리더스",
+   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9ydkpLZ0ZMZE5ZRVBEa0ZLcVRweEEwS2dfdmlqWl9VaDRFblZmTGZJSlJBa0FsQXptV0ZjTVJsb3kwS3hLZ2lHc2J3?oc=5",
+   "ts": 1794542463,
+   "when": "11-13 13:01",
+   "tag": "NCT",
+   "query": "폴리스웜",
    "watched": true
   },
   {
@@ -341,37 +364,44 @@
    "watched": true
   },
   {
-   "title": "빗썸, 산텀(SANC) 현물 거래 지원…어떤 코인인가 보니 (SANC, 빗썸, 현물거래, 상장)",
-   "source": "민심뉴스",
-   "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1PQUFqZG9jbnIteU1ZZFpiUlJ3YnNWdkNLMk5CZTY4bzdBd2g0TDVVYzNzRExZRnFfNm9nNTZGRGdfbTV4SG04SFFTaFZUVFhULVJTNVZ1bDVNY3dGXzExeGJxNE5SRkFhZjBzbXp3?oc=5",
-   "ts": 1794537804,
-   "when": "11-13 11:43",
-   "tag": "SANC",
-   "query": "생텀",
-   "watched": true
-  },
-  {
-   "title": "업비트, 생텀(SANC) 원화·BTC·USDT 마켓 상장…13일 오후 1시 거래 개시",
+   "title": "[업비트 TOP10] 문버드(BIRB) 9.20% 상승 1위…상위 10개 중 2개 유의종목",
    "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE1VNFE5Y0lhVTRsV2pxTjI1VUZZQzRweVpiVHB5UXhaMVZsekozUEYyc3lVbTVVbGVObEdNNE1sZW0wdXExOXhBd0tR?oc=5",
-   "ts": 1794536742,
-   "when": "11-13 11:25",
-   "tag": "SANC",
-   "query": "생텀",
-   "watched": true
-  },
-  {
-   "title": "업비트, 생텀(SANC) 코인 원화·BTC·USDT 마켓 상장 예정",
-   "source": "이코노미블록",
-   "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9uWjFhUGFoY0xfSzJsMzdfa1ZJeVRfZjl4MXQxZTJxMWdGS09lQjRTcjhLSUVYSU5XLTh6c1ZUMzg0bjFsRHk5Y081Y21OOG1D?oc=5",
-   "ts": 1794536700,
-   "when": "11-13 11:25",
-   "tag": "SANC",
-   "query": "생텀",
+   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE8wQ2NBQW5MVnd0dGZyQmZnS0xvbDU5NHJIR1lxOEZBRlpiYmZ6QlpVMFNQT085Y0ZFTG04aVNnVEJhanZHWG1DUFBR?oc=5",
+   "ts": 1794538863,
+   "when": "11-13 12:01",
+   "tag": "NCT",
+   "query": "폴리스웜",
    "watched": true
   }
  ],
  "stock": [
+  {
+   "title": "美 연준 빅스텝 가능성에 한은 추가 금리인상 압박 커져",
+   "source": "스페셜경제",
+   "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE14d2hGUnJVdHVwRUxUZEVZYmRnY1hfeGZ1TnhORGRNZ0F3YjUyVW5wdi1HMGNVMjFUdEVpNjY1eG1DQWQzc3hYc2J0eW16TENzQ1RWa1czVnZIajVHemZtaU1hZ2N2Uzh0dmdIaw?oc=5",
+   "ts": 1794709060,
+   "when": "11-15 11:17",
+   "tag": "시장",
+   "query": "연준 금리"
+  },
+  {
+   "title": "다음주 국내증시, 미국증시 전망 : 슈퍼위크, 엔비디아 실적발표와 엔트로픽 상장",
+   "source": "네이버 프리미엄콘텐츠",
+   "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPb25ORktEY28yOGRYcGhlY0poeldHQ1lfZ1d2OGhBd2NNUVVRQm42UEdmbjRyUHR4Rmh4dFU5ek9yQi1SSzhBRFRMQWRSdllmd20zcnJwQ1ItRHc4TE1HZVhsUVBTUWZmMk1kOWlrX1BzMU1PbGctb0cycjlwdUVlOWFsYw?oc=5",
+   "ts": 1794708720,
+   "when": "11-15 11:12",
+   "tag": "시장",
+   "query": "미국 증시"
+  },
+  {
+   "title": "1년반 만 '최악의 한 주'…또 5%대 뚫은 美국채",
+   "source": "마켓인",
+   "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBCWTdNNVBST1VVTzlSdnhMT1lPcV9Ic2VMVVdnbkdtY01VV1RUVFBCRVhNbzIwcFduQUF5ck9pVGtFbVdLTFl2SmZ0MVRDOHd5eVdMODViWENGUjM3MXBTWHRhemh3d1RVZUNXQnJYbFUxRWs?oc=5",
+   "ts": 1794707341,
+   "when": "11-15 10:49",
+   "tag": "시장",
+   "query": "연준 금리"
+  },
   {
    "title": "[미국증시 레이더] 뉴욕증시, 엔비디아 실적·앤트로픽 상장 주목…AMD 8%대 급락, 반도체주 흔들",
    "source": "CBC뉴스",
@@ -387,6 +417,15 @@
    "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFB6T2ROZWh3aTlpYlFLb0dNM1hodlpGU3lYQlV2WERjOFN5blFFNlVuTGJNLVRfeF9JNUlIbXl6UnE0RHpBazdpV040dXRaRnRwakRZN3lJWlc3Z09vYm1LdjhZTGR5VGJySlNUaEluRTMtWHc?oc=5",
    "ts": 1794704909,
    "when": "11-15 10:08",
+   "tag": "시장",
+   "query": "연준 금리"
+  },
+  {
+   "title": "연준 관계자들이 매파적인 신호를 보내면서 월가는 3차례 연속 금리 인상을 예상하고 있다.",
+   "source": "Vietnam.vn",
+   "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNb2htMXpUdkc2OUtibTRYZzhJT1AzYWl5MURXc1RvRDdzM3VYVFdZaGJ6aDhZaXVqby1QLXk4TVZBdW1wSEMybnpaQ1VhNHRTSnVyUkdlN0R4ck9lVDhuT2lQM3BFNGU1Y2F2Q09VeC1OYXNYUDB3MVR5TkViYTUxeHJPejlrTFFDR2RLeGJlZktpMmdITzJNQ3p4a1RrdlhPWGdaOVhxT2hqWEFqeUxFNVlURQ?oc=5",
+   "ts": 1794704448,
+   "when": "11-15 10:00",
    "tag": "시장",
    "query": "연준 금리"
   },
@@ -501,7 +540,7 @@
   {
    "title": "나스닥 23시간 거래 D-3주…\"美투자 확대\" \"국내 영향 제한적\"",
    "source": "연합뉴스",
-   "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1qbUdXZDBMQ25HM1pTOGhHMUVBVjdJUXVVc0RobV9XaWFTUXpKbVMwemdXWEVWVl9QMjJxd2pSNkxHZlozcnozbWpGc1Iyand4ang2N2t6N0lBNE84d2s2UdIBYEFVX3lxTE1qbUdXZDBMQ25HM1pTOGhHMUVBVjdJUXVVc0RobV9XaWFTUXpKbVMwemdXWEVWVl9QMjJxd2pSNkxHZlozcnozbWpGc1Iyand4ang2N2t6N0lBNE84d2s2UQ?oc=5",
+   "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5CLUc2OWJoU3c0NF9KYjVXSm5uRW1saU5UcXlKT3MwZXRRWjlpRFhRVWpDN2NyQlhYOWE0dDB1VkVIMGRkejJ2cG9OWUVTMzBObTBjOXd3NVhGMmvSAWBBVV95cUxNam1HV2QwTENuRzNaUzhoRzFFQVY3SVF1VXNEaG1fV2lhU1F6Sm1TMHpnV1hFVlZfUDIycXdqUjZMR2ZaM3J6M21qRnNSMmp3eGp4NjdrejdJQTRPOHdrNlE?oc=5",
    "ts": 1794691500,
    "when": "11-15 06:25",
    "tag": "시장",
@@ -623,42 +662,6 @@
    "when": "11-15 00:11",
    "tag": "시장",
    "query": "미국 증시"
-  },
-  {
-   "title": "엔비디아 실적에 앤트로픽 상장까지…이번 주 증시 ＇진짜 변수＇는 [주식R]",
-   "source": "한국경제TV",
-   "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1CMnRJR1NLRE1wYlJVUXNiUVkycHpQandNR3VQMEFVaW14TFBOWUpQdXdzN2NNOU5WcC1GTFRKd2ozUWlGT0Y2b0wwdTZxSE5USjRqSjZTUEo5Zy1qZGxnRkc0NDVUVXdKY0NzaS1tYy00ZHNIMGhz?oc=5",
-   "ts": 1794668858,
-   "when": "11-15 00:07",
-   "tag": "시장",
-   "query": "미국 증시"
-  },
-  {
-   "title": "제퍼슨: 인플레이션이 연준 금리 방향의 주요 결정 요인",
-   "source": "IDNFinancials",
-   "link": "https://news.google.com/rss/articles/CBMi6AJBVV95cUxOSkV1TmNLdHlqaHdKXzUxazFMb2VVek9feF9SWHdvdFJ5QTFMNk41Tkx4NndaSGpfeVVRc3R1VkxZcGtjdUtvRmk4ZktISkdhYXdzUE44OWdMSjdlSlcwajRJQndTbEZsaFRhUWg2bU5VbHczdGo5MUk5QnhwR3RlSUtYUEJVa3Z6SXR0Nm85QkExamNDbXhIOXdtRGhRUGNwSGZYdWZvckRodzRHeFd5MTkybkR4U0lacXpHaDV3bDRIZU9uclFxVVplOWtQYTlEd2daa09lOU9NQ2p5TnJvMS1BQkRzcWZObUhLeW5hS1Q5R3Y4aXNENEF4bnZWX1VjeHJ4NEFTNzB3cFdSRURlOWMxeVVjSmR1RmlDbXAzdTFJU2IwVDRGYUh2OXF1Z0NzdFhFMnlWbUN2VmVTb093S0V5Y2hsaHNfMnFONnJPWmxzbmVZbjV2Y0wtTEczTXFhMjVLOTRNek0?oc=5",
-   "ts": 1794668400,
-   "when": "11-15 00:00",
-   "tag": "시장",
-   "query": "연준 금리"
-  },
-  {
-   "title": "[뉴욕증시 전망] AI 실적·연준 금리 변수...엔비디아 실적 전망 주목",
-   "source": "더페어",
-   "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBvVDRNVEd5enh2a1E2dURSbjR4blBsZDBPNDg2R0xaY3VXYzIwR2lIVXRCVUdMUnRRY3IwZHl1UXJJS0pDLWR1b1UzenNtWmJtYjdhOVJVRFlrNl9jRlR1MlItOW1qWlJsYWxKWkFhS1jSAXRBVV95cUxPZ1c1SHB1WlZtaFZYeldPNl9zbW9JbzhkcFVYZ2x5OU5aODVURUtveUIybGFBMmtpLWMzWVM4RkE4RjF3NDVwRXpDX1RQQkplUTlrbU11ZDVkNFZxRHE0dUhEUUUtVGdpWmdCSDItcmNfc2J5Zg?oc=5",
-   "ts": 1794668400,
-   "when": "11-15 00:00",
-   "tag": "시장",
-   "query": "연준 금리"
-  },
-  {
-   "title": "[더페어 돋보기] 연준 금리 인하 경로 시나리오별 국내 증시 영향…점진적 완화가 관건",
-   "source": "더페어",
-   "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTFB6M19jOFZ4LWk3bG5uYkhVNGlMenE3bUxjM3RiNi1IeGRGbVNGa3ppeHl0NzY0bno3U1dEVDZMTU51WEQtM052a2xDUmpHNEVMTDJlakZ3N0p6b3Z2c0xzSjE0Yzc1eFRyMDZPaENpTm7SAXRBVV95cUxQTTZvWDZjQmVRcnZEWUdjczVILURsNkpxRXZBSnhnMVNDdVNCZEt2cmtUcnZLekp0akxFdGFLa0xoNUpaZkpwSXN2UkhYTWFIUVFfRnZTSEstODdMMHFXUERid09jS1J6TGpLSHFnREJwVlF2SA?oc=5",
-   "ts": 1794668400,
-   "when": "11-15 00:00",
-   "tag": "시장",
-   "query": "연준 금리"
   },
   {
    "title": "S&P 500, Dow, Nasdaq End Lower Amid Nvidia Turmoil, But Record Best Week Since August —  SPCX, NVDA, ARM, AZN In Focus",
