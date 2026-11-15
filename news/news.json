@@ -1,6 +1,116 @@
 {
- "updated": "2026-11-15 11:33 KST",
+ "updated": "2026-11-15 11:54 KST",
  "coin": [
+  {
+   "title": "법인 가상자산 거래 허용 지연…원화 거래소 영업조직 축소",
+   "source": "서울경제TV",
+   "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5BR01FVFluUVk2VVBlRFAwdHJDNGxmUXkwdmt0WHBzN3VrczJsTTJ6TGFZNHZJMGhRVjZ1T0QwcU1ZeV9WUVBpVjRheF9GbnI1TVd3ckxlMXVWbktiU243T2xlUm0?oc=5",
+   "ts": 1794710652,
+   "when": "11-15 11:44",
+   "tag": "시장",
+   "query": "가상자산 시장",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "title": "1시간 가상자산 청산 1억4100만달러…숏 비중 52.18%",
+   "source": "토큰포스트",
+   "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9zR2NITGNUX2NGT011UVRFRlZTRGpIUGxHQ0wxTDRoeFJrRjU0YU1JZmVMeFBhNmRKOXhzeFdDejhRQXJERVJmT1Jua2l6R1lob3h0aVdGWVYwdEk0cUJSTdIBZkFVX3lxTE5XemRVaU5LbDZhUl9lNWZSTThuUFVMM3RLRndUZFhUcnBlUDBDS2hhX0VReF9xRGFGZkQzUXZMaGRidzE2SkdjXzltMmRlRUVTWEpMNmFKNFBWZzNmblFHWW9TY1FiUQ?oc=5",
+   "ts": 1794710556,
+   "when": "11-15 11:42",
+   "tag": "시장",
+   "query": "가상자산 시장",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "title": "[속보] 비트코인 등 주요 코인 1시간 전 대비 반등, 이더리움 1800달러 회복…코인시세 변동성 '주의'",
+   "source": "CBC뉴스",
+   "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9rRTQxdnkyQmlMUnJGQXY2VGhBZnNoVTZpSlpTbzFGc2VFa0JqYTlYbjI3Vk5fMGF1dnB2cW9MT3pJdkx1RUoyVzhiMnpVM09veDg4OEw2YzJndEtIa2lhUDF0OXo2Z1E?oc=5",
+   "ts": 1794710462,
+   "when": "11-15 11:41",
+   "tag": "시장",
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "title": "RWA 코인 동반 급락…온도(ONDO)·LINK 하락, 알트코인 시장 흔들",
+   "source": "CBC뉴스",
+   "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1hZkJCRGVkdWRpWnE2MTI5dTYwYzhsaXFGTWdJUXRhV1BfS1JNaUpvc1BQQkRBdjFQcVlvM1dQVHEtSUlDR3NqdFlQcE5QendiMXZSb0h3TkJTR1pIN1N5MlVCT2FDSnN4?oc=5",
+   "ts": 1794710460,
+   "when": "11-15 11:41",
+   "tag": "시장",
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "title": "A forced Bitcoin Lightning exit can be cheap and still leave you waiting days",
+   "source": "CryptoSlate",
+   "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPVEdETlU4SWVlZjNqUGRCUXc5TkJya1JmNnZZWG9tbC05TkF6QkxacV9Ebng1RENDeXJsbDJkc0h5UTByWURwc2xVdjRuNzJjY29RaVRDSmpFRWxnZGN0VXQxVE9qWmhINDNRaWZPRzd5b0kwYkpJVy1KQzNsS3dIZDFLWmNjLV9zYXRPdVpFd3UzcnB3dU1DTDhXRkgtZUJqRTBSTw?oc=5",
+   "ts": 1794710400,
+   "when": "11-15 11:40",
+   "tag": "글로벌",
+   "query": "bitcoin",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "비트코인 9000만원 돌파",
+   "source": "이코노미블록",
+   "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTFBoeW1SanZGVnFCQjdlRlhRMHYtWWIwb1hlUjFkOWpLXzhKYmJSeXRTVXg2Rm1ubDdaZTgzbTRPVkp4OFM4WWhxNExqOVQ?oc=5",
+   "ts": 1794710160,
+   "when": "11-15 11:36",
+   "tag": "시장",
+   "query": "업비트 코인",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "title": "비트마인, 이더리움 평가손실 13조원 육박",
+   "source": "블루밍비트",
+   "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9kZzgyOUNwM2Myb2hBa2lhanBrRkdvRVRDNlg3bUZZVExZQm1hcFNZTEpKcEplRkpzOWhJVTBpTjNyZE9WcGRQdUtIWWNOZVR2?oc=5",
+   "ts": 1794710095,
+   "when": "11-15 11:34",
+   "tag": "시장",
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "title": "Crypto Sheds $571 Billion in Ten Days as Losses Deepen",
+   "source": "The Defiant",
+   "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQcUtHNzNBUUROY21pNExTVW5HY1AtcVViOEFZMjFPNFBYZWI3UHVOaHQtc1dVQmtkZnJnaGlzVDdlSWdFT2g1NnNZSEFRdDVyMjZwUFVXNXlvMFp1YWhaeFNDSGF6X3VoZHd1Sl91X3hpeDg2c0lwV2lXMWwxMUhtRG9fTXF6RlRFMW9VTGRaVGpyUQ?oc=5",
+   "ts": 1794710079,
+   "when": "11-15 11:34",
+   "tag": "글로벌",
+   "query": "bitcoin",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "Bitcoin drops 6% to $64,118 and revisits its June floor",
+   "source": "24/7 Wall St.",
+   "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNVGdkQi0xTGJMeVVHWTdUdkNad1VhYmxwTWh2QXE2ZDJsRFhrVVhWLVh1TEhPV0QtTGNheE5yWWgtOUNYYWZ3Um1ac29lVmhycW0tZndDTGhyN1NNZFhNWWRZYkpqY0ZvOEk3ZmV3UTVPS25YUFlyaFk4WGs3VDJza1RGT3BkcFhHd19TdzBmQmVjaVdGTnZ0bVBpeS1HRG5PQ0pUdDU3ME9TM3hUdUtUM1RVMmk5WTJ1TFFnbkl0eHE3Z0FmcFh3YQ?oc=5",
+   "ts": 1794709575,
+   "when": "11-15 11:26",
+   "tag": "글로벌",
+   "query": "bitcoin",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "Bitcoin Falls Below $63,000 to Three-Month Low; 318,700 Traders Liquidated in 24 Hours, $1.9 Billion Wiped Out",
+   "source": "BigGo Finance",
+   "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTFA5TDR4ZEFLYmxtN0JLcHZrRVhUam1LN3o0bk5GLVQxdzlScW5ndm9kaWxsY0hMOERTcHk1a2tGTmdsRE5ONmhKSlcxNGtSUlFWUU54eHotemVXdmFFY2tZRkVYemhhWFNyWVdhZTI0Qm9Mdlk2TlE?oc=5",
+   "ts": 1794709500,
+   "when": "11-15 11:25",
+   "tag": "글로벌",
+   "query": "bitcoin",
+   "region": "Global",
+   "summary": ""
+  },
   {
    "title": "비트코인 4%대 내린 8630만 원대, 앤트로픽 기업공개 앞두고 수급 이탈",
    "source": "비즈니스포스트",
@@ -8,7 +118,42 @@
    "ts": 1794709307,
    "when": "11-15 11:21",
    "tag": "시장",
-   "query": "비트코인"
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "title": "People could regret not purchasing Bitcoin now, Neil Jacobs notes",
+   "source": "Traders Union",
+   "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQaHFXQWF6NFNSN1h0UmU2Ri1hNHVldVlQZGVsZ2xqQkVTcDNFRUkyR0VacjRjNHlfSmFRVjU2dU5NemIxb2dVeFZvNEtudzcwc2tpY1VESjRLMnBFbWdvendOQUtRb2VWQjhFVTFyMUYzTDh0WE1OcHNCS2RjZUo0czJDRkFRNTFxNTVGcklUYXE?oc=5",
+   "ts": 1794709209,
+   "when": "11-15 11:20",
+   "tag": "글로벌",
+   "query": "bitcoin",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "도지코인(DOGE), 3년 만에 최저가 추락…0.06달러 무너지면 어디까지 떨어질까?",
+   "source": "CBC뉴스",
+   "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9KU1BmWW1heW40dGtvSm9vaS0xVTBNc1JIRGplM2xMby10QjFIeUp5VjBERjZ4NFhzNC1HVl9PLXBNUjNDR20wNGlSbi1xRW1udUV2TkxLNERGOGVmdlFOSHlya0tVaGZ4?oc=5",
+   "ts": 1794709099,
+   "when": "11-15 11:18",
+   "tag": "시장",
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "title": "Bitcoin Regains $64,000",
+   "source": "bloomingbit",
+   "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1NNWtvVGZVejkzc2hIYkpYTkkwN3JGYjZMVkhNTWxYMVdBRTI5Wm0tYjVGREk1VlV4N0lkb1ViWGxQT05PMlFyaHAzSGFfUnF6dWR1UQ?oc=5",
+   "ts": 1794708926,
+   "when": "11-15 11:15",
+   "tag": "글로벌",
+   "query": "bitcoin",
+   "region": "Global",
+   "summary": ""
   },
   {
    "title": "비트코인, 6만4000달러 회복",
@@ -17,7 +162,31 @@
    "ts": 1794708920,
    "when": "11-15 11:15",
    "tag": "시장",
-   "query": "비트코인"
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "title": "Crypto markets plunge with Ether, Solana, and R...",
+   "source": "Pluang",
+   "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOMkk3akxQejk3a1JKd2VWNmxmV0RYNkVoWjM0RDk2blBEQkhtTHlPWHY1aENEQ0hCcGIwSXNqeXotbXVmOVFYYUViSk9vUzhNT0lYb0M4VEdEU3htZmRONEpPOW44cFlqRm1XMGI1aFdkc1lCT0Mwc3dMNEZ6WndnTmJKTkxBRlVxRk5MdjR4VXh2NmYxZzFlSEI0cmk?oc=5",
+   "ts": 1794708885,
+   "when": "11-15 11:14",
+   "tag": "글로벌",
+   "query": "crypto market",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "Bitcoin may have reached its all-time high, Peter Brandt suggests",
+   "source": "Traders Union",
+   "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNWnFnMWM3MWpqYk5rMVI5N3Z0NGlLa1VySnI4bHNOWl9vZkc4SzdEdFdTOEtxY09mZlRmT01KLTN2NWhrX2lJTlNnQkJDUWxsREtLaVFCTlhnOHdyLXVQeU9TSUF6a1NkeVBfd2EyOUZHUERsR0xGLUg4VU5ZdnB1MWJ1Q2hhZWJldHNnME1R?oc=5",
+   "ts": 1794708613,
+   "when": "11-15 11:10",
+   "tag": "글로벌",
+   "query": "bitcoin",
+   "region": "Global",
+   "summary": ""
   },
   {
    "title": "비트코인, 9000만 원 붕괴 왜?…‘젠슨황 사태’ 등 악재 겹쳐",
@@ -26,7 +195,9 @@
    "ts": 1794708502,
    "when": "11-15 11:08",
    "tag": "시장",
-   "query": "비트코인"
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "원유 공급 늘어도 비트코인 반등 어렵나…유가 안정 기대에 숨은 변수는?",
@@ -35,7 +206,9 @@
    "ts": 1794708360,
    "when": "11-15 11:06",
    "tag": "시장",
-   "query": "비트코인"
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "'선물 투자 고수' 고래투자자, 비트코인 롱 포지션에 484만달러 추가",
@@ -44,7 +217,20 @@
    "ts": 1794708327,
    "when": "11-15 11:05",
    "tag": "시장",
-   "query": "비트코인"
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "title": "Bitcoin Falls Below $64,000 as ¥170 Billion ETF Outflows and ¥110 Billion in Long Liquidations Weigh on Prices",
+   "source": "finance.biggo.com",
+   "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1McXFNY2ExRk81XzdXa0hyV2RCN2cyUU0yTFk5OWxLbUhsb3VibVl0OWhqUHByZHFmaXlMeTNpVS1WTjFIRDFIVl9NU3lhNFAtTS1PaS1BU2RDejV5MnNyYmVxSmp1YXRCcklfMXNvSmx1Ynd1VGc?oc=5",
+   "ts": 1794708300,
+   "when": "11-15 11:05",
+   "tag": "글로벌",
+   "query": "bitcoin",
+   "region": "Global",
+   "summary": ""
   },
   {
    "title": "비트코인 6만2000달러대 추락…매수 수요도 19개월 만에 최저",
@@ -53,7 +239,20 @@
    "ts": 1794708090,
    "when": "11-15 11:01",
    "tag": "시장",
-   "query": "비트코인"
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "title": "Bitcoin Slips Below $66,000 as Weekend Liquidations Top $1 Billion",
+   "source": "BigGo Finance",
+   "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9rdUJ3T0U2b2lnSkhva1AwbE5SVGl4Z3hmX1NZb1RqWjZYVk1uZjJvSzlUeWl6Q0dQTE14MExxNENKOFVXbmtVUWctdWlhRU02eVV0QWtqclZYQkVRMFYtc2UtbmhaRDV4V3ZrWC1WdzAwLU5LQXc?oc=5",
+   "ts": 1794707700,
+   "when": "11-15 10:55",
+   "tag": "글로벌",
+   "query": "bitcoin",
+   "region": "Global",
+   "summary": ""
   },
   {
    "title": "[코인 브리핑 11월 15일] 비트코인 6만4000달러 아래로…하루 새 6.5% 하락",
@@ -62,7 +261,64 @@
    "ts": 1794707459,
    "when": "11-15 10:50",
    "tag": "시장",
-   "query": "가상자산 시장"
+   "query": "가상자산 시장",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "title": "Bitcoin Tumbles to Three-Month Low as Liquidations Accelerate",
+   "source": "Bloomberg.com",
+   "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQZFN4Yk1qMGk3ejFQc2RuVXlMMWoxUmd6T3NHOGM1WEFCd2E2ZFplM0NXMGRhb3VFS0VtWEtVajlzUS1UV0N6aVpZSlB5Wm5rbWNTUG9nNTNoNUI1LXB1OF9vUWxRNHVSaXBkbmJlbXFYZ1BWWllpY2FoUm5KWXdycXM4VTZXNldjVDJTUHYzRG1IWUt5Ujc3NjFvYWVab1IyUWxQaVVkb2E0NWlLY1hyRHZ3?oc=5",
+   "ts": 1794707340,
+   "when": "11-15 10:49",
+   "tag": "글로벌",
+   "query": "bitcoin",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "Bitcoin Plunges Below US$69,000, Ethereum Sinks Under US$2,000 In Brutal Weekly Selloff",
+   "source": "BusinessToday Malaysia",
+   "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOaFVnWWRrLU1iZUhJNVU0ZkxOQzBHd2x5WENMRWxaWnRNeExEVFVYQlc1NDBNWWg1OWJsSWxOV1ZmUTRscTRSS2JiRlhfZjR2UjlvTTIzODBjMVJzemtrREJJR24tMmtKODFsdHZXbUF5M2VpZ2VzLXFzYzl1RXFNRE5SMkNLLXJBSXN6MGwya1h4V1NUTVhVWWJsUFQwQUpoSDAwNGNUV1RSXzB2MExGUU1YOWRVS0dGaHdweVRjMTVMY1V0b2c?oc=5",
+   "ts": 1794707331,
+   "when": "11-15 10:48",
+   "tag": "글로벌",
+   "query": "bitcoin",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "Crypto market crashes with Bitcoin below $66K a...",
+   "source": "Pluang",
+   "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOUFh5d0tGS24yeWRaNEtCVmJBYTdHbkpTOGtGQzhDdG94YkpJQWRXME43ek82Y2M4NHg4UXk5S014eE5uV3ZIbHM0a2kzQUdSMWxxQkxqa0ZoaVZEeldoRzFrRkVuVnM0SGxUenY2c2pBRW9zM3VWU0JmRy1UTkxyelB3b01BOEhLclg3UnhYSGs5YWktTjdQVg?oc=5",
+   "ts": 1794707202,
+   "when": "11-15 10:46",
+   "tag": "글로벌",
+   "query": "crypto market",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "Wallet linked to Erik Voorhees buys 63,540 ETH for $125M, largest recent Ethereum transaction",
+   "source": "Pluang",
+   "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPLWpsRDhndlNzbEZIZUhsWmg5b1lOUDJHNUMxRy03TThXcl9jMFhJUEdqTFpoTHhNRzBWZFRwb0J5V0gzZm16eDFCRXYzUGJRaEtybjRRNVctSmpFUXZBNGJORWNST09raUwyM2hkMV96eTZmeTRkTkVMOXFlSDVQLXR5X1RKS1JtQUU5d3JtZzdRakR4eVJr?oc=5",
+   "ts": 1794707202,
+   "when": "11-15 10:46",
+   "tag": "글로벌",
+   "query": "crypto market",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "Bitcoin's drop triggers $2.05B in liquidations, with $800M on Binance mostly from bullish bets.",
+   "source": "Pluang",
+   "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOcE9heGFUbjR3RWVINWNlUzJHdFllNUdpcU9GRE1XaE0xREt4QTVOeVlXa1lpbzZyRVRGRmV0Y1FDcXNBaEhWRGpYUHNSd0VURzItRmZFR21HMUpsakxCZTdfbV9kWF9XZGdnWnU2Z2NPYU50Q0lVVlJxR0lLTVhVaDFtYjgwdDZyYlFGSndkeC1UVDNwSDRNSFpxalVpelJ0?oc=5",
+   "ts": 1794707078,
+   "when": "11-15 10:44",
+   "tag": "글로벌",
+   "query": "crypto market",
+   "region": "Global",
+   "summary": ""
   },
   {
    "title": "가상자산 피로감, 비트와이즈 CIO가 2018년 침체와 비교",
@@ -71,7 +327,9 @@
    "ts": 1794706784,
    "when": "11-15 10:39",
    "tag": "시장",
-   "query": "가상자산 시장"
+   "query": "가상자산 시장",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "[분석] 비트코인 상승 막는 2가지 장벽",
@@ -80,7 +338,9 @@
    "ts": 1794706200,
    "when": "11-15 10:30",
    "tag": "시장",
-   "query": "비트코인"
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "포워드 인더스트리, 코인베이스에 1억2300만달러어치 솔라나 입금",
@@ -89,7 +349,9 @@
    "ts": 1794705395,
    "when": "11-15 10:16",
    "tag": "시장",
-   "query": "비트코인"
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "비트코인 6만3천 달러로 급락…앤트로픽 IPO에 자금이탈 우려",
@@ -98,7 +360,9 @@
    "ts": 1794704757,
    "when": "11-15 10:05",
    "tag": "시장",
-   "query": "비트코인"
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "이더리움 가격이 10% 하락",
@@ -107,7 +371,9 @@
    "ts": 1794704640,
    "when": "11-15 10:04",
    "tag": "시장",
-   "query": "비트코인"
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "비트코인, 6만3000달러 반납",
@@ -116,7 +382,20 @@
    "ts": 1794704628,
    "when": "11-15 10:03",
    "tag": "시장",
-   "query": "비트코인"
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "title": "수수료 무료 앞세운 중소형 가상자산 거래소 '약진'…점유율 경쟁 치열",
+   "source": "한국아이닷컴",
+   "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5qTDhkbnlzdjY2LWw5RzIydC1wZEpaSFpQb3l3eDlCOHhoRVNPbVRzb1h2S2x2MFc4bVhhZWROcEI5N0hDR3JRUEFqdE10cXhTMjRuVC1mazdpdHRGdXl1UWJSSmRkS0h1QklFY0dwONIBb0FVX3lxTE5qTDhkbnlzdjY2LWw5RzIydC1wZEpaSFpQb3l3eDlCOHhoRVNPbVRzb1h2S2x2MFc4bVhhZWROcEI5N0hDR3JRUEFqdE10cXhTMjRuVC1mazdpdHRGdXl1UWJSSmRkS0h1QklFY0dwOA?oc=5",
+   "ts": 1794704618,
+   "when": "11-15 10:03",
+   "tag": "시장",
+   "query": "가상자산 시장",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "플룸 CEO \"RWA 토큰화 핵심은 투자 접근성\"",
@@ -125,7 +404,9 @@
    "ts": 1794704216,
    "when": "11-15 09:56",
    "tag": "시장",
-   "query": "비트코인"
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "엔비디아·앤트로픽, 결자해지 주목 [이정훈의 코인 위클리뷰]",
@@ -134,124 +415,9 @@
    "ts": 1794704171,
    "when": "11-15 09:56",
    "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "수수료 무료 앞세운 중소형 가상자산 거래소 '약진'…점유율 경쟁 치열",
-   "source": "데일리한국",
-   "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFAtZ1VaV1VFZ3Utb3JLaENUTEU4QVlkLS10WHFnNF9VRER0MWQwTUJ0M1l1VDVPbV9UVmJoOFRKbWhxZVhWaFpGTW9hbEtnMVphcW93Qm5nOG9EaURQbzlVR3JJY1l5ZWJPTjQ1cVhCUFVSb3fSAXNBVV95cUxQLWdVWldVRWd1LW9yS2hDVExFOEFZZC0tdFhxZzRfVUREdDFkME1CdDNZdVQ1T21fVFZiaDhUSm1ocWVYVmhaRk1vYWxLZzFaYXFvd0JuZzhvRGlEUG85VUdySWNZeWViT040NXFYQlBVUm93?oc=5",
-   "ts": 1794703832,
-   "when": "11-15 09:50",
-   "tag": "시장",
-   "query": "가상자산 시장"
-  },
-  {
-   "title": "비트코인이 떨어지는 이유",
-   "source": "네이버 프리미엄콘텐츠",
-   "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxONnE0Rk1XUHcxdXE2NmFKQWtkcC1YY3I4OWtudTFZVjJEaG9uVVgyZTQ1VFZvM1BPaldKSVBVblhiYXFiTmw4dUVmMXNIbnZrX1NTRzRxYTBSYV9tSlBKR2ZTYmNhSlJra2NZX0FTZkkxRmcxWlNHbmZKT1JzSHhDUUpxcw?oc=5",
-   "ts": 1794703800,
-   "when": "11-15 09:50",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "비트코인, 석 달 만에 9000만원선도 붕괴, 왜?…금리·수급·규제 겹악재",
-   "source": "뉴시스",
-   "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE1td1BlOWJkNUZaTFJtaTU3X3VVQmZJS3NHU19GS3BjNWpLWUJvR1YzSVRHUTU3N0xzNGR3NnRudmhPSlFuUEh1akx1T1ZqOEo1cFAtazVjRjBRenlMZ3hkZ0ZWa0pxUG96aFo1ZVFoakxwUDgtSll5bdIBeEFVX3lxTE1td1BlOWJkNUZaTFJtaTU3X3VVQmZJS3NHU19GS3BjNWpLWUJvR1YzSVRHUTU3N0xzNGR3NnRudmhPSlFuUEh1akx1T1ZqOEo1cFAtazVjRjBRenlMZ3hkZ0ZWa0pxUG96aFo1ZVFoakxwUDgtSll5bQ?oc=5",
-   "ts": 1794703704,
-   "when": "11-15 09:48",
-   "tag": "시장",
-   "query": "가상자산 시장"
-  },
-  {
-   "title": "가상자산 공포·탐욕지수, 10점 기록…극단적 공포 유지",
-   "source": "블루밍비트",
-   "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFA3dkNwcWNVTGM3LW5TSWd4Y1UyWXkxN09vcFlwZ25QaWZncU81SVZhckNCbmlCU0VwRHVGU1ZBdUJydzJwTFdGWUZWNlIySjJU?oc=5",
-   "ts": 1794702985,
-   "when": "11-15 09:36",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "수요 4배 늘어난 어셈블리AI, 스폿 서버로 추론비 70% 절감",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE5tQWlVaE1td0Y2dEdpdFN0RENVUU95WXVFcEdSVWtyallUZVlJNDRVZ3Y0WE0ybzFncTFjMXdSQ0xVR09vSlAtdHVn?oc=5",
-   "ts": 1794701854,
-   "when": "11-15 09:17",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "바이낸스, 87개 네트워크 출금 재개…나머지 자산은 다음 주 말 목표",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE0yRy1YTWZ0WU9ZSENtVmp6MUYxZGtfWHJjbjRsUE02VjBoRHM2NF83V0wybS1YMWJ4VmNUSmUtcGVMZjFxRWJFN3Jn?oc=5",
-   "ts": 1794701788,
-   "when": "11-15 09:16",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "가상자산 법인 참여 지연에 거래소들 관련 조직 축소",
-   "source": "연합뉴스TV",
-   "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1LQjhoOExzWkZsSGdZWlQ2ajd1UndoLVQ4RXZoM3pLMjVuUkZUTVdVZU0zazQ3WGRnRGMwTVVmaFV2QUVPMFBuRDlVaGZXY1BtTWdxM3ktSmhvcExBbmVVZ2NEeG5FbWs?oc=5",
-   "ts": 1794701700,
-   "when": "11-15 09:15",
-   "tag": "시장",
-   "query": "가상자산 시장"
-  },
-  {
-   "title": "아스터(ASTER) 0.606달러 회복할까…중동 긴장에 시장 동반 약세",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTFBVTHZ6ak1vQWRENVVuTTFIdFBuQldsWUVIaFlURy1ibWU0NDJSRjdtNUh6cF9UX3hCRjA3YzkyUnBFellmNWtfdExn?oc=5",
-   "ts": 1794701658,
-   "when": "11-15 09:14",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "바이낸스코인(BNB) 600달러 회복할까…시장 전반 약세에 7%대 급락",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE0ta2U5bDFSN1EwcDNLY2ZKQ0NJVnYybTJxRzdjQXZfMkdWN2NXRFRjYXZYRTd1bzR0aC1OeXNwQTdWdTdWYXAzcDd3?oc=5",
-   "ts": 1794701573,
-   "when": "11-15 09:12",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "[단독]도박 취급받던 가상자산 매매·중개업도 기업부설연구소 인정 - 머니투데이",
-   "source": "머니투데이",
-   "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1pa0tJTHpJNWg5ZkRIMHhaR2lkQld2YVFiQTltNGQ5NjVwSmlXaDhsekRDQ0RXS0t1ckhDZU9EcXRvRWttY2d5TlltWVExbWQ3WFdPa25pU210WVpUeG9OeEUyR20xOUxDRlJBQdIBbEFVX3lxTE1pa0tJTHpJNWg5ZkRIMHhaR2lkQld2YVFiQTltNGQ5NjVwSmlXaDhsekRDQ0RXS0t1ckhDZU9EcXRvRWttY2d5TlltWVExbWQ3WFdPa25pU210WVpUeG9OeEUyR20xOUxDRlJBQQ?oc=5",
-   "ts": 1794701550,
-   "when": "11-15 09:12",
-   "tag": "시장",
-   "query": "가상자산 시장"
-  },
-  {
-   "title": "모네로(XMR) 520달러 회복할까…시장 전반 약세에 11% 급락",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE5OX0dGcTJiXzJPMkhhbVhTUWJ0U2Ixelh4N3FWV3JqSS1RS3pwdU5OcWowRXFud2ZzWjNDZmZXTTJwbGtTRmc4RW9n?oc=5",
-   "ts": 1794701498,
-   "when": "11-15 09:11",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "비트코인(BTC) 6만 5,000달러 회복할까…고물가에 금리 인상 우려",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE5ERzczbkNHTmVQQm1MM1lEUFRoc09GbGE0UzF6bTlLVWpDT3VLR0FLbzAzUERhdU9NSjYwWnI5TndNdlpoVW44SWxR?oc=5",
-   "ts": 1794701419,
-   "when": "11-15 09:10",
-   "tag": "시장",
-   "query": "비트코인"
-  },
-  {
-   "title": "시바이누(SHIB) 0.000004040달러 회복할까…거시 압박에 수급 약화",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE1BNFAwLW5RUDZ1N2NUTmg2M3gyQk91bXhwWVdrT2xRbFU2WU9KLUNRR24tNXdzOUlTamo4cUZtYmZYclFERWNIZFN3?oc=5",
-   "ts": 1794701155,
-   "when": "11-15 09:05",
-   "tag": "시장",
-   "query": "비트코인"
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "하이퍼리퀴드·생텀·콜렉터크립트·네오소울 [이주의 상장코인]",
@@ -261,6 +427,8 @@
    "when": "11-15 06:20",
    "tag": "SANC",
    "query": "생텀",
+   "region": "KR",
+   "summary": "",
    "watched": true
   },
   {
@@ -271,6 +439,8 @@
    "when": "11-14 15:15",
    "tag": "SANC",
    "query": "생텀",
+   "region": "KR",
+   "summary": "",
    "watched": true
   },
   {
@@ -281,6 +451,8 @@
    "when": "11-14 13:01",
    "tag": "NCT",
    "query": "폴리스웜",
+   "region": "KR",
+   "summary": "",
    "watched": true
   },
   {
@@ -291,6 +463,20 @@
    "when": "11-14 12:01",
    "tag": "NCT",
    "query": "폴리스웜",
+   "region": "KR",
+   "summary": "",
+   "watched": true
+  },
+  {
+   "title": "[아침코인] 11월 14일 SHELL(마이쉘) 107%↑ PUMPBTC(펌프) 35%↑ 등",
+   "source": "디지털애셋",
+   "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE4wZ1pvYkZHaGE4YVNyWHR1TTVRbmw4aXFMRUYwT0MtaTRkNXB3c3EzakJUSkNadTJTOWdHZnNlTGE2dlVadFlPTEVYYy1TWVU2dk5NSlo5YndoZXNNaTQwdDh2UWo3c0s3XzNpT3poOEdVQQ?oc=5",
+   "ts": 1794612600,
+   "when": "11-14 08:30",
+   "tag": "SANC",
+   "query": "생텀",
+   "region": "KR",
+   "summary": "",
    "watched": true
   },
   {
@@ -301,6 +487,8 @@
    "when": "11-14 08:01",
    "tag": "NCT",
    "query": "폴리스웜",
+   "region": "KR",
+   "summary": "",
    "watched": true
   },
   {
@@ -311,6 +499,8 @@
    "when": "11-13 21:32",
    "tag": "SANC",
    "query": "생텀",
+   "region": "KR",
+   "summary": "",
    "watched": true
   },
   {
@@ -321,6 +511,8 @@
    "when": "11-13 20:01",
    "tag": "NCT",
    "query": "폴리스웜",
+   "region": "KR",
+   "summary": "",
    "watched": true
   },
   {
@@ -331,6 +523,20 @@
    "when": "11-13 17:48",
    "tag": "SANC",
    "query": "생텀",
+   "region": "KR",
+   "summary": "",
+   "watched": true
+  },
+  {
+   "title": "업비트, 솔라나 유동성 스테이킹 프로젝트 생텀 거래지원 개시",
+   "source": "디지털투데이",
+   "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5kV0pPWmtGMnRTR3VqVHNmek83QVExczB4c2I3Zm1xQlJFbTJtSHFwVFJ6M1JkSXBlV19fTFgtajFLdG8yNG83VndxVlVUa2Y0bU1JWmQ1UzBudThaNHREZ2VEbDZ0VjlHZ25BR2FDd2R4bmlnN3NSM21CMA?oc=5",
+   "ts": 1794546967,
+   "when": "11-13 14:16",
+   "tag": "SANC",
+   "query": "생텀",
+   "region": "KR",
+   "summary": "",
    "watched": true
   },
   {
@@ -341,6 +547,8 @@
    "when": "11-13 13:01",
    "tag": "NCT",
    "query": "폴리스웜",
+   "region": "KR",
+   "summary": "",
    "watched": true
   },
   {
@@ -351,30 +559,100 @@
    "when": "11-13 12:28",
    "tag": "SANC",
    "query": "생텀",
-   "watched": true
-  },
-  {
-   "title": "업비트, 생텀(SANC) 원화·BTC·USDT 현물 거래 지원 예정",
-   "source": "토큰포스트",
-   "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE85aFJhelI3RE1TM3B0T1EtTElDNkFOX2JZNnZPSkJtbFFkcS1zR2ZuekJrcm1lWlVuUHFPSno3RnpDcHJKb1d2WUQ5VWNLVmxKRGtfYmZacTFZQ2duNmfSAV5BVV95cUxPOWhSYXpSN0RNUzNwdE9RLUxJQzZBTl9iWTZ2T0pCbWxRZHEtc0dmbnpCa3JtZVpVblBxT0p6N0Z6Q3BySm9XdllEOVVjS1ZsSkRrX2JmWnExWUNnbjZn?oc=5",
-   "ts": 1794540254,
-   "when": "11-13 12:24",
-   "tag": "SANC",
-   "query": "생텀",
-   "watched": true
-  },
-  {
-   "title": "[업비트 TOP10] 문버드(BIRB) 9.20% 상승 1위…상위 10개 중 2개 유의종목",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE8wQ2NBQW5MVnd0dGZyQmZnS0xvbDU5NHJIR1lxOEZBRlpiYmZ6QlpVMFNQT085Y0ZFTG04aVNnVEJhanZHWG1DUFBR?oc=5",
-   "ts": 1794538863,
-   "when": "11-13 12:01",
-   "tag": "NCT",
-   "query": "폴리스웜",
+   "region": "KR",
+   "summary": "",
    "watched": true
   }
  ],
  "stock": [
+  {
+   "title": "금 가격은 금리 인상 압력으로 인해 수개월 만에 가장 큰 주간 하락폭을 기록했습니다.",
+   "source": "Vietnam.vn",
+   "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxNZDhKdnNZOW5Ma1ZhcHUwUVhMSERmUGItUVpKODJES3ZOZWN0N3VaZFlNWDd1Z2Rxbk81Tl9Zc0V5dzRMNWVJdVU4TFV3TFdac29UTXF5bzBvSlRQSGRxWmZzek12bnMwd0FQQ21sbkdQV2VvNzNEWlZHOEZxS2N5c2dXUUdPRHRheEFZMm5qN09RdWNRMzBVenM3TC0zdw?oc=5",
+   "ts": 1794711195,
+   "when": "11-15 11:53",
+   "tag": "시장",
+   "query": "연준 금리",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "title": "DLocal: 3 Key Takeaways for Long-Term Investors",
+   "source": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQUmtQMmlRaHZBc0tZb1RseUl3cmotM1N6dlRNUFJjSnhNMWpHdVhOd1lLc2pxVXlJa1ZuTUszNzNXQUQ4UlVxUnlNdEhtT3NhWF9ZTFdabzh2Mjl0VXMxYmQwTWxpdWNHZk1fMVdwb2E1bXFQY3ctWDdEaU0yZmxnZjNmZVphcUppR3NmZnVLc3RteGFab24w?oc=5",
+   "ts": 1794710518,
+   "when": "11-15 11:41",
+   "tag": "글로벌",
+   "query": "stock market",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "Top 3 AI Stocks To Watch In November 2026",
+   "source": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNbEdQS0lfOXl0NFJXYnJDaEJYT3IzaHBHSkpiajA4NzJ0Tkh3QzQ2V0xpb2RGSXpNdFJ2cHdLV19CWFo1ZzAtSU1yV25fVlBVa2FaODF4ZmplUG9KT3pScVlQeFpQZ0NKcy1qM2h0eXBkLXYyZ0ZycWVkWm9kb1lXZjVyTzFEX0ExTHc4ZnZ3?oc=5",
+   "ts": 1794710026,
+   "when": "11-15 11:33",
+   "tag": "글로벌",
+   "query": "stock market",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "The U.S. Federal Reserve (Fed) warned that the financial system's potential vulnerability is due to",
+   "source": "매일경제",
+   "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBieUdDQm9FeHl1andWbFhjdjRncjB4TUs5N0FIWlNQVDJmRkxwSG1zcWlic2MySy1IRXdSYUhmLVBYRFEzbXR3T1FFQnQ2V1JoZWc?oc=5",
+   "ts": 1794709956,
+   "when": "11-15 11:32",
+   "tag": "글로벌",
+   "query": "Federal Reserve",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "TG Therapeutics: 3 Key Takeaways for Long-Term Investors",
+   "source": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPTFBIYjRGdmp1RXgwd1hYbzE0NTVheUZWbjZhQVg1MXhGWVhYX3pUQjhyakJsak81RVMtWTZLbVczUTdDNllfZGN6VFBxRUdsOENSQ2dEbFJhZzE4VVZLM044bTFMRUZial9felRnM3ZHcWJsbXVCcERNWGpmLThqUWpkNU81QVJGOXA0d0I5bE5HQTdYQ0p5ckRscTI?oc=5",
+   "ts": 1794709920,
+   "when": "11-15 11:32",
+   "tag": "글로벌",
+   "query": "stock market",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "Nvidia (NASDAQ: NVDA) Stock Price Trades At Less Than Half Its Historical Valuation As Rivals Circle Its Biggest Customers",
+   "source": "Foreign Policy Journal",
+   "link": "https://news.google.com/rss/articles/CBMi_AFBVV95cUxNalNVNmpNOE9IUDYxZGVkZ2pFSUVDUTVtUDM5YTlXRUtXdGtxZlR2MVZmMHB6MWN3MjJ6S250N0Q5WHA2VkRxQ0NEaGZHVGNkUTloOF9TVVZPREUwRXRxbnFuSDBNdUNkVUVGRGZNN1JwcWZzdUtGQjd6aGxPM05iRXdZNjk0ZW9BTU1QclFCV1B2bGdYU1FKZ0VkS2pJNDBMUTU4U0NuZTBXbmRZUVhHUDBDcHlCYjZfRWkzcXMzZ09SQ1FjREVIVGJlanVvOFZlSmZXVExLZUZ1SE4yMnJLc1YtdnFxRjJvWkFsblUtZXE1bU1WdjBMU3BGRHE?oc=5",
+   "ts": 1794709860,
+   "when": "11-15 11:31",
+   "tag": "글로벌",
+   "query": "Nasdaq",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "Opendoor: 3 Key Takeaways for Long-Term Investors",
+   "source": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNSnNWeHBkb2o0STdTSncybFV3UlNxX3ZhdXNPOVIzdGpTWVJWVldpb0NJQ1VmcThiUElWR1RmVlFaUU1XbGJOZnZRMnptQ1NReUF1ci1XWVdNQXNsSTVheTdtQ3dVbERlSUw1VzI4TmxscTA3dENhUFZvNHBZdmI0Vy1XbEVzWHZPOGRhYnNNdnFlVlZHRV9pbENR?oc=5",
+   "ts": 1794709440,
+   "when": "11-15 11:24",
+   "tag": "글로벌",
+   "query": "stock market",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "Broadcom Jumped as Nvidia Fell. This Is What Has Investors Excited.",
+   "source": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPVE80a0hXWnVIcExDQVV4M1llcExRWVFKUUhDUVlwcHB6c0VvdEhEYWNvRElGV0tlTjBxcFMwSTlXSTlWemNDWmNvalRDRm5Bc0ZhTXpXSjZ3bU5NQ2ZZQnZ3aDlDWWdWcW5DMmpYY3drVzVsRkJaNkpJVElsYk82bXhlSHZEYVlWZXIwR1BVTVZEMEdkd0ZZT1dKbEhCUy04LVdnRQ?oc=5",
+   "ts": 1794709200,
+   "when": "11-15 11:20",
+   "tag": "글로벌",
+   "query": "stock market",
+   "region": "Global",
+   "summary": ""
+  },
   {
    "title": "美 연준 빅스텝 가능성에 한은 추가 금리인상 압박 커져",
    "source": "스페셜경제",
@@ -382,7 +660,9 @@
    "ts": 1794709060,
    "when": "11-15 11:17",
    "tag": "시장",
-   "query": "연준 금리"
+   "query": "연준 금리",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "다음주 국내증시, 미국증시 전망 : 슈퍼위크, 엔비디아 실적발표와 엔트로픽 상장",
@@ -391,16 +671,108 @@
    "ts": 1794708720,
    "when": "11-15 11:12",
    "tag": "시장",
-   "query": "미국 증시"
+   "query": "미국 증시",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "title": "Zelenskyy Criticizes Starlink Speed Limits Over Ukraine Drone Defense Concerns - SpaceX (NASDAQ:SPCX)",
+   "source": "Benzinga",
+   "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQdEROUVR2QU1CVk5FNldtOEV2UEdXWThZUkpIeDNTZ2VSOWg4SV8waEszdHRJSlhJUmtSdTJualBqclJCNE5mLW9TenJJQkZNUjM2dGxCR1FZNDlsbndXQVpsM0NNOTlLczVSWjlLcl9vRHZwSXVVUnc2T0pRWkFlclhYQzdldWJMQ1ZIdnFsN01yWXJUaVBCYkNqdnBPVUdzcU9LQ0RjWjFxYmJ3NXFFSXF3?oc=5",
+   "ts": 1794708621,
+   "when": "11-15 11:10",
+   "tag": "글로벌",
+   "query": "Nasdaq",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "3 European Power Stocks Worth Watching After Electricity Price Spikes",
+   "source": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOZWtTandxSDNFRlgyYVNjU0s1Q0dfRDNIZU42ZnpmTWRxTTFPVTFxMkhhUXVRSm44R1NxN2xUZmFFQmVpdnh1Tk1wLWdjTVFWdjRaemNaOUtVSlZTUUdDUU1WNDRmRTFlSnluX3FjUlQ0VUhSZ3pHQlN5WmtZUmZqNDFpWWgyS0Z4NTFCaXo2cw?oc=5",
+   "ts": 1794708540,
+   "when": "11-15 11:09",
+   "tag": "글로벌",
+   "query": "stock market",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "Is Tokyo Electron (TSE:8035) Too Expensive After The Chip Sell Off?",
+   "source": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPUXpGM1NHZU1LMExZd1owZ1ZXVy0tOVJrQVFtazJIZkVJejVzYmJXeUpSU1lTclpHNFA5VG55cUJUMzZNSkw4aGZQdDdkR01DZjhiQ1Z3U0tGX0dBSk5HenJnUGFfZ3pOLWVBemRJWi1GNnAzV1UtQmM5VC1NQ2FDOFpkWlhvWWxiUHFTRGY5dUFXbG9kRk9J?oc=5",
+   "ts": 1794708420,
+   "when": "11-15 11:07",
+   "tag": "글로벌",
+   "query": "stock market",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "Is International General Insurance Holdings (IGIC) Below Fair Value Today?",
+   "source": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNeUs2SkczT29JaXdraHRhcks4VEJRTC14ZUF1d0x1UUZEbExSUVByd196LVFTRDdEbUxvV3pqa2NPal85NVhOalU1NXMwWlpUbjdpWmNJZmR6bkN2eGhoMldvWUpwRGJSUkFINk1DNVNadnlTR2lZVDFWQzl1QUNXMkpmZFhmRmlVTHNZZUgzTkFBUjUwRVprMG9naWhaNkNEWFVVU2tqWUdySFRoeUJV?oc=5",
+   "ts": 1794708420,
+   "when": "11-15 11:07",
+   "tag": "글로벌",
+   "query": "stock market",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "AI Data Center Stocks Crater On Nebius Outlook And Nvidia Uncertainty, But Applied Digital's (NASDAQ: APLD) $36.2B Lease Book Remains Intact",
+   "source": "Foreign Policy Journal",
+   "link": "https://news.google.com/rss/articles/CBMikAJBVV95cUxNUEZJQ0NSRnhyY3dzNXVGR0V4MEMtVGlxSkN3TDZUalV1UzhYQWJWdHFYYjF5RXh6bldfeXZib2xtTS1pRUJUNkQzLW90Ym5TOTBwR2cxaklLdWNpQjN2aTB6aXFMVWIyeEVLNmxTbDIwdHZCY29VcFYxUTlQdXRFWGtyYUxaVkRlaXhGNV9EYmFDM0l5bTgweHRQU3hwbXc3V0RDTkUxb0QzcUhzcGJ0ZTVHcnJzTkZLaUI2b0FvTE1kVi00bHdQeEFwSzNBaGZOckVkM0ZtUjN6LXM5TVg4VGhYaHpEVjQwci1ieG9XbG5teVk4bENTN1BqVzZiQ3E0TEFsT0l3Y19VX2FnS05uaQ?oc=5",
+   "ts": 1794707700,
+   "when": "11-15 10:55",
+   "tag": "글로벌",
+   "query": "Nasdaq",
+   "region": "Global",
+   "summary": ""
   },
   {
    "title": "1년반 만 '최악의 한 주'…또 5%대 뚫은 美국채",
-   "source": "마켓인",
-   "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBCWTdNNVBST1VVTzlSdnhMT1lPcV9Ic2VMVVdnbkdtY01VV1RUVFBCRVhNbzIwcFduQUF5ck9pVGtFbVdLTFl2SmZ0MVRDOHd5eVdMODViWENGUjM3MXBTWHRhemh3d1RVZUNXQnJYbFUxRWs?oc=5",
-   "ts": 1794707341,
+   "source": "이데일리TV",
+   "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5jT2JJakNjYTI3X2JMd3F5UWFwVmVyTV9pQXBDU1Y1bHNYaDBYbHJIdkoxeWoteTJOLWlJdjFZdHMwMHJJQVB5WFlobXhwenN3OFNtZHJkcGJabjRZcndYTzhVWDJzTGRWYVIzbHNCakljUlRPcU9kaXRXVQ?oc=5",
+   "ts": 1794707340,
    "when": "11-15 10:49",
    "tag": "시장",
-   "query": "연준 금리"
+   "query": "연준 금리",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "title": "EXCLUSIVE: Anthropic IPO Could Follow SpaceX’s ‘Almost Perfectly’ Handled Offering, Market Expert Jay Woods Says",
+   "source": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOb3N3bXg2d29WY1Rfa3M4YUt1RkczOWJ2VnJGdzZKOFlGMV9Hc0ozY3MxOUtYVjdfcHZ6bW1pOW84UkgyLWJKN0xfaS1QcDd6MU5OUHh0Tmd2S0Y0b1AtWFFxNHM5a1lVYVFPcG9ENVloSXcta21BNzYtMWQxdkRRaVF1U1UwWTV1VkdyZElxX3hzaTU2ZDNCd2tkZ0lCblhBd1E?oc=5",
+   "ts": 1794706948,
+   "when": "11-15 10:42",
+   "tag": "글로벌",
+   "query": "stock market",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "The Semiconductor ETF Has Lost a Quarter of Its Value Since June. Buy It Now and Hold It Through 2030.",
+   "source": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNWXRpZGg2b2JpVEhZalpVTEkwZ0xVOFI5U0ZPck5JR2xGTERVeGhuWUpFVUp1OUFLN3BXTTNyM1pQQzRzQVZzVmhaMEhqZXNwaHJfdGVZOGRXZ0xQM3VZTmo2eUp0clBZUU9tUmZuWFlhZjJLWWF2b0o5TVphTGxBWGJaaGw5S3hjVlM0bmNVSFl6X0pjZ1ZqVkVBRTlUbFVKSEM4?oc=5",
+   "ts": 1794706440,
+   "when": "11-15 10:34",
+   "tag": "글로벌",
+   "query": "stock market",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "title": "Rally Shaky, But Many Stocks Are Setting Up. What Should You Do?",
+   "source": "Investor's Business Daily",
+   "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPQmoxeERFTVM2VG9DVVBnRERlZG4tcU0tOGFveC1mYlhEZEJydUZNM2ptaExRYU1LYXg3XzlUUHhtZ29JSF9OYlZtd0FSaF9mME9TYzhTWUVJT0lSSGVPSTMxZlhkTWhQMVp4MkRFVUdUZHRTNVd1bTdTckF2Q3VYdUxKY3kyaFpDaTZkQ1BVMHdrTUNQLUhnVVhPZzJIM3h6Tlg2THNnZU5NRDRvV3NFZUlta28wVXloNGhfNUFFTWdKR3Q3Vk05RnBhQXdWQkl3UTlGRC1RRGo2QU9rTmc?oc=5",
+   "ts": 1794706200,
+   "when": "11-15 10:30",
+   "tag": "글로벌",
+   "query": "stock market",
+   "region": "Global",
+   "summary": ""
   },
   {
    "title": "[미국증시 레이더] 뉴욕증시, 엔비디아 실적·앤트로픽 상장 주목…AMD 8%대 급락, 반도체주 흔들",
@@ -409,16 +781,20 @@
    "ts": 1794705000,
    "when": "11-15 10:10",
    "tag": "시장",
-   "query": "미국 증시"
+   "query": "미국 증시",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "\"코로나·금융위기 때보다 예측 어렵다\"…다시 치솟는 美국채금리",
-   "source": "마켓인",
-   "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFB6T2ROZWh3aTlpYlFLb0dNM1hodlpGU3lYQlV2WERjOFN5blFFNlVuTGJNLVRfeF9JNUlIbXl6UnE0RHpBazdpV040dXRaRnRwakRZN3lJWlc3Z09vYm1LdjhZTGR5VGJySlNUaEluRTMtWHc?oc=5",
+   "source": "이데일리",
+   "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOUkV5QlUyYklVTzhkTWdQYTBMbzA2RGRpR0VfUmZvOUlOeERpaTBXX3lYdW82V0dIR2NXRm1tajlxOFphRUN1RU9kZW1lYjBWb1V5VWFYM3FlaGNTWTFXZlFxNHJRUUsxMVRzUTkwcW1qRmNHeUJ5SGhFdFZ0Mnk1aw?oc=5",
    "ts": 1794704909,
    "when": "11-15 10:08",
    "tag": "시장",
-   "query": "연준 금리"
+   "query": "연준 금리",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "연준 관계자들이 매파적인 신호를 보내면서 월가는 3차례 연속 금리 인상을 예상하고 있다.",
@@ -427,7 +803,9 @@
    "ts": 1794704448,
    "when": "11-15 10:00",
    "tag": "시장",
-   "query": "연준 금리"
+   "query": "연준 금리",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "나스닥 23시간 거래 초읽기…韓증시 '머니무브' 촉각",
@@ -436,7 +814,9 @@
    "ts": 1794703440,
    "when": "11-15 09:44",
    "tag": "시장",
-   "query": "나스닥"
+   "query": "나스닥",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "수요 4배 늘어난 어셈블리AI, 스폿 서버로 추론비 70% 절감",
@@ -445,7 +825,9 @@
    "ts": 1794701854,
    "when": "11-15 09:17",
    "tag": "시장",
-   "query": "미국 증시"
+   "query": "미국 증시",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "비트코인(BTC) 6만 5,000달러 회복할까…고물가에 금리 인상 우려",
@@ -454,7 +836,9 @@
    "ts": 1794701419,
    "when": "11-15 09:10",
    "tag": "시장",
-   "query": "연준 금리"
+   "query": "연준 금리",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "미국 재무장관: 에너지 시장 충격 때문에 금리를 인상해서는 안 된다.",
@@ -463,7 +847,9 @@
    "ts": 1794700064,
    "when": "11-15 08:47",
    "tag": "시장",
-   "query": "연준 금리"
+   "query": "연준 금리",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "＂D-3주＂…＇시장 판 바뀐다＇ 서학개미 움직임 ＇촉각＇",
@@ -472,7 +858,9 @@
    "ts": 1794699300,
    "when": "11-15 08:35",
    "tag": "시장",
-   "query": "미국 증시"
+   "query": "미국 증시",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "[증시전망] 젠슨 황 없는 엔비디아 실적은...앤트로픽 IPO도 주목",
@@ -481,7 +869,9 @@
    "ts": 1794699000,
    "when": "11-15 08:30",
    "tag": "시장",
-   "query": "미국 증시"
+   "query": "미국 증시",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "코스피 4.56% 반등에도 불안한 증시…엔비디아發 AI 리스크 확산",
@@ -490,7 +880,9 @@
    "ts": 1794698830,
    "when": "11-15 08:27",
    "tag": "시장",
-   "query": "미국 증시"
+   "query": "미국 증시",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "[머니 확률표] 월러 '50bp 인상 검토' 발언…연준 12월 빅스텝 확률 9%",
@@ -499,7 +891,9 @@
    "ts": 1794697472,
    "when": "11-15 08:04",
    "tag": "시장",
-   "query": "미국 증시"
+   "query": "미국 증시",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "비트코인 6만5천 달러로 하락, 연준 금리 인상 거의 확실",
@@ -508,7 +902,9 @@
    "ts": 1794697005,
    "when": "11-15 07:56",
    "tag": "시장",
-   "query": "연준 금리"
+   "query": "연준 금리",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "미국증시 주간 전망, 엔비디아 실적보다 중요한 ‘투자 지속성’",
@@ -517,7 +913,9 @@
    "ts": 1794696994,
    "when": "11-15 07:56",
    "tag": "시장",
-   "query": "미국 증시"
+   "query": "미국 증시",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "미국 주식 오전 11시부터 거래…투자금 이동엔 시장 흐름 변수 : 금융",
@@ -526,7 +924,9 @@
    "ts": 1794693540,
    "when": "11-15 06:59",
    "tag": "시장",
-   "query": "나스닥"
+   "query": "나스닥",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "보스턴 연은 총재 “인플레이션 잡으려면 ‘꾸준한 금리 인상’ 지속해야”",
@@ -535,7 +935,9 @@
    "ts": 1794692563,
    "when": "11-15 06:42",
    "tag": "시장",
-   "query": "연준 금리"
+   "query": "연준 금리",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "나스닥 23시간 거래 D-3주…\"美투자 확대\" \"국내 영향 제한적\"",
@@ -544,7 +946,9 @@
    "ts": 1794691500,
    "when": "11-15 06:25",
    "tag": "시장",
-   "query": "나스닥"
+   "query": "나스닥",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "'젠슨황 스캔들'에 짓눌린 증시…엔비디아 실적·앤트로픽 상장 주시",
@@ -553,7 +957,9 @@
    "ts": 1794690046,
    "when": "11-15 06:00",
    "tag": "시장",
-   "query": "나스닥"
+   "query": "나스닥",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "[젠슨 황 스캔들] 서학개미, 일주일간 엔비디아 주식 1천억 원어치 폭풍 매수",
@@ -562,7 +968,9 @@
    "ts": 1794690000,
    "when": "11-15 06:00",
    "tag": "시장",
-   "query": "미국 증시"
+   "query": "미국 증시",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "'빅스텝'까지 거론되는 美 연준…한은, 내주 금리 올리나",
@@ -571,7 +979,9 @@
    "ts": 1794690000,
    "when": "11-15 06:00",
    "tag": "시장",
-   "query": "연준 금리"
+   "query": "연준 금리",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "미국 12월 금리 인상 확률 88.5%…비트코인 6만5000달러 추락",
@@ -580,7 +990,9 @@
    "ts": 1794688633,
    "when": "11-15 05:37",
    "tag": "시장",
-   "query": "연준 금리"
+   "query": "연준 금리",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "미국 증시 매도세는 끝났는가? S&P 500과 반도체주의 2027년 전망이 엇갈리며 월가 AI 버블 논쟁",
@@ -589,7 +1001,9 @@
    "ts": 1794683945,
    "when": "11-15 04:19",
    "tag": "시장",
-   "query": "미국 증시"
+   "query": "미국 증시",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "비트코인, 생산자물가 급등에 6만 9,000달러 하회…코인베이스는 금리 인상 경계",
@@ -598,7 +1012,9 @@
    "ts": 1794682980,
    "when": "11-15 04:03",
    "tag": "시장",
-   "query": "연준 금리"
+   "query": "연준 금리",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "오늘 노동절로 미국 증시 하루 종일 휴장: 투자자가 알아야 할 사항",
@@ -607,61 +1023,9 @@
    "ts": 1794680158,
    "when": "11-15 03:15",
    "tag": "시장",
-   "query": "미국 증시"
-  },
-  {
-   "title": "美 연준 추가 금리 인상론 확산… 속도 놓고 신중론도",
-   "source": "글로벌이코노믹",
-   "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxORGhveHdzcGs2QVVuRG1Ud2llcmt0Tk1xZGxpY1V6ZHRwaENkR0RhUGpiYzJjTDFVS1FmNDl0eVBXV21JQTBRSjZlLTRpYnhMUXh3TmZnbjZ4OHU5MVN3YnNkT0xxRWxzZFZRZm8yNkJsaS1reVNJUE5pVEVHRnRyUmNfWkJEcEk?oc=5",
-   "ts": 1794679200,
-   "when": "11-15 03:00",
-   "tag": "시장",
-   "query": "연준 금리"
-  },
-  {
-   "title": "보스턴 연은 콜린스, 양방향 경제 위험 속 점진적 금리 인상 지지 - 뉴스 및 통계",
-   "source": "IndexBox",
-   "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPVXZGQ1ZYRlZKRkRGVm9DU3R0dHlkODNVQktwbEZfZW40ODJEVG9TdUZiUkpPTFVaWElfMW0wdTFzYzhFRVRibFBzX3I1WnVmcld1MzNGczE1c1d2YXd1dTlWbGpSUDZ4M0FiTmFaN0xBTjlLVERBSUlrcHYwek80bXlLTTN1em5kTzBDSGw0MnRINzZ0MFFsUkd1RHE3QnhVWlZjd3JR?oc=5",
-   "ts": 1794675640,
-   "when": "11-15 02:00",
-   "tag": "시장",
-   "query": "연준 금리"
-  },
-  {
-   "title": "연준이 금리 인상을 저울질하는 가운데 인플레이션이 2027년 핵심 경제 리스크로 부상 - 뉴스 및 통계",
-   "source": "IndexBox",
-   "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQOUFVNTg0SjJJVEJCbUtXaEVfbUtjWUlPX3dtbHR4bE8tSHBrYWpYdGc0UVhsXzA3cTN1SjZFdG1FdUQ0RDR0ZVpTSzZKS1J3WTVvN1VtaS1vTzMwM3BLYUo1S1JhY0EwQWdFbmJfMlhNbmJNenc1V0hiZVhOem5IY09ETmNpTlZndmxEUU9kdFl4QQ?oc=5",
-   "ts": 1794675629,
-   "when": "11-15 02:00",
-   "tag": "시장",
-   "query": "연준 금리"
-  },
-  {
-   "title": "연준 콜린스 총재, 점진적 금리 인상 지지…인플레이션·고용 리스크 양면적",
-   "source": "Investing.com 한국어",
-   "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1TcXVJaFh2b1dBVnVHS0p0a3VzQmpCUkw0eHExVkhoOHRPTmdqRnJHcVJwUU81WlZ4WmJsWW1kTnhEZ0JCYURFVGJ2Vkt5VTk4RW1YZDdqMVQ5NkxhWFNvbXc4UXlMSTg?oc=5",
-   "ts": 1794673380,
-   "when": "11-15 01:23",
-   "tag": "시장",
-   "query": "연준 금리"
-  },
-  {
-   "title": "월가 IB가 꼽은 변동장 피난처…AT&T 등 5종목[월가 업&다운]",
-   "source": "한국경제",
-   "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9vODVxVTZaT0E4YXpjbjhBRTNmZHR6SGl0ZzRCWDNsekd5TnRQdS1PNWxPM1p0Y3dNNlFFdFM2azQ3YVdMSHJ3M1VJUUlnTHBJQzliS1BITmpVdw?oc=5",
-   "ts": 1794669644,
-   "when": "11-15 00:20",
-   "tag": "시장",
-   "query": "미국 증시"
-  },
-  {
-   "title": "증시 운명 가를 '격동의 한 주' 시작된다 [월가 업&다운]",
-   "source": "한국경제",
-   "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1KWnk3cDlxbE9kSnFRYUhWZTdxTG15WlJGcVlrenJzcGEzNDNMVHlHcUMtOHJGSDVFRTVuTmJNYUwwR3haSDNEWFdJMkxLbEZCOUg4d193NUhmZw?oc=5",
-   "ts": 1794669073,
-   "when": "11-15 00:11",
-   "tag": "시장",
-   "query": "미국 증시"
+   "query": "미국 증시",
+   "region": "KR",
+   "summary": ""
   },
   {
    "title": "S&P 500, Dow, Nasdaq End Lower Amid Nvidia Turmoil, But Record Best Week Since August —  SPCX, NVDA, ARM, AZN In Focus",
@@ -670,7 +1034,9 @@
    "ts": 1794613049,
    "when": "11-14 08:37",
    "tag": "ETF",
-   "query": "TQQQ,UPRO,QQQ,^VIX"
+   "query": "TQQQ,UPRO,QQQ,^VIX",
+   "region": "Global",
+   "summary": "Nvidia saw its worst week since April last year after Jensen Huang stepped down as CEO, and its board is looking for candidates."
   },
   {
    "title": "What B. Riley and TD Cowen See in Strategy (MSTR)",
@@ -679,7 +1045,9 @@
    "ts": 1794605631,
    "when": "11-14 06:33",
    "tag": "ETF",
-   "query": "TQQQ,UPRO,QQQ,^VIX"
+   "query": "TQQQ,UPRO,QQQ,^VIX",
+   "region": "Global",
+   "summary": "We just published a list of the 10 Multibagger Stocks to Buy According to Wall Street and Strategy (NASDAQ:MSTR) ranked 6th on this list. Wall Street’s AI trade just had one of its worst weeks in years. Politics and inflation hit it at the same time. The Nasdaq Composite posted its deepest one-day drop since […]"
   },
   {
    "title": "The Risk Morgan Stanley Watches at Seagate (STX)",
@@ -688,7 +1056,9 @@
    "ts": 1794605611,
    "when": "11-14 06:33",
    "tag": "ETF",
-   "query": "TQQQ,UPRO,QQQ,^VIX"
+   "query": "TQQQ,UPRO,QQQ,^VIX",
+   "region": "Global",
+   "summary": "We just published a list of the 10 Multibagger Stocks to Buy According to Wall Street and Seagate (NASDAQ:STX) ranked 7th on this list. Wall Street’s AI trade just had one of its worst weeks in years. Politics and inflation hit it at the same time. The Nasdaq Composite posted its deepest one-day drop since […]"
   },
   {
    "title": "Can Flex (FLEX) Pull Off Its Plan for Its Fastest-Growing Unit?",
@@ -697,7 +1067,9 @@
    "ts": 1794605589,
    "when": "11-14 06:33",
    "tag": "ETF",
-   "query": "TQQQ,UPRO,QQQ,^VIX"
+   "query": "TQQQ,UPRO,QQQ,^VIX",
+   "region": "Global",
+   "summary": "We just published a list of the 10 Multibagger Stocks to Buy According to Wall Street and Flex (NASDAQ:FLEX) ranked 8th on this list. Wall Street’s AI trade just had one of its worst weeks in years. Politics and inflation hit it at the same time. The Nasdaq Composite posted its deepest one-day drop since […]"
   },
   {
    "title": "Why Management Is Cautious About One Nebius (NBIS) Number",
@@ -706,7 +1078,9 @@
    "ts": 1794605574,
    "when": "11-14 06:32",
    "tag": "ETF",
-   "query": "TQQQ,UPRO,QQQ,^VIX"
+   "query": "TQQQ,UPRO,QQQ,^VIX",
+   "region": "Global",
+   "summary": "We just published a list of the 10 Multibagger Stocks to Buy According to Wall Street and Nebius (NASDAQ:NBIS) ranked 9th on this list. Wall Street’s AI trade just had one of its worst weeks in years. Politics and inflation hit it at the same time. The Nasdaq Composite posted its deepest one-day drop since […]"
   },
   {
    "title": "What Rosenblatt Securities Thinks the Market Misses on SK Hynix (SKHY)",
@@ -715,7 +1089,9 @@
    "ts": 1794605555,
    "when": "11-14 06:32",
    "tag": "ETF",
-   "query": "TQQQ,UPRO,QQQ,^VIX"
+   "query": "TQQQ,UPRO,QQQ,^VIX",
+   "region": "Global",
+   "summary": "We just published a list of the 10 Multibagger Stocks to Buy According to Wall Street and SK Hynix (NASDAQ:SKHY) ranked 10th on this list. Wall Street’s AI trade just had one of its worst weeks in years. Politics and inflation hit it at the same time. The Nasdaq Composite posted its deepest one-day drop […]"
   },
   {
    "title": "5 Multibagger Stocks to Buy According to Wall Street",
@@ -724,7 +1100,9 @@
    "ts": 1794605526,
    "when": "11-14 06:32",
    "tag": "ETF",
-   "query": "TQQQ,UPRO,QQQ,^VIX"
+   "query": "TQQQ,UPRO,QQQ,^VIX",
+   "region": "Global",
+   "summary": "Wall Street’s AI trade just had one of its worst weeks in years. Politics and inflation hit it at the same time. The Nasdaq Composite posted its deepest one-day drop since April 2025 last week, after Democrats swept the midterm elections and investors began weighing tougher scrutiny of AI and limits on data center construction. […]"
   },
   {
    "title": "The Stock Market's Early Rally Fades as Wholesale Inflation Hits 6.5%",
@@ -733,7 +1111,9 @@
    "ts": 1794595915,
    "when": "11-14 03:51",
    "tag": "ETF",
-   "query": "TQQQ,UPRO,QQQ,^VIX"
+   "query": "TQQQ,UPRO,QQQ,^VIX",
+   "region": "Global",
+   "summary": "A cooler monthly reading offers little relief for rate fears."
   }
  ],
  "note": "헤드라인은 흐름 파악용 참고 자료이며, 코인·주식 봇은 뉴스로 매매하지 않습니다."

@@ -120,7 +120,7 @@ tr.pick td:first-child::after{content:" 매수";font-size:.68rem;color:var(--acc
 [hidden]{display:none !important}
 .tabs{display:flex;gap:6px;width:max-content;max-width:100%}
 .tabs button{appearance:none;border:1px solid transparent;color:var(--muted);font:600 .88rem var(--f-body);
-  padding:4px 30px;border-radius:8px;cursor:pointer;min-height:30px;opacity:.75}
+  padding:4px 24px;border-radius:8px;cursor:pointer;min-height:30px;opacity:.75}
 #tabBtnCoin{background:var(--t-coin)} #tabBtnStock{background:var(--t-stock)} #tabBtnNews{background:var(--t-news)}
 .tabs button:hover{opacity:1}
 .tabs button[aria-selected="true"]{color:var(--ink);opacity:1;border-color:var(--t-edge);box-shadow:0 1px 3px rgba(0,0,0,.10)}
@@ -139,7 +139,18 @@ footer{font-size:.75rem;color:var(--muted)}
   .seg button{background:none;border:0;padding:3px 18px;font:inherit;font-size:.85rem;color:var(--muted);cursor:pointer}
   .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
   .newslist{display:flex;flex-direction:column}
-  .newsitem{display:block;padding:10px 2px;border-bottom:1px solid var(--line);color:inherit;text-decoration:none}
+  .newsitem{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);
+    padding:10px 2px;color:inherit;font:inherit;cursor:pointer}
+  #newsModal{border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--ink);
+    width:min(560px,calc(100vw - 32px));padding:16px 18px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+  #newsModal::backdrop{background:rgba(10,12,18,.55)}
+  .nmhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0}
+  .nmclose{background:none;border:0;color:var(--muted);font-size:1.1rem;cursor:pointer;padding:4px 8px}
+  #nmTitle{margin:8px 0 10px;font-size:1.05rem;line-height:1.45;overflow-wrap:anywhere}
+  #nmBody{margin:0 0 16px;line-height:1.6;overflow-wrap:anywhere}
+  #nmBody.muted{color:var(--muted);font-size:.9rem}
+  .nmfoot{display:flex;justify-content:flex-end}
+  .nmbtn{background:var(--ink);color:var(--bg);text-decoration:none;padding:7px 18px;border-radius:8px;font-weight:600;font-size:.9rem}
   .newsitem:hover .ntitle{text-decoration:underline}
   .nmeta{display:inline-block;font-size:.75rem;color:var(--muted);margin-right:6px}
   .ntitle{display:block;margin-top:2px;line-height:1.45;overflow-wrap:anywhere}
@@ -285,7 +296,13 @@ footer{font-size:.75rem;color:var(--muted)}
       <h2>주식 뉴스</h2>
       <div class="newslist" id="nStock"><div class="empty">뉴스를 불러오는 중입니다.</div></div>
     </section>
-    <footer>Google 뉴스(한국어)와 Yahoo Finance 헤드라인을 10분마다 모읍니다. 흐름 파악용 참고 자료이며, 코인·주식 봇은 뉴스로 매매하지 않습니다.</footer>
+    <dialog id="newsModal" aria-labelledby="nmTitle">
+      <form method="dialog" class="nmhead"><span class="nmeta num" id="nmMeta"></span><button class="nmclose" aria-label="닫기">✕</button></form>
+      <h3 id="nmTitle"></h3>
+      <p id="nmBody"></p>
+      <div class="nmfoot"><a id="nmLink" class="nmbtn" target="_blank" rel="noopener noreferrer">원문 보기 ↗</a></div>
+    </dialog>
+    <footer>Google 뉴스(한국어·미국 영어판)와 Yahoo Finance 헤드라인을 10분마다 모읍니다. 흐름 파악용 참고 자료이며, 코인·주식 봇은 뉴스로 매매하지 않습니다.</footer>
   </div>
   <div id="coinFooter"><footer>실제 주문은 넣지 않는 모의매매입니다. 봇이 1분마다 Upbit 시세를 읽고, Claude가 그 결과를 이 페이지로 보냅니다. 투자 권유가 아닙니다.</footer></div>
 </div>
@@ -317,13 +334,28 @@ async function loadNews() {
   }
   renderNews();
 }
+let NEWS_SHOWN = [];
 function newsItem(x) {
+  const i = NEWS_SHOWN.push(x) - 1;
   const tag = x.tag === "시장" ? "" : `<span class="chip">${esc(x.tag)}</span>`;
-  return `<a class="newsitem" href="${esc(x.link)}" target="_blank" rel="noopener noreferrer">
+  return `<button type="button" class="newsitem" data-n="${i}">
     <span class="nmeta num">${esc(x.when)}${x.source ? " · " + esc(x.source) : ""}</span>${tag}
-    <span class="ntitle">${esc(x.title)}</span></a>`;
+    <span class="ntitle">${esc(x.title)}</span></button>`;
 }
+function openNews(x) {
+  $("nmTitle").textContent = x.title;
+  $("nmMeta").textContent = [x.when, x.source, x.region === "Global" ? "해외" : "국내"].filter(Boolean).join(" · ");
+  $("nmBody").textContent = x.summary || "이 매체는 요약을 제공하지 않습니다. 아래 버튼으로 원문을 열어 읽어 주세요.";
+  $("nmBody").classList.toggle("muted", !x.summary);
+  $("nmLink").href = x.link;
+  $("newsModal").showModal();
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest(".newsitem");
+  if (b) openNews(NEWS_SHOWN[+b.dataset.n]);
+});
 function renderNews() {
+  NEWS_SHOWN = [];
   if (!NEWS) { $("nCoin").innerHTML = $("nStock").innerHTML = `<div class="empty">뉴스를 아직 받지 못했습니다.</div>`; return; }
   $("nUpdated").textContent = NEWS.updated ? "갱신 " + NEWS.updated : "";
   const coin = NEWS.coin || [], stock = NEWS.stock || [], w = coin.filter(x => x.watched);
