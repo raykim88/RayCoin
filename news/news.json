@@ -1,6 +1,57 @@
 {
- "updated": "2026-11-15 12:07 KST",
+ "updated": "2026-11-15 12:38 KST",
  "coin": [
+  {
+   "id": "62f334b1423c",
+   "title": "Crypto Sheds $571 Billion in Ten Days as Losses Deepen",
+   "source": "Cryptonews.net",
+   "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBKbFc0eHZGNzJZTlZpQ1FXNGVwclpIZEl1bWRqaVpfYUlBRW9QNlBhMWJHekcwTS1zRWNTVi1vWGF0cnBlYk5acmMtaDlmNldfZXZzWjYzSUlaaGc?oc=5",
+   "ts": 1794713365,
+   "when": "11-15 12:29",
+   "tag": "글로벌",
+   "query": "bitcoin",
+   "region": "Global",
+   "summary": "",
+   "title_ko": "코인 시장, 10일 만에 시가총액 5710억 달러 증발…손실 확대",
+   "summary_ko": "열흘 사이 코인 시장 전체 시가총액이 5710억 달러 줄었고 하락이 깊어지고 있다는 내용입니다.",
+   "basis": "제목 기준"
+  },
+  {
+   "id": "4c8cfa0157d8",
+   "title": "코인원 \"외주업체 해킹 당해 고객 개인정보 유출\"",
+   "source": "블루밍비트",
+   "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE1ESzRCQ0h2aVJPZmxmLWs1SmdsWnNvVDVFY21KVF9ISnVJZ1JJcjF3NjAwdXNVUUU3Wk5Ja2dQc3NmV2pyTFZJVC1rWGNGLTdw?oc=5",
+   "ts": 1794712540,
+   "when": "11-15 12:15",
+   "tag": "시장",
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "id": "8417b39ae259",
+   "title": "엑스알피, 2024년 11월 이후 최저가로 하락",
+   "source": "블루밍비트",
+   "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE43OW42XzF0LUpHSHZYTnNGUkNDYXR5YkVrdUdWWWxUYWF0NDlsU0diRE10dUNsVW0yeWRZd0NtRkJEaFZkeS02Z2lhSndqTlQz?oc=5",
+   "ts": 1794711916,
+   "when": "11-15 12:05",
+   "tag": "시장",
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
+  },
+  {
+   "id": "adb7618b2a2e",
+   "title": "체인링크(LINK) 9달러대 붕괴…7.71% 급락에도 무디스 호재, 알트코인 반등 가능성은",
+   "source": "CBC뉴스",
+   "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE43RnVrSU5RUEstTWw4X3hrdmkzWWRjT3hJdGFmbWUwZ0xvTUhkSVFYdUNQenh4OEVReXFwMlF0a2F0U2h6ZktYTFBMb1RXM0VhTkdxSDNoaDRoZ0N1Q0pIclo4WVhubXlK?oc=5",
+   "ts": 1794711900,
+   "when": "11-15 12:05",
+   "tag": "시장",
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
+  },
   {
    "id": "0f77436840e2",
    "title": "Bitcoin Tops $65,000",
@@ -14,36 +65,6 @@
    "summary": "",
    "title_ko": "비트코인, 6만5000달러 넘어서",
    "summary_ko": "급락 뒤 비트코인이 6만5000달러 위로 반등했다는 시세 소식입니다.",
-   "basis": "제목 기준"
-  },
-  {
-   "id": "903fd2c7a602",
-   "title": "Bitcoin Selloff Deepens As Bitwise CIO Warns Of ‘Wilderness’ Ahead, Whales Buy The Dip – But $57K Remains In Sight",
-   "source": "Yahoo Finance",
-   "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPWXBES09DcFc1UDFJZ0Z3NDVFcDVDWldRVlVZYjR1XzhTOEdwYUJpbXctU3MzRzRjb1FCNWtwbVpEd0JMYlJocjB5NGVta3dxdGJnWWMtSi1pSzRJR2tKSXhOZE1HWmtFWjZBUVFRSzFWTnFQTUZnbjRVOVRtVkRFQVM1WWJFazd5RU1TMmxiMnhKTzV6aDZVbWY0RmdRUGZUaUE?oc=5",
-   "ts": 1794711743,
-   "when": "11-15 12:02",
-   "tag": "글로벌",
-   "query": "crypto market",
-   "region": "Global",
-   "summary": "",
-   "title_ko": "비트코인 매도세 심화…비트와이즈 CIO '험난한 시기' 경고, 고래는 저가 매수, 5만7000달러 가능성도",
-   "summary_ko": "비트와이즈 투자책임자가 긴 침체를 경고하는 사이 대형 투자자들은 저가 매수에 나섰고, 5만7000달러까지 밀릴 수 있다는 전망도 나옵니다.",
-   "basis": "제목 기준"
-  },
-  {
-   "id": "47dad4d4d7ef",
-   "title": "비트코인, 6만5000달러 돌파",
-   "source": "블루밍비트",
-   "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE40U2xjWlhwSnh2WmV6b2V5U2F6WkZ5MS12a0ljNU9DS21QYTNQRmVzWUJtVXNmeHlUNHRWa3BJTGMza0c1ZVpuSkV3SHoxREZH?oc=5",
-   "ts": 1794711738,
-   "when": "11-15 12:02",
-   "tag": "시장",
-   "query": "비트코인",
-   "region": "KR",
-   "summary": "",
-   "title_ko": "비트코인, 6만5000달러 돌파",
-   "summary_ko": "비트코인이 6만5000달러를 다시 넘어섰다는 시세 소식입니다.",
    "basis": "제목 기준"
   },
   {
@@ -63,6 +84,18 @@
    "basis": "제목 기준"
   },
   {
+   "id": "5348f6e1aa74",
+   "title": "비트코인 6만5000달러 돌파",
+   "source": "이코노미블록",
+   "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE9uOXI2cDFkQ1ZHMmdqNzJlck1MN3BWREs1QWF3ZGh0WEZZNkZnSDhiNGx3R0o5bDZPSk4ycXlJY1p0ZDBIUER4R1VQaWg?oc=5",
+   "ts": 1794711660,
+   "when": "11-15 12:01",
+   "tag": "시장",
+   "query": "업비트 코인",
+   "region": "KR",
+   "summary": ""
+  },
+  {
    "id": "740605556355",
    "title": "Bitcoin briefly surpasses $64,000 amid $141M cr...",
    "source": "Pluang",
@@ -80,7 +113,7 @@
   {
    "id": "ac3e7497fba2",
    "title": "Bitcoin Falls to 88.89 Million Won as Nvidia Shock, Rates, ETF Outflows Deliver Triple Blow, Breaking 90 Million Won Floor",
-   "source": "finance.biggo.com",
+   "source": "BigGo Finance",
    "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9hUzhLcmFTUDlyN0hLR0hzUEUxNk43ZVlpRU1BQ2xZN3REUk5EWWd6Tlh6MVZfSG9fN2xIZFZzLWw0OEdwbGlfS2d1Z0cwWWJzZ0phUWk0eXRKRVhxaGFTQ3BBRnh4a1dQeTlMbm1HeF9HRTBPUnc?oc=5",
    "ts": 1794711300,
    "when": "11-15 11:55",
@@ -105,6 +138,21 @@
    "summary": "",
    "title_ko": "XRP, ETF 자금 유출 압박 속 코인 시장 하락 이어가",
    "summary_ko": "ETF에서 돈이 빠져나가면서 XRP를 포함한 코인 시장 전반의 하락이 계속되고 있다는 소식입니다.",
+   "basis": "제목 기준"
+  },
+  {
+   "id": "903fd2c7a602",
+   "title": "Bitcoin Selloff Deepens As Bitwise CIO Warns Of ‘Wilderness’ Ahead, Whales Buy The Dip – But $57K Remains In Sight",
+   "source": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPWXBES09DcFc1UDFJZ0Z3NDVFcDVDWldRVlVZYjR1XzhTOEdwYUJpbXctU3MzRzRjb1FCNWtwbVpEd0JMYlJocjB5NGVta3dxdGJnWWMtSi1pSzRJR2tKSXhOZE1HWmtFWjZBUVFRSzFWTnFQTUZnbjRVOVRtVkRFQVM1WWJFazd5RU1TMmxiMnhKTzV6aDZVbWY0RmdRUGZUaUE?oc=5",
+   "ts": 1794711060,
+   "when": "11-15 11:51",
+   "tag": "글로벌",
+   "query": "bitcoin",
+   "region": "Global",
+   "summary": "",
+   "title_ko": "비트코인 매도세 심화…비트와이즈 CIO '험난한 시기' 경고, 고래는 저가 매수, 5만7000달러 가능성도",
+   "summary_ko": "비트와이즈 투자책임자가 긴 침체를 경고하는 사이 대형 투자자들은 저가 매수에 나섰고, 5만7000달러까지 밀릴 수 있다는 전망도 나옵니다.",
    "basis": "제목 기준"
   },
   {
@@ -198,6 +246,18 @@
    "basis": "제목 기준"
   },
   {
+   "id": "404df34053bd",
+   "title": "\"당하고 또 당했다\" 가상자산업계 5번째 해킹…코인원 수탁업체 뚫려",
+   "source": "뉴스1",
+   "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9hM0JBbVhpanNDWUZyN3l6VmZuSjMwcWdqRFF2UjBaemhPQ21wUkpCMkx3WWU5cGo0NHlaTjZsVjZCMmRuWnltQU45Rkl6eWlPenJvdHZqUll6U1pWMUtiQm5MX3R1Zw?oc=5",
+   "ts": 1794710337,
+   "when": "11-15 11:38",
+   "tag": "시장",
+   "query": "비트코인",
+   "region": "KR",
+   "summary": ""
+  },
+  {
    "id": "9aea439e4a83",
    "title": "비트코인 9000만원 돌파",
    "source": "이코노미블록",
@@ -225,21 +285,6 @@
    "summary": "",
    "title_ko": "비트마인, 이더리움 평가손실 13조원 육박",
    "summary_ko": "이더리움을 대량 보유한 비트마인의 평가손실이 가격 하락으로 13조 원 가까이 불어났다는 소식입니다.",
-   "basis": "제목 기준"
-  },
-  {
-   "id": "62f334b1423c",
-   "title": "Crypto Sheds $571 Billion in Ten Days as Losses Deepen",
-   "source": "The Defiant",
-   "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQcUtHNzNBUUROY21pNExTVW5HY1AtcVViOEFZMjFPNFBYZWI3UHVOaHQtc1dVQmtkZnJnaGlzVDdlSWdFT2g1NnNZSEFRdDVyMjZwUFVXNXlvMFp1YWhaeFNDSGF6X3VoZHd1Sl91X3hpeDg2c0lwV2lXMWwxMUhtRG9fTXF6RlRFMW9VTGRaVGpyUQ?oc=5",
-   "ts": 1794710079,
-   "when": "11-15 11:34",
-   "tag": "글로벌",
-   "query": "bitcoin",
-   "region": "Global",
-   "summary": "",
-   "title_ko": "코인 시장, 10일 만에 시가총액 5710억 달러 증발…손실 확대",
-   "summary_ko": "열흘 사이 코인 시장 전체 시가총액이 5710억 달러 줄었고 하락이 깊어지고 있다는 내용입니다.",
    "basis": "제목 기준"
   },
   {
@@ -318,21 +363,6 @@
    "basis": "제목 기준"
   },
   {
-   "id": "dc788529d1e2",
-   "title": "[AI 오피스] 디아, 엑셀·워드·파워포인트 읽는다…신규 맥 이용자부터 유료",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE1rVDRhSEdiUmFscGN5d0VuVmVFMVdTOUZwWUlpek13M05kcFB6dGpSQ1FYRE9SNW1NbGJWSnFMQjBTWk9lOXZpdGp3?oc=5",
-   "ts": 1794709004,
-   "when": "11-15 11:16",
-   "tag": "시장",
-   "query": "비트코인",
-   "region": "KR",
-   "summary": "",
-   "title_ko": "[AI 오피스] 디아, 엑셀·워드·파워포인트 읽는다…신규 맥 이용자부터 유료",
-   "summary_ko": "AI 브라우저 디아가 오피스 문서를 읽는 기능을 추가했다는 IT 소식으로, 시장과 직접 관련은 적습니다.",
-   "basis": "제목 기준"
-  },
-  {
    "id": "abc37b6506f0",
    "title": "Bitcoin Regains $64,000",
    "source": "bloomingbit",
@@ -375,21 +405,6 @@
    "summary": "",
    "title_ko": "이더리움·솔라나 등 코인 시장 폭락",
    "summary_ko": "이더리움과 솔라나를 비롯한 주요 코인이 함께 크게 떨어졌다는 소식입니다.",
-   "basis": "제목 기준"
-  },
-  {
-   "id": "276e296e79da",
-   "title": "Bitcoin may have reached its all-time high, Peter Brandt suggests",
-   "source": "Traders Union",
-   "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNWnFnMWM3MWpqYk5rMVI5N3Z0NGlLa1VySnI4bHNOWl9vZkc4SzdEdFdTOEtxY09mZlRmT01KLTN2NWhrX2lJTlNnQkJDUWxsREtLaVFCTlhnOHdyLXVQeU9TSUF6a1NkeVBfd2EyOUZHUERsR0xGLUg4VU5ZdnB1MWJ1Q2hhZWJldHNnME1R?oc=5",
-   "ts": 1794708613,
-   "when": "11-15 11:10",
-   "tag": "글로벌",
-   "query": "bitcoin",
-   "region": "Global",
-   "summary": "",
-   "title_ko": "피터 브란트 \"비트코인, 이미 사상 최고가 찍었을 수도\"",
-   "summary_ko": "유명 트레이더 피터 브란트가 이번 사이클의 고점이 이미 지났을 가능성을 제기했다는 내용입니다.",
    "basis": "제목 기준"
   },
   {
@@ -440,7 +455,7 @@
   {
    "id": "d1443df328e6",
    "title": "Bitcoin Falls Below $64,000 as ¥170 Billion ETF Outflows and ¥110 Billion in Long Liquidations Weigh on Prices",
-   "source": "finance.biggo.com",
+   "source": "BigGo Finance",
    "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1McXFNY2ExRk81XzdXa0hyV2RCN2cyUU0yTFk5OWxLbUhsb3VibVl0OWhqUHByZHFmaXlMeTNpVS1WTjFIRDFIVl9NU3lhNFAtTS1PaS1BU2RDejV5MnNyYmVxSmp1YXRCcklfMXNvSmx1Ynd1VGc?oc=5",
    "ts": 1794708300,
    "when": "11-15 11:05",
@@ -465,6 +480,21 @@
    "summary": "",
    "title_ko": "비트코인 6만2000달러대 추락…매수 수요도 19개월 만에 최저",
    "summary_ko": "비트코인이 6만2000달러대로 떨어졌고 사려는 수요도 1년 7개월 만에 가장 약하다는 분석입니다.",
+   "basis": "제목 기준"
+  },
+  {
+   "id": "00a44dcdba6d",
+   "title": "Bitcoin Slips Below $66,000 as Weekend Liquidations Top $1 Billion",
+   "source": "BigGo Finance",
+   "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9rdUJ3T0U2b2lnSkhva1AwbE5SVGl4Z3hmX1NZb1RqWjZYVk1uZjJvSzlUeWl6Q0dQTE14MExxNENKOFVXbmtVUWctdWlhRU02eVV0QWtqclZYQkVRMFYtc2UtbmhaRDV4V3ZrWC1WdzAwLU5LQXc?oc=5",
+   "ts": 1794707700,
+   "when": "11-15 10:55",
+   "tag": "글로벌",
+   "query": "bitcoin",
+   "region": "Global",
+   "summary": "",
+   "title_ko": "비트코인 6만6000달러 아래로…주말 청산 10억 달러 넘어",
+   "summary_ko": "주말 사이 레버리지 포지션 청산이 10억 달러를 넘기며 비트코인이 6만6000달러 아래로 밀렸습니다.",
    "basis": "제목 기준"
   },
   {
@@ -543,49 +573,17 @@
    "basis": "제목 기준"
   },
   {
-   "id": "ef6389ff99b1",
-   "title": "이더리움 가격이 10% 하락",
-   "source": "Investing.com 한국어",
-   "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9lb1h6Vjl3dTc4Vmk5YVhveDFCRVZiZ0VmeV9RZVFicEE1M1daalFVUERhXzVubnp6dEdGU2oxMXFybE9HS0NlZ0dlc1pQNldubVJ6cHFJbml6WTZHbG5iNlJWSEpiRUxsZFRDSnlraHAyUDg?oc=5",
-   "ts": 1794704640,
-   "when": "11-15 10:04",
-   "tag": "시장",
-   "query": "비트코인",
+   "id": "3a8738ad1d8e",
+   "title": "[아침코인] 11월 15일 NFT(에이아이앤에프티) 50%↑ BOB(비오비) 26%↑ 등",
+   "source": "디지털애셋",
+   "link": "https://news.google.com/rss/articles/CBMickFVX3lxTFBkWlVaWi0wSENqQkRJMmdTTGdadVMtV2E0bFcybDJoYTI4VHFCamFfekJIV0V0dHRtUmlpOWlhWXlBZ3hPM2xHaVRzZmJ5LWJLczMxbGpMWWRzd0pEQTNGeDBkU284SWRhVmZvN0ZmSWhGUQ?oc=5",
+   "ts": 1794699000,
+   "when": "11-15 08:30",
+   "tag": "SANC",
+   "query": "생텀",
    "region": "KR",
    "summary": "",
-   "title_ko": "이더리움 가격 10% 하락",
-   "summary_ko": "이더리움이 하루 사이 10% 떨어졌다는 시세 소식입니다.",
-   "basis": "제목 기준"
-  },
-  {
-   "id": "60f5ba17ab0f",
-   "title": "수수료 무료 앞세운 중소형 가상자산 거래소 '약진'…점유율 경쟁 치열",
-   "source": "한국아이닷컴",
-   "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5qTDhkbnlzdjY2LWw5RzIydC1wZEpaSFpQb3l3eDlCOHhoRVNPbVRzb1h2S2x2MFc4bVhhZWROcEI5N0hDR3JRUEFqdE10cXhTMjRuVC1mazdpdHRGdXl1UWJSSmRkS0h1QklFY0dwONIBb0FVX3lxTE5qTDhkbnlzdjY2LWw5RzIydC1wZEpaSFpQb3l3eDlCOHhoRVNPbVRzb1h2S2x2MFc4bVhhZWROcEI5N0hDR3JRUEFqdE10cXhTMjRuVC1mazdpdHRGdXl1UWJSSmRkS0h1QklFY0dwOA?oc=5",
-   "ts": 1794704618,
-   "when": "11-15 10:03",
-   "tag": "시장",
-   "query": "가상자산 시장",
-   "region": "KR",
-   "summary": "",
-   "title_ko": "수수료 무료 앞세운 중소형 가상자산 거래소 '약진'…점유율 경쟁 치열",
-   "summary_ko": "거래 수수료를 없앤 중소형 거래소들이 점유율을 늘리며 국내 거래소 경쟁이 치열해졌다는 내용입니다.",
-   "basis": "제목 기준"
-  },
-  {
-   "id": "51458c50b79c",
-   "title": "플룸 CEO \"RWA 토큰화 핵심은 투자 접근성\"",
-   "source": "블루밍비트",
-   "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9jUTcydDNxMHpseEEzWG84M2tDcGIzSURmWVd5cFliRlFEeE4yQTFyNlRid0RWaDdHbGlXVEt5WE9DVk5sSWNZTEJxWWw0T2Ft?oc=5",
-   "ts": 1794704216,
-   "when": "11-15 09:56",
-   "tag": "시장",
-   "query": "비트코인",
-   "region": "KR",
-   "summary": "",
-   "title_ko": "플룸 CEO \"RWA 토큰화 핵심은 투자 접근성\"",
-   "summary_ko": "실물자산 토큰화 프로젝트 플룸의 대표가 토큰화의 핵심 가치를 '누구나 투자할 수 있는 접근성'으로 꼽았다는 인터뷰입니다.",
-   "basis": "제목 기준"
+   "watched": true
   },
   {
    "id": "1b7eda6cae98",
@@ -674,14 +672,27 @@
    "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE1ld0t4bnl4c0ttMzdZODFGeVkyUjR0SmtoQm9CUzdxZ2RXUlZlSjNUX2tING4xek1jS3FqZUhvTGlOX1RQUExrcjRB?oc=5",
    "ts": 1794610901,
    "when": "11-14 08:01",
-   "tag": "NCT",
-   "query": "폴리스웜",
+   "tag": "SANC",
+   "query": "생텀",
    "region": "KR",
    "summary": "",
    "watched": true,
    "title_ko": "롬바드(BARD) 거래대금 949억원 5위…업비트 68% 종목 하락",
    "summary_ko": "롬바드가 업비트 거래대금 5위에 올랐고 전체 종목의 68%가 하락했다는 시황입니다.",
    "basis": "제목 기준"
+  },
+  {
+   "id": "56186a243093",
+   "title": "[아침 시황] 비트코인 9,321만원…빗썸 마이쉘 114% 급등",
+   "source": "토큰포스트",
+   "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBIT2pYdl9TQXIwdFNyZTQxaHdJenppOUZUMm5zbFh5LTZ2ZGcwYUNBZUptdjBtZnUzOG1TUURzM2dYU2lwNHliQlA0MnhjeTVfZkhFb1hNUzV0UE5jQjFPaTBsblBjUdIBZkFVX3lxTFBIT2pYdl9TQXIwdFNyZTQxaHdJenppOUZUMm5zbFh5LTZ2ZGcwYUNBZUptdjBtZnUzOG1TUURzM2dYU2lwNHliQlA0MnhjeTVfZkhFb1hNUzV0UE5jQjFPaTBsblBjUQ?oc=5",
+   "ts": 1794609042,
+   "when": "11-14 07:30",
+   "tag": "SANC",
+   "query": "생텀",
+   "region": "KR",
+   "summary": "",
+   "watched": true
   },
   {
    "id": "fa9ab15674d0",
@@ -730,41 +741,36 @@
    "title_ko": "[인기 검색 코인 톱15] 비트코인 6.19% 하락, 생텀 139.3%·아케도 71.53% 급등",
    "summary_ko": "비트코인은 6% 넘게 빠졌지만 생텀은 139% 급등해 검색 순위 상위에 올랐습니다.",
    "basis": "제목 기준"
-  },
-  {
-   "id": "3f2081cf6664",
-   "title": "업비트, 솔라나 유동성 스테이킹 프로젝트 생텀 거래지원 개시",
-   "source": "디지털투데이",
-   "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5kV0pPWmtGMnRTR3VqVHNmek83QVExczB4c2I3Zm1xQlJFbTJtSHFwVFJ6M1JkSXBlV19fTFgtajFLdG8yNG83VndxVlVUa2Y0bU1JWmQ1UzBudThaNHREZ2VEbDZ0VjlHZ25BR2FDd2R4bmlnN3NSM21CMA?oc=5",
-   "ts": 1794546967,
-   "when": "11-13 14:16",
-   "tag": "SANC",
-   "query": "생텀",
-   "region": "KR",
-   "summary": "",
-   "watched": true,
-   "title_ko": "업비트, 솔라나 유동성 스테이킹 프로젝트 생텀 거래지원 개시",
-   "summary_ko": "업비트가 솔라나 기반 스테이킹 프로젝트 생텀(SANC)의 거래를 시작했다는 공지성 기사입니다.",
-   "basis": "제목 기준"
-  },
-  {
-   "id": "b33e9ee979a6",
-   "title": "비트코인(BTC) 3.06% 하락…업비트 원화마켓 93% 종목 약세",
-   "source": "코인리더스",
-   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9ydkpLZ0ZMZE5ZRVBEa0ZLcVRweEEwS2dfdmlqWl9VaDRFblZmTGZJSlJBa0FsQXptV0ZjTVJsb3kwS3hLZ2lHc2J3?oc=5",
-   "ts": 1794542463,
-   "when": "11-13 13:01",
-   "tag": "NCT",
-   "query": "폴리스웜",
-   "region": "KR",
-   "summary": "",
-   "watched": true,
-   "title_ko": "비트코인(BTC) 3.06% 하락…업비트 원화마켓 93% 종목 약세",
-   "summary_ko": "업비트 원화마켓의 93%가 하락한 전면 약세장 시황입니다.",
-   "basis": "제목 기준"
   }
  ],
  "stock": [
+  {
+   "id": "ae1a62bfdf6a",
+   "title": "What KCB Group Doubters Got Wrong",
+   "source": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQTGtCRWNJTG5sV1ItSHVzSWhYZ0M1VlRwcENzQ0xKS3U1TU1TOHdSaTF3Rl9sUTRKTEpIQ1U0bExMOFMza3pQdGpWS240NDRoTGlEbklTc3dEbjdSbnlKSUthS2d2RnR1Q2VJbms4SGxWYlpQRXMzc3Rlc1hoR3hOOHNDcDBvc0ZweDhTQmpsdUhKajZSMm9fOQ?oc=5",
+   "ts": 1794712950,
+   "when": "11-15 12:22",
+   "tag": "글로벌",
+   "query": "stock market",
+   "region": "Global",
+   "summary": ""
+  },
+  {
+   "id": "50f31191afc8",
+   "title": "Nov. 25 Will Be a Critical Day for the Stock Market",
+   "source": "AOL.com",
+   "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE1XUW1iZldTeHlMU2tMbkUxZElrU25OUThFQUJPcXI4bDdPN0o2TmN1YU9ObExFQzhjNVk4WW9aS3R0a0JMWER4ZGxOanBJMmViNzlRbVZSTXJxMEttZ3NlaGtwbnRUaG42MUxra2NxLWNCcnRQdW9COA?oc=5",
+   "ts": 1794712800,
+   "when": "11-15 12:20",
+   "tag": "글로벌",
+   "query": "stock market",
+   "region": "Global",
+   "summary": "",
+   "title_ko": "11월 25일, 주식시장의 중대한 날 될 것",
+   "summary_ko": "11월 25일이 주식시장에 중요한 날이 될 것이라는 기사로, 어떤 일정인지는 원문에서 확인이 필요합니다.",
+   "basis": "제목 기준"
+  },
   {
    "id": "c1a8b9542335",
    "title": "맥글론 “비트코인 약세, 증시·원자재 하락 전조”",
@@ -775,21 +781,9 @@
    "tag": "시장",
    "query": "미국 증시",
    "region": "KR",
-   "summary": ""
-  },
-  {
-   "id": "50f31191afc8",
-   "title": "Nov. 25 Will Be a Critical Day for the Stock Market",
-   "source": "The Motley Fool",
-   "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPTllkcjRJaG0xa0tiRWtvelg0RFFCalVBNEZqU29iVHdJeDdGZFVIQlZWMjUzX1J3SC12U0xDblkzTzlGMER0WnZCNHRNN3FFRWlYbGo3SkkxODJiNmdDVHhva1h1bVJ3NW5DUldOZ1Rud3daVmhzVmNZT1MycnkxU1Q5cy1jVlk2b0JqREd0N3plQWxjcmRSdFNrYjgwNUk?oc=5",
-   "ts": 1794711600,
-   "when": "11-15 12:00",
-   "tag": "글로벌",
-   "query": "stock market",
-   "region": "Global",
    "summary": "",
-   "title_ko": "11월 25일, 주식시장의 중대한 날 될 것",
-   "summary_ko": "11월 25일이 주식시장에 중요한 날이 될 것이라는 기사로, 어떤 일정인지는 원문에서 확인이 필요합니다.",
+   "title_ko": "맥글론 \"비트코인 약세, 증시·원자재 하락 전조\"",
+   "summary_ko": "블룸버그 인텔리전스의 마이크 맥글론이 비트코인 약세를 주식·원자재 하락의 신호로 본다는 내용입니다.",
    "basis": "제목 기준"
   },
   {
@@ -945,9 +939,9 @@
   {
    "id": "c1d98f95c464",
    "title": "1년반 만 '최악의 한 주'…또 5%대 뚫은 美국채",
-   "source": "이데일리TV",
-   "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5jT2JJakNjYTI3X2JMd3F5UWFwVmVyTV9pQXBDU1Y1bHNYaDBYbHJIdkoxeWoteTJOLWlJdjFZdHMwMHJJQVB5WFlobXhwenN3OFNtZHJkcGJabjRZcndYTzhVWDJzTGRWYVIzbHNCakljUlRPcU9kaXRXVQ?oc=5",
-   "ts": 1794707340,
+   "source": "이데일리",
+   "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPRlRRd2ZYN0pTNWplOGs1YV96LXQtSi12ZHRYUWRhRmJMYzhBLWtVaXJFNU16d1A2cTVIRFE1TzZ5eEFvN2ZBTlo5ejlRS2VfaWF6MTlDNkZ5NkNQWTdkejFaMV95a25WUFhYaFRhMlR6NElRUno1VVROQTRUUFdFWg?oc=5",
+   "ts": 1794707341,
    "when": "11-15 10:49",
    "tag": "시장",
    "query": "연준 금리",
@@ -1102,7 +1096,10 @@
    "tag": "글로벌",
    "query": "Nasdaq",
    "region": "Global",
-   "summary": ""
+   "summary": "",
+   "title_ko": "사운드하운드 AI, 2027년 매출 3억7500만 달러 전망…애널리스트 주가 155% 회복 기대",
+   "summary_ko": "음성 AI 기업 사운드하운드가 내년 매출 목표를 제시했고 애널리스트들은 큰 폭의 주가 회복을 기대한다는 내용입니다.",
+   "basis": "제목 기준"
   },
   {
    "id": "00cff70a47f6",
@@ -1133,18 +1130,6 @@
    "title_ko": "비트코인(BTC) 6만5000달러 회복할까…고물가에 금리 인상 우려",
    "summary_ko": "물가가 높아 금리 인상 우려가 커진 가운데 비트코인이 6만5000달러를 되찾을 수 있을지 짚는 기사입니다.",
    "basis": "제목 기준"
-  },
-  {
-   "id": "c637b19df7a9",
-   "title": "AI Retreat Fuels India Stock Comeback in Great Rotation Trade",
-   "source": "Bloomberg.com",
-   "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPekZiMTBjakhPUXcyZm9yZ1N6SkhLQmNrSFZ0M0RPNTNhOFh1YkExSUZEc0pJbzJoU0VkdEZKTHhVb2RYUXJjRFdtY1o2R3lzSml1RVZJS3I0MEFLRW5mMlFMV183RW9xa1d4bDhpcEtWNGFSeDEzc2xMdHBkcTBfZW5DU0Fobl9CV04zVVZuZzB0YXkwN1NwZzVTVDFtTFVaM2lSSk16YUpwMnRocGpGdThMWERWazZ5eE1Z?oc=5",
-   "ts": 1794700800,
-   "when": "11-15 09:00",
-   "tag": "글로벌",
-   "query": "stock market",
-   "region": "Global",
-   "summary": ""
   },
   {
    "id": "ab6c369be2dc",
