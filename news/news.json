@@ -1,6 +1,15 @@
 {
- "updated": "2026-11-15 09:31 KST",
+ "updated": "2026-11-15 09:41 KST",
  "coin": [
+  {
+   "title": "가상자산 공포·탐욕지수, 10점 기록…극단적 공포 유지",
+   "source": "블루밍비트",
+   "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFA3dkNwcWNVTGM3LW5TSWd4Y1UyWXkxN09vcFlwZ25QaWZncU81SVZhckNCbmlCU0VwRHVGU1ZBdUJydzJwTFdGWUZWNlIySjJU?oc=5",
+   "ts": 1794702985,
+   "when": "11-15 09:36",
+   "tag": "시장",
+   "query": "비트코인"
+  },
   {
    "title": "수요 4배 늘어난 어셈블리AI, 스폿 서버로 추론비 70% 절감",
    "source": "코인리더스",
@@ -280,15 +289,6 @@
    "when": "11-15 06:17",
    "tag": "시장",
    "query": "가상자산 시장"
-  },
-  {
-   "title": "심사 제대로 했나… 업비트·빗썸, 올해만 35개 코인 동일 상장",
-   "source": "Chosunbiz",
-   "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPZW1ZRFN6dlhUdFYxbzhMeU1BbGNXdUFOYUFfZGg2NTc3LS1VU0x3Z2dNWl9kT2dWYlhsT2w5UlRLOVNZTmJ3RmZaUnlOSzBEbEpVa3hGNDloOFJNWlQ0WlpOSFoxQUptUzlXYXJPZTBtNTBjT0NPclYtSllyREkxd9IBlAFBVV95cUxObTJGYjRpV2dFNDNqeG1lZmx6OXV5UjhDQ00wdko1ZG1hVEVwd19NSF9KVUpBdjc2OVYtUWRQbDdTOWJsYXdIUHVZMWEyd3Azd0djZE03empQLW9ock9rUDZtV1JveVBCdHliN3BLRWVKTTctbzJETUZTQVFrVFRNNVdvMzV6dE1Id0ZRVEJPdlhuMmhQ?oc=5",
-   "ts": 1794690228,
-   "when": "11-15 06:03",
-   "tag": "시장",
-   "query": "업비트 코인"
   },
   {
    "title": "생텀 20%대 하락…비트코인 9374만원·이더리움 263만원",
