@@ -25,6 +25,10 @@ f = [f"평가액 ${tot.get('value_usd', 100):.2f} ({tot.get('pnl', 0):+.2f}%), "
 f.append("신호: " + " · ".join(
     f"{g['market']} ${g['price']:.2f}, RSI(2) {g.get('rsi2')}, {'200일선 위' if g.get('above200') else '200일선 아래'}, 사전 확신 {g.get('pre_score', '–')}점"
     for g in sig))
+tr = st.get("trend") or {}
+if tr.get("close") is not None:
+    f.append(f"추세 몫(B안): QQQ ${tr['close']:.2f} vs 200일 평균 ${tr['sma200']:.2f} → " + ("TQQQ 보유" if tr.get("holding") else ("매수 예정" if tr.get("above200") else "현금 대기"))
+             + f", ${tr.get('value', 0):.2f} · 단타 몫 ${(st.get('swing') or {}).get('value', 0):.2f}")
 f.append(st.get("phase_note", ""))
 f += sys.argv[2:]
 if pos:

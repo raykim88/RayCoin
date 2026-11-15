@@ -235,6 +235,7 @@ footer{font-size:.75rem;color:var(--muted)}
         <thead><tr><th>종목</th><th>현재가</th><th>RSI(2)</th><th>200일 평균</th><th>5일 평균</th><th>판단</th></tr></thead>
         <tbody id="kSignals"><tr><td colspan="6" style="text-align:center;color:var(--muted)">봇 연결 대기</td></tr></tbody>
       </table></div>
+      <div class="panel" id="kTrend" style="padding:12px 14px;margin-top:10px;font-size:.9rem;color:var(--muted)">추세 보유 정보 대기</div>
     </section>
     <div class="board">
       <section>
@@ -319,7 +320,13 @@ async function loadStock() {
       return `<tr><td><b>${esc(g.market)}</b></td><td class="num">$${Number(g.price).toFixed(2)}</td><td class="num">${g.rsi2 ?? "–"}</td>
         <td class="num ${g.above200 ? "up" : "down"}">$${g.sma200 ?? "–"}</td><td class="num">$${g.sma5 ?? "–"}</td><td>${esc(verdict)}</td></tr>`;
     }).join("");
-    if (pos.length) $("kCards").innerHTML = pos.map(p => `<div class="panel" style="padding:14px"><b>${esc(p.market)}</b> · ${p.qty.toFixed(4)}주 @ $${p.entry}
+    if (k.trend && k.trend.close != null) {
+      const tr = k.trend, gap = (tr.close / tr.sma200 - 1) * 100;
+      $("kTrend").innerHTML = `<b style="color:var(--fg)">자금 절반 · 추세 보유</b> — QQQ 종가 $${Number(tr.close).toFixed(2)}, 200일 평균 $${tr.sma200} (<span class="${gap >= 0 ? "up" : "down"}">${gap >= 0 ? "+" : ""}${gap.toFixed(1)}%</span>) → ` +
+        (tr.holding ? `${esc(tr.symbol)} 보유 중` : tr.above200 ? `다음 장 ${esc(tr.symbol)} 매수` : "추세 아래 · 현금 대기") +
+        ` · 추세 몫 $${Number(tr.value).toFixed(2)}${k.swing ? ` / 단타 몫 $${Number(k.swing.value).toFixed(2)}` : ""}`;
+    }
+    if (pos.length) $("kCards").innerHTML = pos.map(p => `<div class="panel" style="padding:14px"><b>${esc(p.market)}</b> <span style="color:var(--muted);font-size:.8rem">${p.sleeve === "trend" ? "추세" : "단타"}</span> · ${p.qty.toFixed(4)}주 @ $${p.entry}
       <div class="num ${p.pnl > 0 ? "up" : p.pnl < 0 ? "down" : "flat"}" style="font-size:1.4rem;font-weight:600">${p.pnl > 0 ? "+" : ""}${p.pnl.toFixed(2)}%</div>
       <span style="color:var(--muted);font-size:.8rem">현재 $${Number(p.last).toFixed(2)} · 매수 ${esc(p.opened)} · 보유 ${p.sessions}거래일</span></div>`).join("");
     else $("kCards").innerHTML = `<div class="empty">보유 종목이 없습니다. ${k.pending ? "다음 장 시가에 " + esc(k.pending.market) + " 매수 예약됨." : "매수 신호를 기다리는 중입니다."}</div>`;

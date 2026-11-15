@@ -9,6 +9,9 @@ Rules (backtested on 10 years of daily bars, costs 0.15% per side, stock/bt/revi
     opening price at or below the previous close (known at the fill). Score 2+ -> 100% of equity (capped
     by cash), 1 -> 50%, 0 -> skip.
   - Orders fill at the next session's opening price.
+  - Option B (user, 11-15): capital is split in two sleeves. "swing" runs the rules above on its own cash;
+    "trend" holds TQQQ with all of its cash while QQQ closes above its 200-day average (sells at the next
+    open after a close below). 10y backtest of the 50/50 split: +881%, max drawdown 46% (stock/bt/split.py).
 Monitoring: every minute while the US market is open (live mark-to-market), every 5 minutes otherwise.
 Writes stock/status.json, which web/push_live.sh publishes as stock_status.json on the live-data branch.
 
@@ -23,7 +26,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 KST = timezone(timedelta(hours=9))
-SYMS = ["TQQQ", "UPRO"]
+SYMS = ["TQQQ", "UPRO"]            # swing sleeve
+TREND_SIG, TREND_SYM = "QQQ", "TQQQ"
 COST = 0.0015          # per side: fee + slippage
 P = dict(rsi_lo=30.0, trend=200, exit_ma=5, max_days=10, w_hi=1.0, w_lo=0.5)
 
@@ -59,11 +63,20 @@ class Bot:
         self.s = json.loads(self.path.read_text(encoding="utf-8"))
         self.s.setdefault("events", []); self.s.setdefault("positions", []); self.s.setdefault("curve", [])
         self.s.setdefault("cash", self.s["total"]["cost_usd"])
+        if "sleeves" not in self.s:                    # option B: split whatever cash exists 50/50
+            held = sum(p["cost_usd"] for p in self.s["positions"] if p["status"] == "OPEN")
+            half = (self.s["cash"] + held) / 2
+            for p in self.s["positions"]:
+                p.setdefault("sleeve", "swing")
+            self.s["sleeves"] = dict(swing=dict(cash=round(half - held, 6)), trend=dict(cash=round(half, 6)))
         self.s["strategy"] = "rsi2-pullback"
         self.s["params"] = P
         self.s["rules"] = [
             dict(title="매수: 상승 추세 속 눌림목",
                  text="TQQQ·UPRO 중 종가가 200일 평균 위에 있고 RSI(2)가 30 미만이면 다음 장 시가에 매수. 종목당 1개, 최대 2종목."),
+            dict(title="자금 절반: 추세 보유 (B안)",
+                 text="자금의 절반은 QQQ 종가가 200일 평균 위에 있는 동안 TQQQ를 계속 보유하고, 아래로 내려가면 다음 장 시가에 팔아 현금으로 둡니다. "
+                      "10년 백테스트: 추세 보유만 +1302%(최대 하락폭 58%), 단타만 +461%(26%), 절반씩 +881%(46%). 나머지 절반은 아래 단타 규칙."),
             dict(title="확신 점수로 비중 조절",
                  text="① 5일간 -5% 넘게 하락 ② 종가가 200일 평균보다 5~20% 위 ③ 시가가 전날 종가 이하(갭 하락·보합), 각 1점. "
                       "2점 이상이면 자산의 100%(남은 현금 한도), 1점이면 50%, 0점이면 건너뜀. 10년 백테스트 평균 수익: 0점 -0.45%, 1점 +1.12%, 2점 +2.01%."),
@@ -105,7 +118,7 @@ class Bot:
     def snapshot(self):
         """Completed daily closes + live price + session times for each symbol."""
         out = {}
-        for s in SYMS:
+        for s in SYMS + [TREND_SIG]:
             r = yget(s, "1d", "1y")
             m, q = r["meta"], r["indicators"]["quote"][0]
             ts = r["timestamp"]
@@ -150,6 +163,21 @@ class Bot:
             v += p["qty"] * px * (1 - COST)
         return v
 
+    def sleeve_cash(self, sl):
+        return self.s["sleeves"][sl]["cash"]
+
+    def add_cash(self, sl, x):
+        self.s["sleeves"][sl]["cash"] = round(self.s["sleeves"][sl]["cash"] + x, 6)
+        self.s["cash"] = round(sum(v["cash"] for v in self.s["sleeves"].values()), 6)
+
+    def sleeve_value(self, sl, snap=None):
+        v = self.sleeve_cash(sl)
+        for p in self.open_pos():
+            if p.get("sleeve", "swing") == sl:
+                px = (snap or {}).get(p["market"], {}).get("price") or p.get("last") or p["entry"]
+                v += p["qty"] * px * (1 - COST)
+        return v
+
     def orders(self):
         o = self.s.get("orders")
         if o is None:                                   # migrate the single-order format
@@ -171,29 +199,39 @@ class Bot:
             first = self.first_open(pend["market"], d["start"])
             if first is None:
                 left.append(pend); continue
-            if pend["side"] == "BUY":
+            sl = pend.get("sleeve", "swing")
+            if pend["side"] == "BUY" and sl == "trend":
+                spend = self.sleeve_cash("trend")
+                if spend < 1:
+                    continue
+                self.add_cash("trend", -spend)
+                self.s["positions"].append(dict(market=pend["market"], qty=spend * (1 - COST) / first, entry=round(first, 4), last=first,
+                                                pnl=round(-COST * 100, 2), status="OPEN", opened=now().strftime("%m-%d %H:%M"),
+                                                sessions=0, cost_usd=round(spend, 2), series=[], sleeve="trend"))
+                self.event("BUY", pend["market"], f"[추세] 시가 매수 @ ${first:.2f} · ${spend:.2f} · {pend['why']}")
+            elif pend["side"] == "BUY":
                 gap = first / pend["prev_close"] - 1 if pend.get("prev_close") else 0.0
                 score = pend.get("pre_score", 1) + int(gap <= 0)
                 if score == 0:
                     self.event("SKIP", pend["market"], f"시가 ${first:.2f} (갭 {gap*100:+.2f}%) · 확신 0점이라 매수 건너뜀")
                     continue
                 w = P["w_hi"] if score >= 2 else P["w_lo"]
-                spend = min(self.s["cash"], self.value(snap) * w)
+                spend = min(self.sleeve_cash("swing"), self.sleeve_value("swing", snap) * w)
                 if spend < 1:
                     self.event("SKIP", pend["market"], "남은 현금 부족으로 매수 건너뜀"); continue
                 qty = spend * (1 - COST) / first
-                self.s["cash"] -= spend
+                self.add_cash("swing", -spend)
                 self.s["positions"].append(dict(market=pend["market"], qty=qty, entry=round(first, 4), last=first,
                                                 pnl=round(-COST * 100, 2), status="OPEN", opened=now().strftime("%m-%d %H:%M"),
-                                                sessions=0, cost_usd=round(spend, 2), series=[], score=score))
-                self.event("BUY", pend["market"], f"시가 매수 @ ${first:.2f} · ${spend:.2f} (확신 {score}점 → {w:.0%}, 갭 {gap*100:+.2f}%) · {pend['why']}")
+                                                sessions=0, cost_usd=round(spend, 2), series=[], score=score, sleeve="swing"))
+                self.event("BUY", pend["market"], f"[단타] 시가 매수 @ ${first:.2f} · ${spend:.2f} (확신 {score}점 → {w:.0%}, 갭 {gap*100:+.2f}%) · {pend['why']}")
             else:
-                p = next(p for p in self.open_pos() if p["market"] == pend["market"])
+                p = next(p for p in self.open_pos() if p["market"] == pend["market"] and p.get("sleeve", "swing") == sl)
                 got = p["qty"] * first * (1 - COST)
                 p.update(status="CLOSED", exit=round(first, 4), last=first, pnl=round((got / p["cost_usd"] - 1) * 100, 2),
                          closed=now().strftime("%m-%d %H:%M"))
-                self.s["cash"] += got
-                self.event("SELL", p["market"], f"시가 매도 @ ${first:.2f} · 수익 {p['pnl']:+.2f}% · {pend['why']}")
+                self.add_cash(sl, got)
+                self.event("SELL", p["market"], f"[{'추세' if sl == 'trend' else '단타'}] 시가 매도 @ ${first:.2f} · 수익 {p['pnl']:+.2f}% · {pend['why']}")
         self.s["orders"] = left
         self.s["pending"] = left[0] if left else None     # the page shows the first queued order
 
@@ -205,7 +243,7 @@ class Bot:
         self.s["decided_bar"] = bar
         orders = []
         held = set()
-        for p in self.open_pos():
+        for p in [p for p in self.open_pos() if p.get("sleeve", "swing") == "swing"]:
             held.add(p["market"]); i = ind.get(p["market"])
             p["sessions"] = p.get("sessions", 0) + 1
             if i and i["exit"]:
@@ -215,14 +253,23 @@ class Bot:
             else:
                 self.log(f"HOLD {p['market']} · 보유 {p['sessions']}일 · 종가 {i and i['close']} ≤ 5일 평균 {i and i['sma5']}")
                 continue
-            orders.append(dict(side="SELL", market=p["market"], why=why, decided_ts=bar))
+            orders.append(dict(side="SELL", market=p["market"], why=why, decided_ts=bar, sleeve="swing"))
             self.event("ORDER", p["market"], f"다음 장 시가 매도 예약 · {why}")
-        for s, i in sorted(ind.items(), key=lambda kv: (kv[1] or {}).get("rsi2", 999)):
+        q = ind.get(TREND_SIG); tpos = [p for p in self.open_pos() if p.get("sleeve") == "trend"]
+        if q:
+            txt = f"QQQ 종가 ${q['close']:.2f}, 200일 평균 ${q['sma200']:.2f} ({(q['close'] / q['sma200'] - 1) * 100:+.1f}%)"
+            if q["above200"] and not tpos:
+                orders.append(dict(side="BUY", market=TREND_SYM, why=txt + " → 추세 위", decided_ts=bar, sleeve="trend"))
+                self.event("ORDER", TREND_SYM, f"[추세] 다음 장 시가 매수 예약 · {txt}")
+            elif not q["above200"] and tpos:
+                orders.append(dict(side="SELL", market=TREND_SYM, why=txt + " → 추세 이탈", decided_ts=bar, sleeve="trend"))
+                self.event("ORDER", TREND_SYM, f"[추세] 다음 장 시가 매도 예약 · {txt}")
+        for s, i in sorted(((k, v) for k, v in ind.items() if k in SYMS), key=lambda kv: (kv[1] or {}).get("rsi2", 999)):
             if not i or not i["buy"] or s in held:
                 continue
             why = (f"RSI(2) {i['rsi2']:.1f} < {P['rsi_lo']:g}, 종가 ${i['close']:.2f} > 200일 평균 ${i['sma200']:.2f} · "
                    f"사전 확신 {i['pre_score']}점 (5일 {i['drop5']:+.1f}%, 200일선 +{i['dist200']:.1f}%)")
-            orders.append(dict(side="BUY", market=s, why=why, decided_ts=bar, prev_close=i["close"], pre_score=i["pre_score"]))
+            orders.append(dict(side="BUY", market=s, why=why, decided_ts=bar, prev_close=i["close"], pre_score=i["pre_score"], sleeve="swing"))
             self.event("ORDER", s, f"다음 장 시가 매수 예약 · {why} · 시가가 전날 종가 이하이면 +1점")
         if not orders:
             self.log("NO SIGNAL · " + " · ".join(f"{s} RSI2 {i['rsi2']} {'200일선 위' if i['above200'] else '200일선 아래'}"
@@ -247,6 +294,11 @@ class Bot:
         self.s["phase_note"] = ("미국 장 열림 · 1분마다 갱신" if live else "미국 장 마감" + (f" · 다음 개장 {open_txt}" if open_txt else "")) + \
             "".join(f" · 예약: {o['market']} {'매수' if o['side'] == 'BUY' else '매도'}" for o in self.orders())
         self.s["signals"] = [dict(market=s, price=snap[s]["price"], **(ind[s] or {})) for s in SYMS]
+        q = ind.get(TREND_SIG) or {}
+        self.s["trend"] = dict(signal=TREND_SIG, symbol=TREND_SYM, close=q.get("close"), sma200=q.get("sma200"),
+                               above200=q.get("above200"), holding=any(p.get("sleeve") == "trend" for p in pos),
+                               value=round(self.sleeve_value("trend", snap), 3), cash=round(self.sleeve_cash("trend"), 3))
+        self.s["swing"] = dict(value=round(self.sleeve_value("swing", snap), 3), cash=round(self.sleeve_cash("swing"), 3))
         self.s["market_open"] = live
         self.s["updated"] = now().strftime("%Y-%m-%d %H:%M:%S KST")
         stamp = now().strftime("%m-%d %H:%M")
