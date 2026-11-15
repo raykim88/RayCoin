@@ -33,6 +33,11 @@ COIN_Q_EN = ["bitcoin", "crypto market"]
 STOCK_Q_EN = ["stock market", "Nasdaq", "Federal Reserve"]
 YAHOO = "TQQQ,UPRO,QQQ,^VIX"
 KEEP_H = 48
+# Direct outlet feeds (summaries) and article pages whose text can be read for Claude's Korean summary
+FEEDS = dict(coin=[("https://cointelegraph.com/rss", "Cointelegraph"), ("https://www.coindesk.com/arc/outboundfeeds/rss", "CoinDesk")],
+             stock=[("https://feeds.content.dowjones.io/public/rss/mw_topstories", "MarketWatch")])
+BODY_HOSTS = ("cointelegraph.com", "www.coindesk.com", "finance.yahoo.com", "stocktwits.com")
+BODIES = ROOT / "news" / "bodies.json"
 
 
 def fetch(url):
@@ -111,8 +116,40 @@ def watched_coins():
     return [(m, names.get(m, m[4:])) for m in mk[:6]]
 
 
+def article_text(url):
+    raw = fetch(url)
+    if not raw:
+        return ""
+    raw = raw.decode("utf-8", "ignore")
+    ps = [re.sub(r"\s+", " ", plain(p)) for p in re.findall(r"<p[^>]*>(.*?)</p>", raw, re.S)]
+    ps = [p for p in ps if 60 < len(p) < 1200 and "Skip to" not in p and p.count(" ") >= 8]
+    return "\n".join(ps)[:2500]
+
+
+def fill_bodies(lst, budget=12):
+    """Cache article text (news/bodies.json, id -> text) for items on readable hosts; Claude summarises it hourly."""
+    try:
+        cache = json.loads(BODIES.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        cache = {}
+    for x in lst:
+        host = urllib.parse.urlparse(x["link"]).netloc
+        if x["id"] in cache or host not in BODY_HOSTS or budget <= 0:
+            continue
+        cache[x["id"]] = article_text(x["link"]); budget -= 1; time.sleep(1.5)
+    keep = {x["id"] for x in lst}
+    cache = {k: v for k, v in cache.items() if k in keep}
+    BODIES.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
 def collect():
     coin, stock = [], []
+    for sec, lst in (("coin", coin), ("stock", stock)):
+        for url, name in FEEDS[sec]:
+            got = items(fetch(url), "글로벌", name, "Global")
+            for x in got:
+                x["source"] = x["source"] or name
+            lst += got; time.sleep(1)
     for q in COIN_Q:
         coin += items(fetch(google(q)), "시장", q); time.sleep(1)
     for q in COIN_Q_EN:
@@ -129,7 +166,9 @@ def collect():
     rel = re.compile(r"TQQQ|UPRO|QQQ|Nasdaq|S&P|VIX|Fed|stock market|stocks|Wall Street|ETF", re.I)
     stock += [x for x in items(fetch(f"https://feeds.finance.yahoo.com/rss/2.0/headline?s={urllib.parse.quote(YAHOO)}&region=US&lang=en-US"),
                                "ETF", YAHOO, "Global") if rel.search(x["title"])]   # drop single-stock noise
-    noise = re.compile(r"Key Takeaways|Fair Value|Too Expensive|Stocks? To (Watch|Buy)|Worth Watching|Multibagger|Undervalued|Got (Right|Wrong)|Stocks With|That Can Turn|Shoppers|Class Action", re.I)
+    mkt = re.compile(r"stock|market|Nasdaq|S&P|Dow|Fed|rate|inflation|Treasur|yield|earnings|Nvidia|AI", re.I)
+    stock = [x for x in stock if x["query"] != "MarketWatch" or mkt.search(x["title"])]
+    noise = re.compile(r"Key Takeaways|Fair Value|Too Expensive|Stocks? To (Watch|Buy)|Worth Watching|Multibagger|Undervalued|Got (Right|Wrong)|Stocks With|That Can Turn|Shoppers|Class Action|Stocks That Could|Will Impact|Am I wrong|Should I|Was I", re.I)
     stock = [x for x in stock if not noise.search(x["title"])]       # listicles from the US "stock market" search
     cut = time.time() - KEEP_H * 3600
 
@@ -142,9 +181,11 @@ def collect():
             seen.add(key); out.append(it)
         watched = [x for x in out if x.get("watched")][:12]
         etf = [x for x in out if x["tag"] == "ETF"][:8]          # keep the English ETF headlines visible
-        glob = [x for x in out if x["tag"] == "글로벌"][:15]     # and global (US English) coverage
-        rest = [x for x in out if not x.get("watched") and x["tag"] not in ("ETF", "글로벌")][: n - len(watched) - len(etf) - len(glob)]
-        return sorted(watched + etf + glob + rest, key=lambda x: -x["ts"])
+        outlets = {name for f in FEEDS.values() for _, name in f}
+        direct = [x for x in out if x["query"] in outlets][:12]  # outlet feeds with summaries / readable bodies
+        glob = [x for x in out if x["tag"] == "글로벌" and x["query"] not in outlets][:12]
+        rest = [x for x in out if not x.get("watched") and x["tag"] not in ("ETF", "글로벌")][: n - len(watched) - len(etf) - len(direct) - len(glob)]
+        return sorted(watched + etf + direct + glob + rest, key=lambda x: -x["ts"])
     try:
         ko = json.loads((ROOT / "news" / "ko.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
@@ -153,7 +194,12 @@ def collect():
         k = ko.get(x["id"])
         if k:
             x.update(title_ko=k.get("t", ""), summary_ko=k.get("s", ""), basis=k.get("basis", ""))
-    return dict(updated=datetime.now(KST).strftime("%Y-%m-%d %H:%M KST"), coin=clean(coin, 50), stock=clean(stock, 50),
+    coin, stock = clean(coin, 50), clean(stock, 50)
+    try:
+        fill_bodies(coin + stock)
+    except Exception as e:
+        print("bodies:", e, flush=True)
+    return dict(updated=datetime.now(KST).strftime("%Y-%m-%d %H:%M KST"), coin=coin, stock=stock,
                 note="헤드라인은 흐름 파악용 참고 자료이며, 코인·주식 봇은 뉴스로 매매하지 않습니다.")
 
 

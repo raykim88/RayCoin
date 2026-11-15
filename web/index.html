@@ -307,7 +307,7 @@ footer{font-size:.75rem;color:var(--muted)}
       <p id="nmBasis" class="nmbasis"></p>
       <div class="nmfoot"><a id="nmLink" class="nmbtn" target="_blank" rel="noopener noreferrer">원문 보기 ↗</a></div>
     </dialog>
-    <footer>Google 뉴스(한국어·미국 영어판)와 Yahoo Finance 헤드라인을 10분마다 모으고, 한국어 제목·요약은 Claude가 매시간 정리합니다. 흐름 파악용 참고 자료이며, 코인·주식 봇은 뉴스로 매매하지 않습니다.</footer>
+    <footer>Google 뉴스(한국어·미국판), Cointelegraph·CoinDesk·MarketWatch, Yahoo Finance 헤드라인을 10분마다 모으고, 한국어 제목·요약은 Claude가 매시간 정리합니다. 흐름 파악용 참고 자료이며, 코인·주식 봇은 뉴스로 매매하지 않습니다.</footer>
   </div>
   <div id="coinFooter"><footer>실제 주문은 넣지 않는 모의매매입니다. 봇이 1분마다 Upbit 시세를 읽고, Claude가 그 결과를 이 페이지로 보냅니다. 투자 권유가 아닙니다.</footer></div>
 </div>
@@ -354,7 +354,8 @@ function openNews(x) {
   const body = x.summary_ko || "";
   $("nmBody").textContent = body || "아직 번역·요약 전입니다. 매시간 점검 때 Claude가 정리해 넣습니다.";
   $("nmBody").classList.toggle("muted", !body);
-  $("nmBasis").textContent = !body ? "" : x.basis === "매체 요약" ? "Claude 정리 · 매체가 제공한 요약을 번역"
+  $("nmBasis").textContent = !body ? "" : x.basis === "본문 요약" ? "Claude 정리 · 기사 본문을 읽고 요약"
+    : x.basis === "매체 요약" ? "Claude 정리 · 매체가 제공한 요약을 번역"
     : "Claude 정리 · 본문 접속이 막혀 제목 기준으로 정리 (원문에서 확인하세요)";
   $("nmLink").href = x.link;
   $("newsModal").showModal();
