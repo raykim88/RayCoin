@@ -455,6 +455,11 @@ class FuturesBot(v2.Bot):
                 continue
             ret = (c[0]["trade_price"] / c[look]["trade_price"] - 1) * 100     # newest first
             if ret > th_lo:
+                amax = self.params.get("pump_accel_max")      # review-208: skip spikes still accelerating
+                r30 = (c[0]["trade_price"] / c[6]["trade_price"] - 1) * 100
+                if amax is not None and r30 >= float(amax):
+                    self.log(f"pump skip {t['market'][4:]} {ret:+.1f}%: 30분 {r30:+.1f}% 아직 가속 중 (기준 {float(amax):g}%)")
+                    continue
                 lev = None if ret > th else lev_lo
                 sc, why = self.pump_conviction(t["market"], c, ret)
                 if sc is not None and self.params.get("pump_conv"):
