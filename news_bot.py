@@ -129,7 +129,7 @@ def collect():
     rel = re.compile(r"TQQQ|UPRO|QQQ|Nasdaq|S&P|VIX|Fed|stock market|stocks|Wall Street|ETF", re.I)
     stock += [x for x in items(fetch(f"https://feeds.finance.yahoo.com/rss/2.0/headline?s={urllib.parse.quote(YAHOO)}&region=US&lang=en-US"),
                                "ETF", YAHOO, "Global") if rel.search(x["title"])]   # drop single-stock noise
-    noise = re.compile(r"Key Takeaways|Fair Value|Too Expensive|Stocks? To (Watch|Buy)|Worth Watching|Multibagger|Undervalued|Got (Right|Wrong)", re.I)
+    noise = re.compile(r"Key Takeaways|Fair Value|Too Expensive|Stocks? To (Watch|Buy)|Worth Watching|Multibagger|Undervalued|Got (Right|Wrong)|Stocks With|That Can Turn|Shoppers|Class Action", re.I)
     stock = [x for x in stock if not noise.search(x["title"])]       # listicles from the US "stock market" search
     cut = time.time() - KEEP_H * 3600
 
