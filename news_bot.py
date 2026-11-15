@@ -168,7 +168,7 @@ def collect():
                                "ETF", YAHOO, "Global") if rel.search(x["title"])]   # drop single-stock noise
     mkt = re.compile(r"stock|market|Nasdaq|S&P|Dow|Fed|rate|inflation|Treasur|yield|earnings|Nvidia|AI", re.I)
     stock = [x for x in stock if x["query"] != "MarketWatch" or mkt.search(x["title"])]
-    noise = re.compile(r"Key Takeaways|Fair Value|Too Expensive|Stocks? To (Watch|Buy)|Worth Watching|Multibagger|Undervalued|Got (Right|Wrong)|Stocks With|That Can Turn|Shoppers|Class Action|Stocks That Could|Will Impact|Am I wrong|Should I|Was I|Should a |Could Be A Bargain|What Comes Next For|Shares Jumped|Impairment|Surges After Results|In Latest Session", re.I)
+    noise = re.compile(r"Key Takeaways|Fair Value|Too Expensive|Stocks? To (Watch|Buy)|Worth Watching|Multibagger|Undervalued|Got (Right|Wrong)|Stocks With|That Can Turn|Shoppers|Class Action|Stocks That Could|Will Impact|Am I wrong|Should I|Was I|Should a |Could Be A Bargain|What Comes Next For|Shares Jumped|Impairment|Surges After Results|In Latest Session|Investors Are Watching|Missed .*Run", re.I)
     stock = [x for x in stock if not noise.search(x["title"])]       # listicles from the US "stock market" search
     cut = time.time() - KEEP_H * 3600
 
