@@ -371,7 +371,7 @@ async function loadStock() {
     if (k.updated) $("kUpdated").textContent = "· " + k.updated;
     if ((k.signals || []).length) $("kSignals").innerHTML = k.signals.map(g => {
       const held = pos.some(p => p.market === g.market);
-      const verdict = held ? (g.exit ? "5일선 위 → 다음 장 매도" : "보유 유지") : !g.above200 ? "하락 추세 · 매수 안 함" : g.buy ? "매수 신호" : `RSI ${g.rsi2} ≥ 20 · 대기`;
+      const verdict = held ? (g.exit ? "5일선 위 → 다음 장 매도" : "보유 유지") : !g.above200 ? "하락 추세 · 매수 안 함" : g.buy ? `매수 신호 · 사전 확신 ${g.pre_score ?? "–"}점` : `RSI ${g.rsi2} ≥ ${(k.params || {}).rsi_lo ?? 30} · 대기${g.pre_score != null ? ` (확신 ${g.pre_score}점)` : ""}`;
       return `<tr><td><b>${esc(g.market)}</b></td><td class="num">$${Number(g.price).toFixed(2)}</td><td class="num">${g.rsi2 ?? "–"}</td>
         <td class="num ${g.above200 ? "up" : "down"}">$${g.sma200 ?? "–"}</td><td class="num">$${g.sma5 ?? "–"}</td><td>${esc(verdict)}</td></tr>`;
     }).join("");

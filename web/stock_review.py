@@ -21,14 +21,14 @@ pend = st.get("pending")
 sig = st.get("signals", [])
 
 f = [f"평가액 ${tot.get('value_usd', 100):.2f} ({tot.get('pnl', 0):+.2f}%), "
-     + (f"보유 {pos[0]['market']} {pos[0]['pnl']:+.2f}% (보유 {pos[0].get('sessions', 0)}거래일)." if pos else "보유 없음.")]
+     + ("보유 " + ", ".join(f"{p['market']} {p['pnl']:+.2f}% ({p.get('sessions', 0)}거래일, ${p['cost_usd']:.2f})" for p in pos) + "." if pos else "보유 없음.")]
 f.append("신호: " + " · ".join(
-    f"{g['market']} ${g['price']:.2f}, RSI(2) {g.get('rsi2')}, {'200일선 위' if g.get('above200') else '200일선 아래'}"
+    f"{g['market']} ${g['price']:.2f}, RSI(2) {g.get('rsi2')}, {'200일선 위' if g.get('above200') else '200일선 아래'}, 사전 확신 {g.get('pre_score', '–')}점"
     for g in sig))
 f.append(st.get("phase_note", ""))
 f += sys.argv[2:]
 if pos:
-    title = f"{hhmm} 주식 점검: {pos[0]['market']} 보유 중 {pos[0]['pnl']:+.2f}%"
+    title = f"{hhmm} 주식 점검: " + ", ".join(f"{p['market']} {p['pnl']:+.2f}%" for p in pos) + " 보유 중"
 elif pend:
     title = f"{hhmm} 주식 점검: {pend['market']} {'매수' if pend['side'] == 'BUY' else '매도'} 예약"
 else:

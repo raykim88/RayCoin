@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""RayTrade stock paper bot: strategy ② (RSI(2) pullback on US 3x ETFs).
+"""RayTrade stock paper bot: strategy ② (RSI(2) pullback on US 3x ETFs), conviction-sized (review 11-15).
 
-Rules (backtested on 9 years of daily bars, costs 0.15% per side):
+Rules (backtested on 10 years of daily bars, costs 0.15% per side, stock/bt/review2.py):
   - Watch TQQQ and UPRO. After each US close, on completed daily bars:
-      buy  if close > 200-day average and RSI(2) < 20      (one position at a time, all equity)
+      buy  if close > 200-day average and RSI(2) < 30      (up to one position per ETF)
       sell if close > 5-day average, or after 10 sessions
+  - Conviction score, one point each: 5-day drop worse than -5%, close 5-20% above the 200-day average,
+    opening price at or below the previous close (known at the fill). Score 2+ -> 100% of equity (capped
+    by cash), 1 -> 50%, 0 -> skip.
   - Orders fill at the next session's opening price.
 Monitoring: every minute while the US market is open (live mark-to-market), every 5 minutes otherwise.
 Writes stock/status.json, which web/push_live.sh publishes as stock_status.json on the live-data branch.
@@ -22,7 +25,7 @@ from pathlib import Path
 KST = timezone(timedelta(hours=9))
 SYMS = ["TQQQ", "UPRO"]
 COST = 0.0015          # per side: fee + slippage
-P = dict(rsi_lo=20.0, trend=200, exit_ma=5, max_days=10)
+P = dict(rsi_lo=30.0, trend=200, exit_ma=5, max_days=10, w_hi=1.0, w_lo=0.5)
 
 
 def now():
@@ -60,7 +63,10 @@ class Bot:
         self.s["params"] = P
         self.s["rules"] = [
             dict(title="매수: 상승 추세 속 눌림목",
-                 text="TQQQ·UPRO 중 종가가 200일 평균 위에 있고 RSI(2)가 20 미만이면, 다음 장 시가에 전액 매수 (한 번에 1종목)."),
+                 text="TQQQ·UPRO 중 종가가 200일 평균 위에 있고 RSI(2)가 30 미만이면 다음 장 시가에 매수. 종목당 1개, 최대 2종목."),
+            dict(title="확신 점수로 비중 조절",
+                 text="① 5일간 -5% 넘게 하락 ② 종가가 200일 평균보다 5~20% 위 ③ 시가가 전날 종가 이하(갭 하락·보합), 각 1점. "
+                      "2점 이상이면 자산의 100%(남은 현금 한도), 1점이면 50%, 0점이면 건너뜀. 10년 백테스트 평균 수익: 0점 -0.45%, 1점 +1.12%, 2점 +2.01%."),
             dict(title="매도: 반등 확인",
                  text="종가가 5일 평균을 넘으면 다음 장 시가에 매도. 10거래일이 지나도 안 넘으면 그때 매도."),
             dict(title="손절 없음 (의도된 설계)",
@@ -68,7 +74,7 @@ class Bot:
             dict(title="모니터링",
                  text="미국 장중에는 1분마다 시세를 갱신하고, 장 마감 직후 신호를 계산합니다. 매매는 장 시작(한국시간 23:30, 서머타임 22:30)에 체결된 것으로 처리. 비용은 편도 0.15%."),
             dict(title="근거",
-                 text="9년 백테스트(일봉): +236%, 최대 하락폭 45%, 승률 69%, 153회. 2018·2022 약세장에서는 손실."),
+                 text="10년 백테스트(일봉, 2016-11~2026-11): 지금 규칙 +461%, 최대 하락폭 26%, 211회. 이전 규칙(RSI<20 전액·1종목) +375%, 하락폭 41%. 앞뒤 5년 모두 더 좋음."),
         ]
 
     # ---------- io ----------
@@ -125,8 +131,11 @@ class Bot:
             return None
         sma200 = sum(c[-P["trend"]:]) / P["trend"]
         sma5 = sum(c[-P["exit_ma"]:]) / P["exit_ma"]
+        drop5, dist = c[-1] / c[-6] - 1, c[-1] / sma200 - 1
+        pre = int(drop5 < -0.05) + int(0.05 <= dist < 0.20)        # conviction points known after the close
         return dict(close=c[-1], rsi2=round(rsi2(c[-60:]), 1), sma200=round(sma200, 2), sma5=round(sma5, 2),
-                    above200=c[-1] > sma200, buy=c[-1] > sma200 and rsi2(c[-60:]) < P["rsi_lo"], exit=c[-1] > sma5)
+                    above200=c[-1] > sma200, buy=c[-1] > sma200 and rsi2(c[-60:]) < P["rsi_lo"], exit=c[-1] > sma5,
+                    drop5=round(drop5 * 100, 2), dist200=round(dist * 100, 2), pre_score=pre)
 
     # ---------- trading ----------
     def open_pos(self):
@@ -141,45 +150,63 @@ class Bot:
             v += p["qty"] * px * (1 - COST)
         return v
 
-    def fill_pending(self, snap):
-        """Execute orders decided after the last close at today's session open."""
-        pend = self.s.get("pending")
-        if not pend:
-            return
-        d = snap[pend["market"]]
-        if not d["in_session"] or d["start"] <= pend["decided_ts"]:
-            return
-        r = yget(pend["market"], "1m", "1d")
+    def orders(self):
+        o = self.s.get("orders")
+        if o is None:                                   # migrate the single-order format
+            o = [self.s["pending"]] if self.s.get("pending") else []
+        return o
+
+    def first_open(self, sym, start):
+        r = yget(sym, "1m", "1d")
         ts, op = r.get("timestamp") or [], r["indicators"]["quote"][0]["open"]
-        first = next((op[i] for i, t in enumerate(ts) if t >= d["start"] and op[i] is not None), None)
-        if first is None:
-            return
-        if pend["side"] == "BUY":
-            spend = self.s["cash"]
-            qty = spend * (1 - COST) / first
-            self.s["cash"] = 0.0
-            self.s["positions"].append(dict(market=pend["market"], qty=qty, entry=round(first, 4), last=first,
-                                            pnl=round(-COST * 100, 2), status="OPEN", opened=now().strftime("%m-%d %H:%M"),
-                                            sessions=0, cost_usd=round(spend, 2), series=[]))
-            self.event("BUY", pend["market"], f"시가 매수 @ ${first:.2f} · ${spend:.2f} · {pend['why']}")
-        else:
-            p = next(p for p in self.open_pos() if p["market"] == pend["market"])
-            got = p["qty"] * first * (1 - COST)
-            p.update(status="CLOSED", exit=round(first, 4), last=first, pnl=round((got / p["cost_usd"] - 1) * 100, 2),
-                     closed=now().strftime("%m-%d %H:%M"))
-            self.s["cash"] += got
-            self.event("SELL", p["market"], f"시가 매도 @ ${first:.2f} · 수익 {p['pnl']:+.2f}% · {pend['why']}")
-        self.s["pending"] = None
+        return next((op[i] for i, t in enumerate(ts) if t >= start and op[i] is not None), None)
+
+    def fill_pending(self, snap):
+        """Execute orders decided after the last close at today's session open (sells first, then buys)."""
+        left = []
+        for pend in sorted(self.orders(), key=lambda o: o["side"] != "SELL"):
+            d = snap[pend["market"]]
+            if not d["in_session"] or d["start"] <= pend["decided_ts"]:
+                left.append(pend); continue
+            first = self.first_open(pend["market"], d["start"])
+            if first is None:
+                left.append(pend); continue
+            if pend["side"] == "BUY":
+                gap = first / pend["prev_close"] - 1 if pend.get("prev_close") else 0.0
+                score = pend.get("pre_score", 1) + int(gap <= 0)
+                if score == 0:
+                    self.event("SKIP", pend["market"], f"시가 ${first:.2f} (갭 {gap*100:+.2f}%) · 확신 0점이라 매수 건너뜀")
+                    continue
+                w = P["w_hi"] if score >= 2 else P["w_lo"]
+                spend = min(self.s["cash"], self.value(snap) * w)
+                if spend < 1:
+                    self.event("SKIP", pend["market"], "남은 현금 부족으로 매수 건너뜀"); continue
+                qty = spend * (1 - COST) / first
+                self.s["cash"] -= spend
+                self.s["positions"].append(dict(market=pend["market"], qty=qty, entry=round(first, 4), last=first,
+                                                pnl=round(-COST * 100, 2), status="OPEN", opened=now().strftime("%m-%d %H:%M"),
+                                                sessions=0, cost_usd=round(spend, 2), series=[], score=score))
+                self.event("BUY", pend["market"], f"시가 매수 @ ${first:.2f} · ${spend:.2f} (확신 {score}점 → {w:.0%}, 갭 {gap*100:+.2f}%) · {pend['why']}")
+            else:
+                p = next(p for p in self.open_pos() if p["market"] == pend["market"])
+                got = p["qty"] * first * (1 - COST)
+                p.update(status="CLOSED", exit=round(first, 4), last=first, pnl=round((got / p["cost_usd"] - 1) * 100, 2),
+                         closed=now().strftime("%m-%d %H:%M"))
+                self.s["cash"] += got
+                self.event("SELL", p["market"], f"시가 매도 @ ${first:.2f} · 수익 {p['pnl']:+.2f}% · {pend['why']}")
+        self.s["orders"] = left
+        self.s["pending"] = left[0] if left else None     # the page shows the first queued order
 
     def decide(self, snap, ind):
-        """After a close: queue the next session's order. Runs once per completed daily bar."""
+        """After a close: queue the next session's orders. Runs once per completed daily bar."""
         bar = max(d["last_bar_ts"] for d in snap.values())
         if self.s.get("decided_bar") == bar or any(d["in_session"] for d in snap.values()):
             return
         self.s["decided_bar"] = bar
-        pos = self.open_pos()
-        if pos:
-            p = pos[0]; i = ind.get(p["market"])
+        orders = []
+        held = set()
+        for p in self.open_pos():
+            held.add(p["market"]); i = ind.get(p["market"])
             p["sessions"] = p.get("sessions", 0) + 1
             if i and i["exit"]:
                 why = f"종가 ${i['close']:.2f} > 5일 평균 ${i['sma5']:.2f}"
@@ -187,19 +214,21 @@ class Bot:
                 why = f"{P['max_days']}거래일 경과"
             else:
                 self.log(f"HOLD {p['market']} · 보유 {p['sessions']}일 · 종가 {i and i['close']} ≤ 5일 평균 {i and i['sma5']}")
-                return
-            self.s["pending"] = dict(side="SELL", market=p["market"], why=why, decided_ts=bar)
+                continue
+            orders.append(dict(side="SELL", market=p["market"], why=why, decided_ts=bar))
             self.event("ORDER", p["market"], f"다음 장 시가 매도 예약 · {why}")
-            return
-        cands = sorted((i["rsi2"], s) for s, i in ind.items() if i and i["buy"])
-        if cands:
-            r, s = cands[0]; i = ind[s]
-            why = f"RSI(2) {r:.1f} < {P['rsi_lo']:g}, 종가 ${i['close']:.2f} > 200일 평균 ${i['sma200']:.2f}"
-            self.s["pending"] = dict(side="BUY", market=s, why=why, decided_ts=bar)
-            self.event("ORDER", s, f"다음 장 시가 매수 예약 · {why}")
-        else:
+        for s, i in sorted(ind.items(), key=lambda kv: (kv[1] or {}).get("rsi2", 999)):
+            if not i or not i["buy"] or s in held:
+                continue
+            why = (f"RSI(2) {i['rsi2']:.1f} < {P['rsi_lo']:g}, 종가 ${i['close']:.2f} > 200일 평균 ${i['sma200']:.2f} · "
+                   f"사전 확신 {i['pre_score']}점 (5일 {i['drop5']:+.1f}%, 200일선 +{i['dist200']:.1f}%)")
+            orders.append(dict(side="BUY", market=s, why=why, decided_ts=bar, prev_close=i["close"], pre_score=i["pre_score"]))
+            self.event("ORDER", s, f"다음 장 시가 매수 예약 · {why} · 시가가 전날 종가 이하이면 +1점")
+        if not orders:
             self.log("NO SIGNAL · " + " · ".join(f"{s} RSI2 {i['rsi2']} {'200일선 위' if i['above200'] else '200일선 아래'}"
                                                  for s, i in ind.items() if i))
+        self.s["orders"] = self.orders() + orders
+        self.s["pending"] = self.s["orders"][0] if self.s["orders"] else None
 
     def step(self):
         snap = self.snapshot()
@@ -212,11 +241,11 @@ class Bot:
         live = any(d["in_session"] for d in snap.values())
         pos, pend = self.open_pos(), self.s.get("pending")
         self.s["phase"] = "holding" if pos else "watching"
-        self.s["phase_label"] = ("보유 중 · " + pos[0]["market"]) if pos else "신호 대기"
+        self.s["phase_label"] = ("보유 중 · " + ", ".join(p["market"] for p in pos)) if pos else "신호 대기"
         nxt = min(d["start"] for d in snap.values()) if not live else None
         open_txt = datetime.fromtimestamp(nxt, KST).strftime("%m/%d %H:%M") if nxt and nxt > time.time() else ""
         self.s["phase_note"] = ("미국 장 열림 · 1분마다 갱신" if live else "미국 장 마감" + (f" · 다음 개장 {open_txt}" if open_txt else "")) + \
-            (f" · 예약: {pend['market']} {'매수' if pend['side'] == 'BUY' else '매도'}" if pend else "")
+            "".join(f" · 예약: {o['market']} {'매수' if o['side'] == 'BUY' else '매도'}" for o in self.orders())
         self.s["signals"] = [dict(market=s, price=snap[s]["price"], **(ind[s] or {})) for s in SYMS]
         self.s["market_open"] = live
         self.s["updated"] = now().strftime("%Y-%m-%d %H:%M:%S KST")
