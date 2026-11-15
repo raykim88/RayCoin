@@ -71,6 +71,10 @@ svg.spark{width:100%;height:64px;display:block}
 .timeline li{display:grid;grid-template-columns:62px 1fr;gap:8px;padding:9px 0;border-bottom:1px solid var(--line);font-size:.84rem}
 .timeline li:last-child{border-bottom:0}
 .timeline time{color:var(--muted);font-size:.75rem;padding-top:2px}
+.xb{display:block;margin-top:5px;padding:1px 0;border-radius:4px;font:600 .66rem/1.35 var(--f-body);text-align:center;letter-spacing:.04em}
+.xb.win{background:var(--up-bg);color:var(--up);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--up) 35%,transparent)}
+.xb.loss{background:var(--down-bg);color:var(--down);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--down) 35%,transparent)}
+.xb.flat{background:var(--chip);color:var(--muted)}
 .tag{font-weight:700;font-size:.7rem;padding:1px 6px;border-radius:4px;margin-right:6px}
 .tag.BUY{background:var(--up-bg);color:var(--up)} .tag.SELL{background:var(--down-bg);color:var(--down)}
 .tag.HOLD,.tag.RECOVER{background:var(--warn-bg);color:var(--warn)}
@@ -314,6 +318,15 @@ footer{font-size:.75rem;color:var(--muted)}
 
 <script>
 const $ = id => document.getElementById(id);
+// thin win/loss card under a SELL time: 익절 (profit, red) / 손절 (loss, blue), from the event text
+function exitBadge(e) {
+  if (e.kind !== "SELL") return "";
+  const m = /(?:ROE|수익)\s*([+-]?\d+(?:\.\d+)?)%/.exec(e.text || ""), r = m ? parseFloat(m[1]) : NaN;
+  const loss = /손절|강제 청산|청산가/.test(e.text || "") || r < 0;
+  const win = !loss && (/익절/.test(e.text || "") || r > 0);
+  if (!loss && !win) return `<span class="xb flat">종료</span>`;
+  return `<span class="xb ${win ? "win" : "loss"}">${win ? "익절" : "손절"}</span>`;
+}
 // ---- tabs: Coin (live bot) | Stock (setup). Remembered per viewer via the URL hash and localStorage.
 const SUB = {coin: "Upbit KRW · 모의매매", stock: "미국 · 국내 주식 · 모의매매", news: "코인 · 주식 관련 뉴스"};
 function showTab(t) {
@@ -415,7 +428,7 @@ async function loadStock() {
     $("kCnt").textContent = `${pos.length} / ${ev.filter(e => e.kind === "SELL").length}`;
     if (k.phase_label) $("kPhase").textContent = k.phase_label;
     if (k.phase_note) $("kPhaseNote").textContent = k.phase_note;
-    if (ev.length) $("kTimeline").innerHTML = ev.slice().reverse().map(e => `<li><time class="num">${e.d ? esc(e.d.replace("-", "/")) + "<br>" : ""}${esc(e.t)}</time><span><span class="tag ${esc(e.kind)}">${esc(e.kind)}</span><b>${esc(e.market || "")}</b> ${esc(e.text)}</span></li>`).join("");
+    if (ev.length) $("kTimeline").innerHTML = ev.slice().reverse().map(e => `<li><time class="num">${e.d ? esc(e.d.replace("-", "/")) + "<br>" : ""}${esc(e.t)}${exitBadge(e)}</time><span><span class="tag ${esc(e.kind)}">${esc(e.kind)}</span><b>${esc(e.market || "")}</b> ${esc(e.text)}</span></li>`).join("");
     if ((k.curve || []).length > 1) { $("kChart").className = "panel"; $("kChart").innerHTML = stockChart(k.curve, tot.cost_usd || 100); }
     if (k.updated) $("kUpdated").textContent = "· " + k.updated;
     if ((k.signals || []).length) $("kSignals").innerHTML = k.signals.map(g => {
@@ -628,7 +641,7 @@ function render(st) {
   // automatic "기준 조정" events belong to the retired v2 tuner and never change the live pump strategy
   const ev = (st.events || []).filter(e => !(e.kind === "TUNE" && /^기준 조정/.test(e.text || ""))).slice().reverse();
   if (ev.length) $("timeline").innerHTML = ev.map(e =>
-    `<li><time class="num">${e.d ? esc(e.d.replace("-", "/")) + "<br>" : ""}${esc(e.t)}</time><span><span class="tag ${esc(e.kind)}">${esc(e.kind)}</span><b>${esc((e.market || "").replace("KRW-", ""))}</b> ${esc(e.text)}</span></li>`).join("");
+    `<li><time class="num">${e.d ? esc(e.d.replace("-", "/")) + "<br>" : ""}${esc(e.t)}${exitBadge(e)}</time><span><span class="tag ${esc(e.kind)}">${esc(e.kind)}</span><b>${esc((e.market || "").replace("KRW-", ""))}</b> ${esc(e.text)}</span></li>`).join("");
   const picks = new Set(P.map(p => p.market));
   const C = st.candidates || [];
   if (C.length) $("cand").innerHTML = C.map(c => `<tr class="${picks.has(c.market) ? "pick" : ""}">
