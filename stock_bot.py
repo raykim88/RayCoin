@@ -6,7 +6,7 @@ Rules (backtested on 10 years of daily bars, costs 0.15% per side, stock/bt/revi
       buy  if close > 200-day average and RSI(2) < 30      (up to one position per ETF)
       sell if close > 5-day average, or after 10 sessions
   - Conviction score, one point each: 5-day drop worse than -5%, close 5-20% above the 200-day average,
-    opening price at or below the previous close (known at the fill). Score 2+ -> 100% of equity (capped
+    VIX close between 20 and 30 (a market-news proxy), opening price at or below the previous close (known at the fill). Score 2+ -> 100% of equity (capped
     by cash), 1 -> 50%, 0 -> skip.
   - Orders fill at the next session's opening price.
   - Option B (user, 11-15): capital is split in two sleeves. "swing" runs the rules above on its own cash;
@@ -78,8 +78,8 @@ class Bot:
                  text="자금의 절반은 QQQ 종가가 200일 평균 위에 있는 동안 TQQQ를 계속 보유하고, 아래로 내려가면 다음 장 시가에 팔아 현금으로 둡니다. "
                       "10년 백테스트: 추세 보유만 +1302%(최대 하락폭 58%), 단타만 +461%(26%), 절반씩 +881%(46%). 나머지 절반은 아래 단타 규칙."),
             dict(title="확신 점수로 비중 조절",
-                 text="① 5일간 -5% 넘게 하락 ② 종가가 200일 평균보다 5~20% 위 ③ 시가가 전날 종가 이하(갭 하락·보합), 각 1점. "
-                      "2점 이상이면 자산의 100%(남은 현금 한도), 1점이면 50%, 0점이면 건너뜀. 10년 백테스트 평균 수익: 0점 -0.45%, 1점 +1.12%, 2점 +2.01%."),
+                 text="① 5일간 -5% 넘게 하락 ② 종가가 200일 평균보다 5~20% 위 ③ VIX(공포지수) 20~30 ④ 시가가 전날 종가 이하(갭 하락·보합), 각 1점. "
+                      "2점 이상이면 단타 몫의 100%(남은 현금 한도), 1점이면 50%, 0점이면 건너뜀. 10년 백테스트 평균 수익: 0점 -0.93%, 1점 +0.78%, 2점 +2.42%."),
             dict(title="매도: 반등 확인",
                  text="종가가 5일 평균을 넘으면 다음 장 시가에 매도. 10거래일이 지나도 안 넘으면 그때 매도."),
             dict(title="손절 없음 (의도된 설계)",
@@ -87,7 +87,7 @@ class Bot:
             dict(title="모니터링",
                  text="미국 장중에는 1분마다 시세를 갱신하고, 장 마감 직후 신호를 계산합니다. 매매는 장 시작(한국시간 23:30, 서머타임 22:30)에 체결된 것으로 처리. 비용은 편도 0.15%."),
             dict(title="근거",
-                 text="10년 백테스트(일봉, 2016-11~2026-11): 지금 규칙 +461%, 최대 하락폭 26%, 211회. 이전 규칙(RSI<20 전액·1종목) +375%, 하락폭 41%. 앞뒤 5년 모두 더 좋음."),
+                 text="단타 몫 10년 백테스트(일봉, 2016-11~2026-11): 지금 규칙 +562%, 최대 하락폭 26%, 215회. VIX 점수 전 +461%, 처음 규칙(RSI<20 전액·1종목) +375%(하락폭 41%). 앞뒤 5년 모두 더 좋음."),
         ]
 
     # ---------- io ----------
@@ -118,7 +118,7 @@ class Bot:
     def snapshot(self):
         """Completed daily closes + live price + session times for each symbol."""
         out = {}
-        for s in SYMS + [TREND_SIG]:
+        for s in SYMS + [TREND_SIG, "^VIX"]:
             r = yget(s, "1d", "1y")
             m, q = r["meta"], r["indicators"]["quote"][0]
             ts = r["timestamp"]
@@ -264,11 +264,14 @@ class Bot:
             elif not q["above200"] and tpos:
                 orders.append(dict(side="SELL", market=TREND_SYM, why=txt + " → 추세 이탈", decided_ts=bar, sleeve="trend"))
                 self.event("ORDER", TREND_SYM, f"[추세] 다음 장 시가 매도 예약 · {txt}")
+        vix = (ind.get("^VIX") or {}).get("close")
+        vpt = int(vix is not None and 20 <= vix < 30)          # news proxy: elevated fear (stock/bt/news_proxy.py)
         for s, i in sorted(((k, v) for k, v in ind.items() if k in SYMS), key=lambda kv: (kv[1] or {}).get("rsi2", 999)):
             if not i or not i["buy"] or s in held:
                 continue
+            i = dict(i, pre_score=i["pre_score"] + vpt)
             why = (f"RSI(2) {i['rsi2']:.1f} < {P['rsi_lo']:g}, 종가 ${i['close']:.2f} > 200일 평균 ${i['sma200']:.2f} · "
-                   f"사전 확신 {i['pre_score']}점 (5일 {i['drop5']:+.1f}%, 200일선 +{i['dist200']:.1f}%)")
+                   f"사전 확신 {i['pre_score']}점 (5일 {i['drop5']:+.1f}%, 200일선 +{i['dist200']:.1f}%, VIX {vix if vix is None else round(vix, 1)})")
             orders.append(dict(side="BUY", market=s, why=why, decided_ts=bar, prev_close=i["close"], pre_score=i["pre_score"], sleeve="swing"))
             self.event("ORDER", s, f"다음 장 시가 매수 예약 · {why} · 시가가 전날 종가 이하이면 +1점")
         if not orders:
