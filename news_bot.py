@@ -166,14 +166,14 @@ def collect():
     rel = re.compile(r"TQQQ|UPRO|QQQ|Nasdaq|S&P|VIX|Fed|stock market|stocks|Wall Street|ETF", re.I)
     stock += [x for x in items(fetch(f"https://feeds.finance.yahoo.com/rss/2.0/headline?s={urllib.parse.quote(YAHOO)}&region=US&lang=en-US"),
                                "ETF", YAHOO, "Global") if rel.search(x["title"])]   # drop single-stock noise
-    mkt = re.compile(r"stock|market|Nasdaq|S&P|Dow|Fed|rate|inflation|Treasur|yield|earnings|Nvidia|AI", re.I)
+    mkt = re.compile(r"stock|market|Nasdaq|S&P|Dow|Fed|rate|inflation|Treasur|yield|earnings|Nvidia|\bAI\b", re.I)
     stock = [x for x in stock if x["query"] != "MarketWatch" or mkt.search(x["title"])]
     noise = re.compile(r"Key Takeaways|Fair Value|Too Expensive|Stocks? To (Watch|Buy)|Worth Watching|Multibagger|Undervalued|Got (Right|Wrong)|Stocks With|That Can Turn|Shoppers|Class Action|Stocks That Could|Will Impact|Am I wrong|Should I|Was I|Should a |Could Be A Bargain|What Comes Next For|Shares Jumped|Impairment|Surges After Results|In Latest Session|Investors Are Watching|Missed .*Run|Brokerage Stocks|What Changed|Book Value|Stock a Buy|Dividend Stock|Growth Stocks|Lost More Than Half|Mls Standings|Buying Opportunity|Should You Buy|Early .* Buyers|Worth Owning|North Korea \(|Better Buy|Prediction:|Stocks To Own|Investment Narrative|What Bears Saw|Buy & Sell|[Ee]arnings:|TradingView|Rating Downgrade|주당순이익|Investor News|SHAREHOLDER ALERT|Suffered Losses|Bullish Stocks|Roth IRA|Time To Stop Buying|BATS:|FILE PHOTO|Task Force Conference|NASDAQ:[A-Z]+ by ", re.I)
     stock = [x for x in stock if not noise.search(x["title"])]       # listicles from the US "stock market" search
     tick = re.compile(r"\((?:(?:NASDAQ|NYSE|TSE|LSE)\s*:\s*)?([A-Z]{1,5})(?::(?:NASDAQ|NYSE|BATS))?\)")
     keep = {"TQQQ", "UPRO", "QQQ", "SPY", "VIX", "NVDA"}
     stock = [x for x in stock if x["region"] != "Global" or all(t in keep for t in tick.findall(x["title"]))]   # single-stock pieces
-    coin = [x for x in coin if not re.search(r"Invite Code|Bonus|Presale|Price Prediction|BTC\.CC|팀엘리트|Prediction Market|Prediction:|Worth (More )?by|Best Crypto ETFs|Recover in 20", x["title"], re.I)]   # promos
+    coin = [x for x in coin if not re.search(r"Invite Code|Bonus|Presale|Price Prediction|BTC\.CC|팀엘리트|Prediction Market|Prediction:|Worth (More )?by|Best Crypto ETFs|Recover in 20|Millionaire|Where Will .* Be in", x["title"], re.I)]   # promos
     cut = time.time() - KEEP_H * 3600
 
     def clean(lst, n):
