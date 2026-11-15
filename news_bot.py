@@ -30,7 +30,7 @@ UA = {"User-Agent": "Mozilla/5.0"}
 COIN_Q = ["비트코인", "가상자산 시장", "업비트 코인"]
 STOCK_Q = ["나스닥", "미국 증시", "연준 금리"]
 COIN_Q_EN = ["bitcoin", "crypto market"]
-STOCK_Q_EN = ["stock market", "Nasdaq", "Federal Reserve"]
+STOCK_Q_EN = ["Nasdaq", "Federal Reserve"]   # "stock market" pulled mostly single-stock pieces
 YAHOO = "TQQQ,UPRO,QQQ,^VIX"
 KEEP_H = 48
 # Direct outlet feeds (summaries) and article pages whose text can be read for Claude's Korean summary
@@ -168,7 +168,7 @@ def collect():
                                "ETF", YAHOO, "Global") if rel.search(x["title"])]   # drop single-stock noise
     mkt = re.compile(r"stock|market|Nasdaq|S&P|Dow|Fed|rate|inflation|Treasur|yield|earnings|Nvidia|AI", re.I)
     stock = [x for x in stock if x["query"] != "MarketWatch" or mkt.search(x["title"])]
-    noise = re.compile(r"Key Takeaways|Fair Value|Too Expensive|Stocks? To (Watch|Buy)|Worth Watching|Multibagger|Undervalued|Got (Right|Wrong)|Stocks With|That Can Turn|Shoppers|Class Action|Stocks That Could|Will Impact|Am I wrong|Should I|Was I|Should a |Could Be A Bargain|What Comes Next For|Shares Jumped|Impairment|Surges After Results|In Latest Session|Investors Are Watching|Missed .*Run|Brokerage Stocks|What Changed|Book Value|Stock a Buy|Dividend Stock|Growth Stocks|Lost More Than Half|Mls Standings|Buying Opportunity|Should You Buy|Early .* Buyers|Worth Owning|North Korea \(", re.I)
+    noise = re.compile(r"Key Takeaways|Fair Value|Too Expensive|Stocks? To (Watch|Buy)|Worth Watching|Multibagger|Undervalued|Got (Right|Wrong)|Stocks With|That Can Turn|Shoppers|Class Action|Stocks That Could|Will Impact|Am I wrong|Should I|Was I|Should a |Could Be A Bargain|What Comes Next For|Shares Jumped|Impairment|Surges After Results|In Latest Session|Investors Are Watching|Missed .*Run|Brokerage Stocks|What Changed|Book Value|Stock a Buy|Dividend Stock|Growth Stocks|Lost More Than Half|Mls Standings|Buying Opportunity|Should You Buy|Early .* Buyers|Worth Owning|North Korea \(|Better Buy|Prediction:|Stocks To Own|Investment Narrative|What Bears Saw|Buy & Sell|[Ee]arnings:", re.I)
     stock = [x for x in stock if not noise.search(x["title"])]       # listicles from the US "stock market" search
     tick = re.compile(r"\((?:(?:NASDAQ|NYSE|TSE|LSE)\s*:\s*)?([A-Z]{1,5})\)")
     keep = {"TQQQ", "UPRO", "QQQ", "SPY", "VIX", "NVDA"}
