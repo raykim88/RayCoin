@@ -6,11 +6,14 @@ directly because of CORS).
 Coin: Google News (Korean and US English editions) for the market, plus every coin the coin bot holds or
 traded in the last 24h. Stock: Google News (Korean and US English) for the US market, and Yahoo Finance
 headlines (with summaries) for the ETFs the stock bot trades.
-Headlines are for context only; neither bot trades on them.
+Headlines are for context only; neither bot trades on them. Korean titles and summaries come from
+news/ko.json (id -> {t, s, basis}), which Claude writes at each hourly check; items not yet in it show the
+original headline until then.
 
 Usage: python3 news_bot.py [--out news/news.json]
 """
 import argparse
+import hashlib
 import json
 import re
 import time
@@ -71,7 +74,7 @@ def items(xml, tag, query, region="KR"):
         summ = plain(it.findtext("description"))
         if summ.startswith(title[:30]) or len(summ) < 40:      # Google News descriptions only repeat the title
             summ = ""
-        out.append(dict(title=title, source=src.strip(), link=link, ts=int(when.timestamp()),
+        out.append(dict(id=hashlib.sha1(title.encode()).hexdigest()[:12], title=title, source=src.strip(), link=link, ts=int(when.timestamp()),
                         when=when.strftime("%m-%d %H:%M"), tag=tag, query=query, region=region, summary=summ[:600]))
     return out
 
@@ -123,8 +126,11 @@ def collect():
         stock += items(fetch(google(q)), "시장", q); time.sleep(1)
     for q in STOCK_Q_EN:
         stock += items(fetch(google(q, True)), "글로벌", q, "Global"); time.sleep(1)
-    stock += items(fetch(f"https://feeds.finance.yahoo.com/rss/2.0/headline?s={urllib.parse.quote(YAHOO)}&region=US&lang=en-US"),
-                   "ETF", YAHOO, "Global")
+    rel = re.compile(r"TQQQ|UPRO|QQQ|Nasdaq|S&P|VIX|Fed|stock market|stocks|Wall Street|ETF", re.I)
+    stock += [x for x in items(fetch(f"https://feeds.finance.yahoo.com/rss/2.0/headline?s={urllib.parse.quote(YAHOO)}&region=US&lang=en-US"),
+                               "ETF", YAHOO, "Global") if rel.search(x["title"])]   # drop single-stock noise
+    noise = re.compile(r"Key Takeaways|Fair Value|Too Expensive|Stocks? To (Watch|Buy)|Worth Watching|Multibagger|Undervalued|Got Right", re.I)
+    stock = [x for x in stock if not noise.search(x["title"])]       # listicles from the US "stock market" search
     cut = time.time() - KEEP_H * 3600
 
     def clean(lst, n):
@@ -139,6 +145,14 @@ def collect():
         glob = [x for x in out if x["tag"] == "글로벌"][:15]     # and global (US English) coverage
         rest = [x for x in out if not x.get("watched") and x["tag"] not in ("ETF", "글로벌")][: n - len(watched) - len(etf) - len(glob)]
         return sorted(watched + etf + glob + rest, key=lambda x: -x["ts"])
+    try:
+        ko = json.loads((ROOT / "news" / "ko.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        ko = {}
+    for x in coin + stock:
+        k = ko.get(x["id"])
+        if k:
+            x.update(title_ko=k.get("t", ""), summary_ko=k.get("s", ""), basis=k.get("basis", ""))
     return dict(updated=datetime.now(KST).strftime("%Y-%m-%d %H:%M KST"), coin=clean(coin, 50), stock=clean(stock, 50),
                 note="헤드라인은 흐름 파악용 참고 자료이며, 코인·주식 봇은 뉴스로 매매하지 않습니다.")
 
