@@ -29,6 +29,10 @@ push_once() {
     sblob=$(git -C "$REPO" hash-object -w "$REPO/stock/status.json")
     entries+=$'\n'$(printf "100644 blob %s\tstock_status.json" "$sblob")
   fi
+  if [[ -f "$REPO/news/news.json" ]]; then         # News tab
+    nblob=$(git -C "$REPO" hash-object -w "$REPO/news/news.json")
+    entries+=$'\n'$(printf "100644 blob %s\tnews.json" "$nblob")
+  fi
   tree=$(printf "%s\n" "$entries" | git -C "$REPO" mktree)
   commit=$(git -C "$REPO" commit-tree "$tree" -m "live status $(date -u +%FT%TZ)")
   for d in 2 4 8 16; do

@@ -16,5 +16,8 @@ while true; do
     echo "[$(date +%H:%M:%S)] WATCHDOG restart stock bot" >> stock/trade_log.txt
     nohup python3 stock_bot.py --status stock/status.json --log stock/trade_log.txt >> stock/stdout.txt 2>&1 &
   fi
+  if ! pgrep -f "news_bot.py" >/dev/null; then
+    nohup python3 news_bot.py --out news/news.json >> news/stdout.txt 2>&1 &
+  fi
   sleep 60
 done
