@@ -188,7 +188,7 @@ def collect():
     tick = re.compile(r"\((?:(?:NASDAQ|NYSE|TSE|LSE)\s*:\s*)?([A-Z]{1,5})(?::(?:NASDAQ|NYSE|BATS))?\)")
     keep = {"TQQQ", "UPRO", "QQQ", "SPY", "VIX", "NVDA"}
     stock = [x for x in stock if x["region"] != "Global" or all(t in keep for t in tick.findall(x["title"]))]   # single-stock pieces
-    coin = [x for x in coin if not re.search(r"Invite Code|Bonus|Presale|Price Prediction|BTC\.CC|팀엘리트|Prediction Market|Prediction:|Worth (More )?by|Best Crypto ETFs|Recover in 20|Millionaire|Where Will .* Be in|^댓글 :|코인마켓캡|CoinMarketCap|Scams|가격 내역", x["title"], re.I)]   # promos
+    coin = [x for x in coin if not re.search(r"Invite Code|Bonus|Presale|Price Prediction|BTC\.CC|팀엘리트|Prediction Market|Prediction:|Worth (More )?by|Best Crypto ETFs|Recover in 20|Millionaire|Where Will .* Be in|^댓글 :|코인마켓캡|CoinMarketCap|Scams|가격 내역|probe i\d", x["title"], re.I)]   # promos
     cut = time.time() - KEEP_H * 3600
 
     def clean(lst, n):
