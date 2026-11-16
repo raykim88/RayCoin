@@ -485,6 +485,9 @@ class Bot:
                  f"({(value/invested-1)*100:+.2f}%), round PnL {r_pnl:+.3f}$ ===")
 
     # ---------- main loop ----------
+    def wait_until(self, target):
+        time.sleep(max(0, target - time.time()))
+
     def run(self):
         while self.args.last_round == 0 or self.round <= self.args.last_round:
             self.counts = dict(buys=0, sells=0, swaps=0, adds=0)
@@ -500,7 +503,7 @@ class Bot:
             self.rotate(self.candidates)
             self.write_status()
             for minute in range(skip + 1, self.args.round_min + 1):
-                time.sleep(max(0, t0 + minute * 60 - time.time()))
+                self.wait_until(t0 + minute * 60)
                 self.minute, self.gmin = minute, self.gmin + 1
                 self.apply_overrides()
                 try:

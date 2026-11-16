@@ -389,6 +389,33 @@ class FuturesBot(v2.Bot):
         self.log(f"=== XS REBALANCE {slot}: LONG {desc(longs)} | SHORT {desc(shorts)} | kept {kept}")
         self.event("TUNE", "", f"12시간 교체 ({slot}): 롱 {desc(longs)} · 숏 {desc(shorts)}")
 
+    def wait_until(self, target):
+        """Between minute ticks, re-check pump-fade stops every 10 s (review-234: live stops slipped past -7% on
+        fast tiny-coin spikes, e.g. NCT 11.2 -> 12.8 within two minutes). Take-profit and trailing stay per-minute."""
+        while True:
+            rem = target - time.time()
+            if rem <= 0:
+                return
+            if rem < 11 or not self.xs_mode() or not self.open_pos() or not self.params.get("fast_stop", True):
+                time.sleep(rem); return
+            time.sleep(10)
+            try:
+                opens = self.open_pos()
+                if not opens:
+                    continue
+                px = {t["market"]: t["trade_price"] for t in v1.get("ticker", markets=",".join(sorted({p["market"] for p in opens})))}
+                sl = float(self.params.get("xs_sl", XS_SL))
+                for p in opens:
+                    if p["market"] not in px or "side" not in p:
+                        continue
+                    side = 1 if p["side"] == "LONG" else -1
+                    if side * (px[p["market"]] / p["entry"] - 1) * 100 <= -sl:
+                        p.update(last=px[p["market"]], pnl=round(self.pnl(p, px[p["market"]]) * 100, 3))
+                        self.sell(p, px[p["market"]], f"손절 (가격 -{sl:g}%, 10초 점검)")
+                        self.write_status()
+            except Exception as e:
+                self.log(f"WARN fast stop: {e!r}")
+
     def xs_exits(self, prices):
         sl = float(self.params.get("xs_sl", XS_SL))
         for p in self.open_pos():
