@@ -242,7 +242,7 @@ class Bot:
     def decide(self, snap, ind):
         """After a close: queue the next session's orders. Runs once per completed daily bar."""
         bar = max(d["last_bar_ts"] for d in snap.values())
-        if self.s.get("decided_bar") == bar or any(d["in_session"] for d in snap.values()):
+        if self.s.get("decided_bar") == bar or any(d["in_session"] for k, d in snap.items() if not k.startswith("^")):
             return
         self.s["decided_bar"] = bar
         orders = []
@@ -316,11 +316,11 @@ class Bot:
         v = self.value(snap)
         cost = self.s["total"]["cost_usd"]
         self.s["total"] = dict(cost_usd=cost, value_usd=round(v, 4), pnl=round((v / cost - 1) * 100, 3))
-        live = any(d["in_session"] for d in snap.values())
+        live = any(d["in_session"] for k, d in snap.items() if not k.startswith("^"))   # ^VIX trades 17:00-06:15 KST
         pos, pend = self.open_pos(), self.s.get("pending")
         self.s["phase"] = "holding" if pos else "watching"
         self.s["phase_label"] = ("보유 중 · " + ", ".join(p["market"] for p in pos)) if pos else "신호 대기"
-        nxt = min(d["start"] for d in snap.values()) if not live else None
+        nxt = min(d["start"] for k, d in snap.items() if not k.startswith("^")) if not live else None
         open_txt = datetime.fromtimestamp(nxt, KST).strftime("%m/%d %H:%M") if nxt and nxt > time.time() else ""
         self.s["phase_note"] = ("미국 장 열림 · 1분마다 갱신" if live else "미국 장 마감" + (f" · 다음 개장 {open_txt}" if open_txt else "")) + \
             "".join(f" · 예약: {o['market']} {'매수' if o['side'] == 'BUY' else '매도'}" for o in self.orders())
