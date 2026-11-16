@@ -433,6 +433,7 @@ function openNews(x) {
   $("nmBody").classList.toggle("muted", !body);
   $("nmBasis").textContent = !body ? "" : x.basis === "본문 요약" ? "Claude 정리 · 기사 본문을 읽고 요약"
     : x.basis === "매체 요약" ? "Claude 정리 · 매체가 제공한 요약을 번역"
+    : x.basis === "검색 보강" ? "Claude 정리 · 본문 대신 같은 소식의 다른 보도를 찾아 요약"
     : "Claude 정리 · 본문 접속이 막혀 제목 기준으로 정리 (원문에서 확인하세요)";
   $("nmLink").href = x.link;
   $("newsModal").showModal();
