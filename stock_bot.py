@@ -297,7 +297,8 @@ class Bot:
             done = closes[:-1] if open_now else closes          # completed daily bars only
             px = m["regularMarketPrice"]
             sma200 = sum(done[-200:]) / 200 if len(done) >= 200 else None
-            prev = done[-1] if done else None
+            # while closed the last bar is the latest session itself: compare with the session before (was 0.00%)
+            prev = (done[-1] if open_now or len(done) < 2 else done[-2]) if done else None
             rows.append(dict(market=sym, name=name, price=px, chg=round((px / prev - 1) * 100, 2) if prev else None,
                              rsi2=round(rsi2(done[-60:]), 1) if len(done) > 60 else None,
                              sma200=round(sma200) if sma200 else None, above200=bool(sma200 and px > sma200),
