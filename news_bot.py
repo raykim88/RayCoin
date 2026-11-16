@@ -36,12 +36,20 @@ KEEP_H = 48
 # Direct outlet feeds (summaries) and article pages whose text can be read for Claude's Korean summary
 FEEDS = dict(coin=[("https://cointelegraph.com/rss", "Cointelegraph"), ("https://www.coindesk.com/arc/outboundfeeds/rss", "CoinDesk")],
              stock=[("https://feeds.content.dowjones.io/public/rss/mw_topstories", "MarketWatch")])
-BODY_HOSTS = ("cointelegraph.com", "www.coindesk.com", "finance.yahoo.com", "stocktwits.com")
+# Korean outlets whose RSS carries a summary and whose pages can be read (needs these hosts on the network allowlist;
+# until then each fetch fails fast and is skipped)
+KR_FEEDS = dict(coin=[("https://www.blockmedia.co.kr/feed", "블록미디어"), ("https://www.coindeskkorea.com/rss/allArticle.xml", "코인데스크코리아"),
+                      ("https://www.tokenpost.kr/rss", "토큰포스트")],
+                stock=[("https://www.yna.co.kr/rss/market.xml", "연합뉴스"), ("https://www.hankyung.com/feed/finance", "한국경제"),
+                       ("https://www.mk.co.kr/rss/50200011/", "매일경제")])
+KR_STOCK_RE = re.compile(r"증시|코스피|코스닥|나스닥|뉴욕|연준|금리|반도체|S&P|다우|환율|미국|엔비디아|ETF")
+BODY_HOSTS = ("cointelegraph.com", "www.coindesk.com", "finance.yahoo.com", "stocktwits.com", "www.blockmedia.co.kr",
+              "www.coindeskkorea.com", "www.tokenpost.kr", "www.yna.co.kr", "www.hankyung.com", "www.mk.co.kr")
 BODIES = ROOT / "news" / "bodies.json"
 
 
-def fetch(url):
-    for a in range(3):
+def fetch(url, tries=3):
+    for a in range(tries):
         try:
             return urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=20).read()
         except Exception:
@@ -150,6 +158,13 @@ def collect():
             for x in got:
                 x["source"] = x["source"] or name
             lst += got; time.sleep(1)
+        for url, name in KR_FEEDS[sec]:
+            got = items(fetch(url, tries=1), "시장", name)
+            for x in got:
+                x["source"] = x["source"] or name
+            if sec == "stock":
+                got = [x for x in got if KR_STOCK_RE.search(x["title"])]
+            lst += got; time.sleep(1)
     for q in COIN_Q:
         coin += items(fetch(google(q)), "시장", q); time.sleep(1)
     for q in COIN_Q_EN:
@@ -185,8 +200,8 @@ def collect():
             seen.add(key); out.append(it)
         watched = [x for x in out if x.get("watched")][:12]
         etf = [x for x in out if x["tag"] == "ETF"][:8]          # keep the English ETF headlines visible
-        outlets = {name for f in FEEDS.values() for _, name in f}
-        direct = [x for x in out if x["query"] in outlets][:12]  # outlet feeds with summaries / readable bodies
+        outlets = {name for d in (FEEDS, KR_FEEDS) for f in d.values() for _, name in f}
+        direct = [x for x in out if x["query"] in outlets][:20]  # outlet feeds with summaries / readable bodies
         glob = [x for x in out if x["tag"] == "글로벌" and x["query"] not in outlets][:12]
         rest = [x for x in out if not x.get("watched") and x["tag"] not in ("ETF", "글로벌")][: n - len(watched) - len(etf) - len(direct) - len(glob)]
         return sorted(watched + etf + direct + glob + rest, key=lambda x: -x["ts"])
