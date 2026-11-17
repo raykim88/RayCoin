@@ -410,9 +410,19 @@ class FuturesBot(v2.Bot):
                     if p["market"] not in px or "side" not in p:
                         continue
                     side = 1 if p["side"] == "LONG" else -1
-                    if side * (px[p["market"]] / p["entry"] - 1) * 100 <= -sl:
+                    move = side * (px[p["market"]] / p["entry"] - 1) * 100
+                    ta = float(self.params.get("xs_trail_at", 0) or 0)
+                    tb = float(self.params.get("xs_trail_gap", 0) or 0)
+                    pk = p.get("peak_move", move)
+                    if move <= -sl:
                         p.update(last=px[p["market"]], pnl=round(self.pnl(p, px[p["market"]]) * 100, 3))
                         self.sell(p, px[p["market"]], f"손절 (가격 -{sl:g}%, 10초 점검)")
+                        self.write_status()
+                    elif ta and pk >= ta and move <= pk - tb + 1e-9:
+                        # review-277: MMT trail level hit at 03:24 but the price spiked 193 -> 205 before the next
+                        # minute tick, turning a +3.5% exit into -2.6%. Same rule, checked every 10 s.
+                        p.update(last=px[p["market"]], pnl=round(self.pnl(p, px[p["market"]]) * 100, 3))
+                        self.sell(p, px[p["market"]], f"추적 청산 (최고 +{pk:.1f}%에서 {tb:g}%p 반납, 10초 점검)")
                         self.write_status()
             except Exception as e:
                 self.log(f"WARN fast stop: {e!r}")
@@ -438,7 +448,7 @@ class FuturesBot(v2.Bot):
                 self.sell(p, px, f"손절 (가격 -{sl:g}%)")
             elif tp and move >= tp:
                 self.sell(p, px, f"익절 (가격 +{tp:g}%)")
-            elif ta and p["peak_move"] >= ta and move <= p["peak_move"] - tb:
+            elif ta and p["peak_move"] >= ta and move <= p["peak_move"] - tb + 1e-9:
                 self.sell(p, px, f"추적 청산 (최고 +{p['peak_move']:.1f}%에서 {tb:g}%p 반납)")
             elif hold and self.gmin - p.get("bought_min", self.gmin) >= hold * 60:
                 self.sell(p, px, f"보유 {hold:g}시간 만료")
