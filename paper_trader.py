@@ -21,7 +21,8 @@ import time
 import urllib.request
 from datetime import datetime, timezone, timedelta
 
-API = "https://api.upbit.com/v1"
+import os
+API = os.environ.get("RC_API", "https://api.upbit.com/v1")   # review-294: RC_API=https://api.bithumb.com/v1 for the Bithumb shadow
 KST = timezone(timedelta(hours=9))
 FEE = 0.0005             # Upbit KRW market fee per side (0.05%)
 BUDGET_USD = 10.0

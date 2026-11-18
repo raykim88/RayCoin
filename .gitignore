@@ -21,3 +21,4 @@ news/news.json
 news/*.tmp
 news/bodies.json
 backtest/data_up30/
+shadow/

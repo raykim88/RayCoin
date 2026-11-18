@@ -22,7 +22,7 @@ import time
 import paper_trader as v1
 import paper_trader_v2 as v2
 
-FEE = 0.0005          # per side, on notional
+FEE = float(__import__("os").environ.get("RC_FEE", "0.0005"))   # per side, on notional (Bithumb shadow: 0.0025)
 MMR = 0.005           # maintenance margin rate
 LEVS = [2, 3, 5, 10]
 FLIP_SIGNAL = 2.5     # default |momentum signal| (%) needed to reverse a held position (tuned hourly)
