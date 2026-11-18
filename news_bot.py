@@ -188,7 +188,7 @@ def collect():
     tick = re.compile(r"\((?:(?:NASDAQ|NYSE|TSE|LSE)\s*:\s*)?([A-Z]{1,5})(?::(?:NASDAQ|NYSE|BATS))?\)")
     keep = {"TQQQ", "UPRO", "QQQ", "SPY", "VIX", "NVDA"}
     stock = [x for x in stock if x["region"] != "Global" or all(t in keep for t in tick.findall(x["title"]))]   # single-stock pieces
-    coin = [x for x in coin if not re.search(r"Invite Code|Bonus|Presale|Price Prediction|BTC\.CC|팀엘리트|Prediction Market|Prediction:|Worth (More )?by|Best Crypto ETFs|Recover in 20|Millionaire|Where Will .* Be in|^댓글 :|코인마켓캡|CoinMarketCap|Scams|가격 내역|probe i\d|Casino|Dayton track|코인모으기|코인 모으기|jumps [0-9.]+% in one hour| - Market Insights$|Since GTA|Daily Market Overview|^크립토 데일리$|Marketing Agency|10x by|Market Value Reach|돌파 가능할까|지지선 지킬까", x["title"], re.I)]   # promos
+    coin = [x for x in coin if not re.search(r"Invite Code|Bonus|Presale|Price Prediction|BTC\.CC|팀엘리트|Prediction Market|Prediction:|Worth (More )?by|Best Crypto ETFs|Recover in 20|Millionaire|Where Will .* Be in|^댓글 :|코인마켓캡|CoinMarketCap|Scams|가격 내역|probe i\d|Casino|Dayton track|^Bitcoin King |코인모으기|코인 모으기|jumps [0-9.]+% in one hour| - Market Insights$|Since GTA|Daily Market Overview|^크립토 데일리$|Marketing Agency|10x by|Market Value Reach|돌파 가능할까|지지선 지킬까", x["title"], re.I)]   # promos
     cut = time.time() - KEEP_H * 3600
 
     def clean(lst, n):
