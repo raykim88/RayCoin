@@ -426,7 +426,7 @@ function exitBadge(e) {
   return `<span class="xb ${win ? "win" : "loss"}">${win ? "익절" : "손절"}</span>`;
 }
 // ---- tabs: Coin (live bot) | Stock (setup). Remembered per viewer via the URL hash and localStorage.
-const SUB = {coin: "Upbit KRW · 모의매매", stock: "미국 · 국내 주식 · 모의매매", news: "코인 · 주식 관련 뉴스"};
+const SUB = {coin: "코인 모의매매 · 실전 업비트 + 연습 빗썸", stock: "미국 · 국내 주식 · 모의매매", news: "코인 · 주식 관련 뉴스"};
 function showTab(t) {
   const stock = t === "stock", news = t === "news", coin = !stock && !news;
   $("tabCoin").hidden = !coin; $("coinFooter").hidden = !coin; $("tabStock").hidden = !stock; $("tabNews").hidden = !news;
@@ -504,6 +504,13 @@ function shadowUp() {
   $("shUp").textContent = (u > 0 ? "+" : "") + u.toFixed(2) + "%";
   $("shUp").className = "num " + (u > 0.005 ? "up" : u < -0.005 ? "down" : "flat");
 }
+function updatePill() {
+  const st = window.__lastSt; if (!st || !(st.params || {}).pump_pause) return;
+  const liveOpen = (st.positions || []).some(p => p.status === "OPEN");
+  const shOpen = !!(SHADOW && (SHADOW.positions || []).some(p => p.status === "OPEN"));
+  $("phase").className = "pill" + (shOpen || liveOpen ? " live" : "");
+  $("phaseText").textContent = (liveOpen ? "실전 정리 중" : "실전 쉬는 중") + " · " + (shOpen ? "연습 거래 중" : "연습 기회 대기");
+}
 function renderSimple() {
   const sg = v => (v > 0 ? "+" : "") + v.toFixed(1) + "%";
   const cl = v => "num " + (v > 0.005 ? "up" : v < -0.005 ? "down" : "flat");
@@ -555,7 +562,7 @@ async function loadShadow() {
   $("shGo").textContent = go ? "충족" : Math.min(closed.length, 10) + "/10건";
   $("shGo").className = "num " + (go ? "up" : "flat");
   $("shState").textContent = "· " + (sh.updated || "");
-  shadowUp(); renderSimple();
+  shadowUp(); renderSimple(); updatePill();
   const ev = (sh.events || []).filter(e => e.kind === "BUY" || e.kind === "SELL");
   if (ev.length) $("shTimeline").innerHTML = ev.slice(-8).reverse().map(e =>
     '<li><time class="num">' + (e.d ? esc(e.d.replace("-", "/")) + "<br>" : "") + esc(e.t) + '</time><span><span class="tag ' + esc(e.kind) + '">' + esc(e.kind) +
@@ -704,10 +711,11 @@ function render(st) {
   const ph = st.phase || "selecting";
   $("phase").className = "pill " + (ph === "done" ? "done" : ph === "trading" ? "live" : "");
   $("phaseText").textContent = PHASE[ph] || ph;
+  updatePill();
   const total = st.minutes_total || 30, m = Math.min(st.minute || 0, total);
   $("bar").style.width = (ph === "done" ? 100 : m / total * 100) + "%";
   $("minuteText").textContent = (st.round ? `라운드 ${st.round} · ` : "") + `경과 ${m} / ${total}분` + (st.started ? ` · 시작 ${st.started}` : "");
-  if ($("sub").dataset.tab !== "stock") $("sub").textContent = (st.mode === "futures" ? "선물 시뮬레이션 · 업비트 시세" : "Upbit KRW · 모의매매") + (st.round ? ` · 라운드 ${st.round}` : "");
+  if (!$("sub").dataset.tab || $("sub").dataset.tab === "coin") $("sub").textContent = (st.params || {}).pump_pause ? "코인 모의매매 · 실전 업비트 + 연습 빗썸" : (st.mode === "futures" ? "선물 시뮬레이션 · 업비트 시세" : "Upbit KRW · 모의매매") + (st.round ? ` · 라운드 ${st.round}` : "");
   const R = [...(st.reports || []).filter(r => r.kind !== "tuning"), ...(st.reviews || []).map(v => ({...v, kind: "review"}))]
     .map((r, i) => {   // order by clock time; times after midnight belong to the same evening session
       const m = /^(\d\d):(\d\d)/.exec(String(r.time || r.end || "")); let t = m ? +m[1] * 60 + +m[2] : 0;
