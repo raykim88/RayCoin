@@ -247,6 +247,18 @@ footer{font-size:.75rem;color:var(--muted)}
     <div><label>최고 / 최저 종목</label><b id="sBest" class="num">–</b><span id="sWorst">–</span></div>
   </div>
 
+  <section id="shadowBox" hidden>
+    <h2>빗썸 섀도 <span class="num" id="shState" style="font-weight:400;color:var(--muted);font-size:.75rem"></span></h2>
+    <div class="summary">
+      <div><label>섀도 수익률</label><b id="shPnl" class="num">–</b><span id="shVal">$50 기준</span></div>
+      <div><label>업비트 실전 (같은 기간)</label><b id="shUp" class="num">–</b><span id="shUpNote">11/18 16:00 이후 · 신규 진입 중단</span></div>
+      <div><label>청산 / 승률</label><b id="shCnt" class="num">–</b><span id="shWin">–</span></div>
+      <div><label>실전 전환 기준</label><b id="shGo" class="num">–</b><span>10건 이상 청산 + 누적 플러스</span></div>
+    </div>
+    <div class="panel" style="margin-top:8px"><ul class="timeline" id="shTimeline"><li><time>–</time><span>아직 기록이 없습니다.</span></li></ul></div>
+    <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">같은 규칙(2시간 +20% 급등 되돌림 숏, 1배, 손절 -7% · 익절 +12% · 추적 6/3)을 빗썸 시세로 돌리는 비교용 모의 봇입니다. 빗썸 기본 수수료 0.25%를 양방향 반영합니다.</p>
+  </section>
+
   <section id="chartBox" hidden>
     <h2>수익률 · 평가 금액 추이</h2>
     <div class="chart" id="chart"></div>
@@ -462,6 +474,42 @@ let firstTab = location.hash.slice(1);
 if (!SUB[firstTab]) { try { firstTab = localStorage.getItem("rt-tab"); } catch (_) {} }
 showTab(SUB[firstTab] ? firstTab : "coin");
 setInterval(() => { if (!$("tabStock").hidden) loadStock(); }, 60000);
+const SHADOW_START = 42.08;   // Upbit live value when the shadow started (11/18 16:00 KST, review-295)
+let SHADOW = null;
+function shadowUp() {
+  const v = window.__coinValue; if (!v) return;
+  const u = (v / SHADOW_START - 1) * 100;
+  $("shUp").textContent = (u > 0 ? "+" : "") + u.toFixed(2) + "%";
+  $("shUp").className = "num " + (u > 0.005 ? "up" : u < -0.005 ? "down" : "flat");
+}
+async function loadShadow() {
+  let sh = null;
+  try {
+    const r = await fetch("https://raw.githubusercontent.com/raykim88/RayCoin/live-data/shadow_status.json?t=" + Date.now(), {cache: "no-store"});
+    if (r.ok) sh = await r.json();
+  } catch (_) {}
+  if (!sh || !sh.total) return;
+  SHADOW = sh;
+  $("shadowBox").hidden = false;
+  const t = sh.total, pnl = t.pnl || 0;
+  const cls = v => v > 0.005 ? "up" : v < -0.005 ? "down" : "flat", sg = v => (v > 0 ? "+" : "") + v.toFixed(2) + "%";
+  $("shPnl").textContent = sg(pnl); $("shPnl").className = "num " + cls(pnl);
+  $("shVal").textContent = "$" + (t.value_usd ?? 50).toFixed(2) + " · $" + (t.cost_usd ?? 50) + " 기준";
+  const ps = sh.positions || [], closed = ps.filter(p => p.status === "CLOSED"), open = ps.filter(p => p.status === "OPEN");
+  const wins = closed.filter(p => p.pnl > 0).length;
+  $("shCnt").textContent = closed.length + "건";
+  $("shWin").textContent = (closed.length ? "승률 " + Math.round(wins / closed.length * 100) + "% · " : "") + "보유 " + open.length;
+  const go = closed.length >= 10 && pnl > 0;
+  $("shGo").textContent = go ? "충족" : Math.min(closed.length, 10) + "/10건";
+  $("shGo").className = "num " + (go ? "up" : "flat");
+  $("shState").textContent = "· " + (sh.updated || "");
+  shadowUp();
+  const ev = (sh.events || []).filter(e => e.kind === "BUY" || e.kind === "SELL");
+  if (ev.length) $("shTimeline").innerHTML = ev.slice(-8).reverse().map(e =>
+    '<li><time class="num">' + (e.d ? esc(e.d.replace("-", "/")) + "<br>" : "") + esc(e.t) + '</time><span><span class="tag ' + esc(e.kind) + '">' + esc(e.kind) +
+    "</span><b>" + esc((e.market || "").replace("KRW-", "")) + "</b> " + esc(e.text) + "</span></li>").join("");
+}
+loadShadow(); setInterval(loadShadow, 60000);
 async function fetchStock() {
   // live copy pushed every minute with the coin status; the committed file is the fallback
   for (const u of [`https://raw.githubusercontent.com/raykim88/RayCoin/live-data/stock_status.json?t=${Date.now()}`,
@@ -681,7 +729,7 @@ function render(st) {
   const t = st.total;
   if (t) {
     $("sPnl").textContent = pct(t.pnl); $("sPnl").className = "num " + cls(t.pnl);
-    $("sVal").textContent = "$" + Number(t.value_usd).toFixed(2); $("sVal").className = "num " + cls(t.pnl);
+    $("sVal").textContent = "$" + Number(t.value_usd).toFixed(2); window.__coinValue = Number(t.value_usd); if (SHADOW) shadowUp(); $("sVal").className = "num " + cls(t.pnl);
     $("sCost").textContent = `운용 자금 $${Number(t.cost_usd).toFixed(2)}` + (st.usdkrw ? ` · ₩${krw(st.usdkrw)}/$` : "");
     $("sNote").textContent = t.estimate ? "1분 단위 추정치 · 수수료 반영" : "최종 확정 · 수수료 반영";
   }

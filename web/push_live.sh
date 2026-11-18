@@ -29,6 +29,10 @@ push_once() {
     sblob=$(git -C "$REPO" hash-object -w "$REPO/stock/status.json")
     entries+=$'\n'$(printf "100644 blob %s\tstock_status.json" "$sblob")
   fi
+  if [[ -f "$REPO/shadow/bithumb_status.json" ]]; then   # review-295: Bithumb shadow card on the Coin tab
+    hblob=$(git -C "$REPO" hash-object -w "$REPO/shadow/bithumb_status.json")
+    entries+=$'\n'$(printf "100644 blob %s\tshadow_status.json" "$hblob")
+  fi
   if [[ -f "$REPO/news/news.json" ]]; then         # News tab
     nblob=$(git -C "$REPO" hash-object -w "$REPO/news/news.json")
     entries+=$'\n'$(printf "100644 blob %s\tnews.json" "$nblob")
