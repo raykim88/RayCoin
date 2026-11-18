@@ -298,7 +298,8 @@ class FuturesBot(v2.Bot):
         return round(min(free, MAX_WEIGHT * equity, free / slots * weight), 4)
 
     # ---------- cross-sectional reversal (twice a day) ----------
-    def apply_overrides(self, path="overrides.json"):
+    def apply_overrides(self, path=None):
+        path = path or __import__("os").environ.get("RC_OVERRIDES", "overrides.json")   # review-295: shadow has its own
         """Same as v2, plus a one-shot "xs_rebalance_now": true that re-runs the 12h rebalance at once."""
         super().apply_overrides(path)
         if self.params.pop("xs_rebalance_now", None):
@@ -460,6 +461,8 @@ class FuturesBot(v2.Bot):
             return
         self.pump_scanned = True
         k = int(self.params.get("pump_k", 4))
+        if self.params.get("pump_pause"):     # review-295: no new entries; open positions still exit by the rules
+            return
         if len(self.open_pos()) >= k:
             return
         markets = v1.get("market/all", isDetails="true")

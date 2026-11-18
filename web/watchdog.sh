@@ -11,7 +11,7 @@ while true; do
   # review-294: Bithumb shadow — same rules on Bithumb prices, 0.25% fee, own status/log; never touches live files
   if [ -f shadow/bithumb_status.json ] && ! pgrep -f "paper_futures.py --resume shadow/bithumb_status.json" >/dev/null; then
     echo "[$(date +%H:%M:%S)] WATCHDOG restart shadow" >> shadow/bithumb_log.txt
-    RC_API=https://api.bithumb.com/v1 RC_FEE=0.0025 nohup python3 paper_futures.py --resume shadow/bithumb_status.json \
+    RC_API=https://api.bithumb.com/v1 RC_FEE=0.0025 RC_OVERRIDES=shadow/overrides.json nohup python3 paper_futures.py --resume shadow/bithumb_status.json \
       --log shadow/bithumb_log.txt --status shadow/bithumb_status.json >> shadow/stdout.txt 2>&1 &
   fi
   if ! pgrep -f "push_live.sh status.json" >/dev/null; then
