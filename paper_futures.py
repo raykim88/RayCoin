@@ -490,11 +490,13 @@ class FuturesBot(v2.Bot):
         for t in pool:
             if t["market"] in held:
                 continue
-            c = v1.get("candles/minutes/5", market=t["market"], count=look + 1)
+            c = v1.get("candles/minutes/5", market=t["market"], count=look + 2)
             v1.time.sleep(0.12)
-            if len(c) < look + 1:
+            if len(c) < look + 2:
                 continue
-            ret = (c[0]["trade_price"] / c[look]["trade_price"] - 1) * 100     # newest first
+            # review-311: base = median of 3 closes, so one bad print (Bithumb RLC 226 vs ~460) cannot fake a +100% pump
+            base = sorted(x["trade_price"] for x in c[look - 1:look + 2])[1]
+            ret = (c[0]["trade_price"] / base - 1) * 100     # newest first
             if ret > th_lo:
                 amax = self.params.get("pump_accel_max")      # review-208: skip spikes still accelerating
                 r30 = (c[0]["trade_price"] / c[6]["trade_price"] - 1) * 100
