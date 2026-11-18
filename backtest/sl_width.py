@@ -10,6 +10,9 @@ import engine as E
 import run as R
 
 WEEK = 2016
+import os
+COOLS = [int(x) for x in os.environ.get("COOLS", "0,288").split(",")]
+SLS = [float(x) for x in os.environ.get("SLS", "0.07,0.10,0.12,0.15,0.20").split(",")]
 
 
 def trade(m, i, sl, tp=0.12, trail=(0.06, 0.03), hold=144):
@@ -59,7 +62,7 @@ if __name__ == "__main__":
     print(f"{len(names)} markets, {R.stamps[0]} .. {R.stamps[-1]}")
     H = R.T // 2
     print("sl   cool    n   win%  full%   1st%   2nd%   mdd%  weeks")
-    for sl, cool in [(s, c) for c in (0, 288) for s in (0.07, 0.10, 0.12, 0.15, 0.20)]:
+    for sl, cool in [(s, c) for c in COOLS for s in SLS]:
         tr = trades(sl, cool=cool)
         f = E.portfolio(tr, 4, 0, R.T); a = E.portfolio(tr, 4, 0, H); b = E.portfolio(tr, 4, H, R.T)
         wk = [E.portfolio(tr, 4, w, min(R.T, w + WEEK))["ret"] for w in range(0, R.T - WEEK // 2, WEEK)]
