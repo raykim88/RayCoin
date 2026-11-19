@@ -16,6 +16,7 @@ stock/stdout.txt
 stock/*.tmp
 backtest/data_bithumb/
 backtest/data_okx/
+backtest/data_okxc/
 backtest/data_binance/
 news/stdout.txt
 news/news.json
