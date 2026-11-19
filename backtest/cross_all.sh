@@ -7,8 +7,8 @@ OUT=backtest/cross_all.txt
 TMP=$(mktemp)
 echo "cross_all $(date -u +%Y-%m-%dT%H:%MZ)" > "$TMP"
 python3 backtest/refresh_all.py 30 60 > /dev/null 2>&1
-for ex in bithumb okx binance; do
-  rm -rf "backtest/data_$ex"; python3 backtest/fetch_ex.py "$ex" 30 60 > /dev/null 2>&1
+for ex in bithumb okx binance; do  # bithumb fetches top 120 so coins that pumped then faded stay in the universe
+  rm -rf "backtest/data_$ex"; n=60; [ "$ex" = bithumb ] && n=120; python3 backtest/fetch_ex.py "$ex" 30 $n > /dev/null 2>&1
 done
 # OKX top list mixes in stock/commodity tokens: keep only coins listed on OKX or Binance spot
 python3 - > backtest/okx_crypto.txt <<'PY'
