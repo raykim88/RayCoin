@@ -24,3 +24,5 @@ news/*.tmp
 news/bodies.json
 backtest/data_up30/
 shadow/
+backtest/okx_crypto.txt
+backtest/cross_all.txt
