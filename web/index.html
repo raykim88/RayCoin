@@ -98,6 +98,9 @@ svg.spark{width:100%;height:64px;display:block}
 .chart .base{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 4}
 .chart .ax{fill:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
 .chart .line{fill:none;stroke:var(--accent);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.chart .line.sh{stroke:var(--warn);stroke-width:2}
+.chart .pt.sh{stroke:var(--warn)} .chart .pt.sh.now{fill:var(--warn)}
+.lg{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:4px}
 .chart .area-up{fill:var(--up);opacity:.10} .chart .area-dn{fill:var(--down);opacity:.10}
 .chart .pt{fill:var(--panel);stroke:var(--accent);stroke-width:2}
 .chart .pt.now{fill:var(--accent)}
@@ -195,7 +198,7 @@ footer{font-size:.75rem;color:var(--muted)}
   </section>
 
   <section id="chartBox" hidden>
-    <h2>실전 평가 금액 추이</h2>
+    <h2>평가 금액 추이 · 실전 vs 빗썸 연습</h2>
     <div class="chart" id="chart"></div>
     <div class="chartnote" id="chartNote"></div>
   </section>
@@ -492,8 +495,9 @@ async function loadShadow() {
     if (r.ok) sh = await r.json();
   } catch (_) {}
   if (!sh || !sh.total) return;
-  SHADOW = sh;
+  SHADOW = sh; window.__shadowSt = sh;
   $("shadowBox").hidden = false;
+  if (window.__lastSt) renderChart(window.__lastSt);
   const t = sh.total, pnl = t.pnl || 0;
   const cls = v => v > 0.005 ? "up" : v < -0.005 ? "down" : "flat", sg = v => (v > 0 ? "+" : "") + v.toFixed(2) + "%";
   $("shPnl").textContent = sg(pnl); $("shPnl").className = "num " + cls(pnl);
@@ -602,13 +606,19 @@ function renderChart(st) {
   const cap = Number((st.total || {}).cost_usd || st.initial_capital || 50);
   const rounds = (st.reports || []).filter(r => r.kind !== "tuning" && r.value_usd != null);
   const pts = [{label: "시작", time: (rounds[0] || {}).start || "", v: cap}]
-    .concat(rounds.map(r => ({label: `라운드 ${r.round}`, time: r.end, v: Number(r.value_usd)})));
+    .concat(rounds.map(r => ({label: `라운드 ${r.round}`, round: r.round, time: r.end, v: Number(r.value_usd)})));
   const live = Number((st.total || {}).value_usd);
   if (st.phase !== "done" && isFinite(live)) pts.push({label: "현재", time: st.updated || "", v: live, now: true});
+  const SH = window.__shadowSt, shMap = {};   // Bithumb shadow: same round clock, own $50 account
+  if (SH) (SH.reports || []).filter(r => r.kind !== "tuning" && r.value_usd != null).forEach(r => { shMap[r.round] = Number(r.value_usd); });
+  pts.forEach(p => { if (p.round != null && shMap[p.round] != null) p.s = shMap[p.round]; });
+  const s0 = pts.findIndex(p => p.s != null);
+  if (s0 > 0) pts[s0 - 1].s = Number((SH.total || {}).cost_usd || 50);
+  if (SH && SH.total && pts[pts.length - 1].now && s0 >= 0) pts[pts.length - 1].s = Number(SH.total.value_usd);
   const box = $("chartBox"); box.hidden = pts.length < 2; if (box.hidden) return;
   const el = $("chart"), W = Math.max(300, Math.round(el.clientWidth || 600)), H = W < 480 ? 190 : 220;
   const L = 46, Rr = 44, T = 12, B = 24, iw = W - L - Rr, ih = H - T - B;
-  const vs = pts.map(p => p.v); let lo = Math.min(cap, ...vs), hi = Math.max(cap, ...vs);
+  const vs = pts.flatMap(p => p.s != null ? [p.v, p.s] : [p.v]); let lo = Math.min(cap, ...vs), hi = Math.max(cap, ...vs);
   const pad = Math.max(0.5, (hi - lo) * 0.12); lo -= pad; hi += pad;
   const X = i => L + (pts.length === 1 ? iw / 2 : i * iw / (pts.length - 1));
   const Y = v => T + (hi - v) / (hi - lo) * ih;
@@ -624,6 +634,10 @@ function renderChart(st) {
   const every = Math.ceil(pts.length / (W < 480 ? 6 : 10));
   const xl = pts.map((p, i) => (i % every === 0 || i === pts.length - 1) && !(i !== pts.length - 1 && pts.length - 1 - i < every / 2)
       ? `<text class="ax" x="${X(i).toFixed(1)}" y="${H - 6}" text-anchor="middle">${p.now ? "현재" : i ? "R" + p.label.split(" ")[1] : "시작"}</text>` : "").join("");
+  const sp = pts.map((p, i) => p.s != null ? [i, p.s] : null).filter(Boolean);
+  const shPath = sp.map(([i, v], k) => `${k ? "L" : "M"}${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join("");
+  const shLast = sp[sp.length - 1];
+  const shSvg = sp.length > 1 ? `<path class="line sh" d="${shPath}"/><circle class="pt sh${pts[shLast[0]].now ? " now" : ""}" cx="${X(shLast[0]).toFixed(1)}" cy="${Y(shLast[1]).toFixed(1)}" r="4"/>` : "";
   const dots = pts.map((p, i) => `<circle class="pt${p.now ? " now" : ""}" cx="${X(i).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="${p.now ? 4 : 3}"/>`).join("");
   const hits = pts.map((p, i) => `<rect class="hit" data-i="${i}" x="${(X(i) - iw / (pts.length - 1) / 2).toFixed(1)}" y="${T}" width="${(iw / (pts.length - 1)).toFixed(1)}" height="${ih}"/>`).join("");
   const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="평가 금액 추이: 시작 $${cap} → 현재 $${pts[pts.length - 1].v.toFixed(2)}">
@@ -631,12 +645,14 @@ function renderChart(st) {
       <clipPath id="cDn"><rect x="0" y="${yb.toFixed(1)}" width="${W}" height="${H}"/></clipPath></defs>
     ${ticks}<path class="area-up" clip-path="url(#cUp)" d="${area}"/><path class="area-dn" clip-path="url(#cDn)" d="${area}"/>
     <line class="base" x1="${L}" x2="${W - Rr}" y1="${yb.toFixed(1)}" y2="${yb.toFixed(1)}"/>
-    <path class="line" d="${path}"/>${dots}${xl}${hits}</svg><div class="tip" id="chartTip" hidden></div>`;
+    ${shSvg}<path class="line" d="${path}"/>${dots}${xl}${hits}</svg><div class="tip" id="chartTip" hidden></div>`;
   if (svg !== window.__chartSvg) {
     window.__chartSvg = svg; el.innerHTML = svg;
     const tip = $("chartTip"), show = i => {
       const p = pts[i], pc = (p.v / cap - 1) * 100;
-      tip.innerHTML = `<b>${esc(p.label)}</b> ${esc(p.time || "")}<br>$${p.v.toFixed(2)} · <span class="${cls(pc)}">${pct(pc)}</span>`;
+      const sc = p.s != null ? (p.s / 50 - 1) * 100 : 0;
+      tip.innerHTML = `<b>${esc(p.label)}</b> ${esc(p.time || "")}<br>실전 $${p.v.toFixed(2)} · <span class="${cls(pc)}">${pct(pc)}</span>` +
+        (p.s != null ? `<br>연습 $${p.s.toFixed(2)} · <span class="${cls(sc)}">${pct(sc)}</span>` : "");
       tip.style.left = (X(i) / W * 100) + "%"; tip.style.top = (Y(p.v) / H * el.clientHeight) + "px"; tip.hidden = false;
     };
     el.querySelectorAll(".hit").forEach(r => {
@@ -646,7 +662,10 @@ function renderChart(st) {
     el.querySelector("svg").addEventListener("pointerleave", () => { tip.hidden = true; });
   }
   const last = pts[pts.length - 1], peak = pts.reduce((a, b) => b.v > a.v ? b : a), low = pts.reduce((a, b) => b.v < a.v ? b : a);
-  $("chartNote").textContent = `$${cap} 기준 · 라운드(30분) 종료 시점 평가 금액 · 최고 $${peak.v.toFixed(2)}(${peak.label}) · 최저 $${low.v.toFixed(2)}(${low.label})`;
+  const shNow = sp.length ? sp[sp.length - 1][1] : null;
+  $("chartNote").innerHTML = `<span class="lg" style="background:var(--accent)"></span>실전 · 업비트 ($${cap} 시작, 최고 $${peak.v.toFixed(2)} · 최저 $${low.v.toFixed(2)})` +
+    (shNow != null ? ` &nbsp; <span class="lg" style="background:var(--warn)"></span>연습 · 빗썸 섀도 ($50 가상 계좌, 현재 $${shNow.toFixed(2)})` : "") +
+    ` · 라운드(30분) 종료 시점 평가 금액`;
 }
 if (!window.__chartResize) { window.__chartResize = 1; addEventListener("resize", () => { window.__chartSvg = ""; window.__lastSt && renderChart(window.__lastSt); }); }
 
