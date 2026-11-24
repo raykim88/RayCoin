@@ -1,0 +1,10 @@
+[15:43:36] WATCHDOG restart aggr
+[00:43:37] === RESUME from round 855 · 0 open positions ===
+[00:43:37] === ROUND 855 continues at minute 6 ===
+[00:43:37] === OVERRIDE aggr-1: {'xs_sl': [7.0, 6.0], 'xs_tp': [12.0, 8.0], 'pump_th': [20.0, 10.0], 'xs_hold_h': [12, 6], 'xs_trail_at': [6.0, 4.0], 'xs_trail_gap': [3.0, 2.0], 'pump_th_lo': [20.0, 10.0], 'pump_pause': [None, False]}
+[00:44:30] OPEN SHORT 1x  KRW-ELF      @ 82.8000  margin $12.50  liq 165.1860  (2시간 +16.4% 급등 → 되돌림 숏 · 확신 0점(30분 +4.8%, 거래대금 8.6배, 24시간 +47.2%), score 16.43)
+[00:44:30] pump: ELF +16.4%
+[00:44:38] R855 t+07m | ELF  -0.46% s+0.00 r50
+[00:45:37] R855 t+08m | ELF  -0.82% s+0.00 r50
+[00:46:37] R855 t+09m | ELF  +1.83% s+0.00 r50
+[00:47:37] R855 t+10m | ELF  +0.75% s+0.00 r50

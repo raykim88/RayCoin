@@ -193,6 +193,7 @@ footer{font-size:.75rem;color:var(--muted)}
     <div class="simple">
       <div><label>실전 · 업비트</label><b id="smLive" class="num">–</b><p id="smLiveTxt">불러오는 중</p></div>
       <div><label>연습 · 빗썸 섀도</label><b id="smSh" class="num">–</b><p id="smShTxt">불러오는 중</p></div>
+      <div><label>공격형 · 업비트 $50</label><b id="smAg" class="num">–</b><p id="smAgTxt">불러오는 중</p></div>
       <div><label>다음 단계</label><b id="smNext" class="num">–</b><p id="smNextTxt">–</p></div>
     </div>
   </section>
@@ -230,6 +231,18 @@ footer{font-size:.75rem;color:var(--muted)}
     </div>
     <div class="panel" style="margin-top:8px"><ul class="timeline" id="shTimeline"><li><time>–</time><span>아직 기록이 없습니다.</span></li></ul></div>
     <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">같은 규칙(2시간 +20% 급등 되돌림 숏, 1배, 손절 -7% · 익절 +12% · 추적 6/3)을 빗썸 시세로 돌리는 비교용 모의 봇입니다. 빗썸 기본 수수료 0.25%를 양방향 반영합니다.</p>
+  </section>
+
+  <section id="aggrBox" hidden>
+    <h2>공격형 $50 <span class="num" id="agState" style="font-weight:400;color:var(--muted);font-size:.75rem"></span></h2>
+    <div class="summary">
+      <div><label>공격형 수익률</label><b id="agPnl" class="num">–</b><span id="agVal">$50 기준</span></div>
+      <div><label>청산 / 승률</label><b id="agCnt" class="num">–</b><span id="agWin">–</span></div>
+      <div><label>보유 중</label><b id="agOpen" class="num">–</b><span id="agOpenTxt">최대 4개</span></div>
+      <div><label>바닥선</label><b class="num">$35</b><span id="agFloor">–</span></div>
+    </div>
+    <div class="panel" style="margin-top:8px"><ul class="timeline" id="agTimeline"><li><time>–</time><span>아직 기록이 없습니다.</span></li></ul></div>
+    <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">자주 사고파는 실험용 모의 계좌입니다. 업비트 시세로 2시간 +10% 넘게 오른 코인을 되돌림 숏(1배), 손절 -6% · 익절 +8% · 최고 +4% 뒤 2%p 반납 시 청산 · 최대 6시간 보유, 동시에 최대 4개. 30일 백테스트(비관적 손절) 업비트 +180%, 빗썸 +84%, 하루 20회 남짓. 여기서 쓸 만한 점은 검증 뒤 실전 $50 규칙에 반영합니다.</p>
   </section>
 
   <section id="reportsBox" hidden>
@@ -292,6 +305,13 @@ footer{font-size:.75rem;color:var(--muted)}
       <div><label>보유 / 거래</label><b id="kCnt" class="num">0 / 0</b><span id="kCntNote">아직 매매 없음</span></div>
       <div><label>상태</label><b id="kPhase">전략 검토</b><span id="kPhaseNote">전략 확정 전 · 매수 안 함</span></div>
     </div>
+    <section>
+      <h2>두 계좌</h2>
+      <div class="simple">
+        <div><label>기본 · $100</label><b id="kBase" class="num">–</b><p id="kBaseTxt">불러오는 중</p></div>
+        <div><label>공격형 · $100</label><b id="kAgg" class="num">–</b><p id="kAggTxt">불러오는 중</p></div>
+      </div>
+    </section>
     <section>
       <h2>수익률 · 평가 금액 추이</h2>
       <div class="empty" id="kChart">첫 매매가 시작되면 여기에 그래프가 나타납니다.</div>
@@ -518,6 +538,35 @@ async function loadShadow() {
     "</span><b>" + esc((e.market || "").replace("KRW-", "")) + "</b> " + esc(e.text) + "</span></li>").join("");
 }
 loadShadow(); setInterval(loadShadow, 60000);
+async function loadAggr() {
+  let a = null;
+  try {
+    const r = await fetch("https://raw.githubusercontent.com/raykim88/RayCoin/live-data/aggr_status.json?t=" + Date.now(), {cache: "no-store"});
+    if (r.ok) a = await r.json();
+  } catch (_) {}
+  if (!a || !a.total) return;
+  $("aggrBox").hidden = false;
+  const t = a.total, pnl = t.pnl || 0, v = t.value_usd ?? 50;
+  const c = x => x > 0.005 ? "up" : x < -0.005 ? "down" : "flat", sg = x => (x > 0 ? "+" : "") + x.toFixed(2) + "%";
+  const ps = a.positions || [], closed = ps.filter(p => p.status === "CLOSED"), open = ps.filter(p => p.status === "OPEN");
+  const wins = closed.filter(p => p.pnl > 0).length;
+  $("agPnl").textContent = sg(pnl); $("agPnl").className = "num " + c(pnl);
+  $("agVal").textContent = "$" + v.toFixed(2) + " · $" + (t.cost_usd ?? 50) + " 기준";
+  $("agCnt").textContent = closed.length + "건";
+  $("agWin").textContent = closed.length ? "승률 " + Math.round(wins / closed.length * 100) + "%" : "첫 청산 대기";
+  $("agOpen").textContent = open.length + "개";
+  $("agOpenTxt").textContent = open.length ? open.map(p => (p.market || "").replace("KRW-", "") + " " + sg(p.pnl || 0)).join(" · ") : "최대 4개 · 신호 대기";
+  $("agFloor").textContent = "$" + (v - 35).toFixed(2) + " 남음";
+  $("agState").textContent = "· " + (a.updated || "");
+  $("smAg").textContent = "$" + v.toFixed(2) + " (" + (pnl > 0 ? "+" : "") + pnl.toFixed(1) + "%)"; $("smAg").className = "num " + c(pnl);
+  $("smAgTxt").textContent = "자주 사고파는 실험 계좌(진짜 돈 아님). 2시간 +10% 급등 코인을 짧게 되돌림 숏. " + closed.length + "번 거래해 " + wins + "번 이김" +
+    (open.length ? ", 지금 " + open.map(p => (p.market || "").replace("KRW-", "")).join("·") + " 보유 중." : ", 지금은 쉬는 중.");
+  const ev = (a.events || []).filter(e => e.kind === "BUY" || e.kind === "SELL");
+  if (ev.length) $("agTimeline").innerHTML = ev.slice(-10).reverse().map(e =>
+    '<li><time class="num">' + (e.d ? esc(e.d.replace("-", "/")) + "<br>" : "") + esc(e.t) + '</time><span><span class="tag ' + esc(e.kind) + '">' + esc(e.kind) +
+    "</span><b>" + esc((e.market || "").replace("KRW-", "")) + "</b> " + esc(e.text) + "</span></li>").join("");
+}
+loadAggr(); setInterval(loadAggr, 60000);
 async function fetchStock() {
   // live copy pushed every minute with the coin status; the committed file is the fallback
   for (const u of [`https://raw.githubusercontent.com/raykim88/RayCoin/live-data/stock_status.json?t=${Date.now()}`,
@@ -573,6 +622,20 @@ async function loadStock() {
       $("kTrend").innerHTML = `<b style="color:var(--ink)">자금 절반 · 추세 보유</b> — QQQ 종가 $${Number(tr.close).toFixed(2)}, 200일 평균 $${tr.sma200} (<span class="${gap >= 0 ? "up" : "down"}">${gap >= 0 ? "+" : ""}${gap.toFixed(1)}%</span>) → ` +
         (tr.holding ? `${esc(tr.symbol)} 보유 중` : tr.above200 ? `다음 장 ${esc(tr.symbol)} 매수` : "추세 아래 · 현금 대기") +
         ` · 추세 몫 $${Number(tr.value).toFixed(2)}${k.swing ? ` / 단타 몫 $${Number(k.swing.value).toFixed(2)}` : ""}`;
+    }
+    {
+      const sg = x => (x > 0 ? "+" : "") + x.toFixed(2) + "%", cl = x => "num " + (x > 0.005 ? "up" : x < -0.005 ? "down" : "flat");
+      const bv = Number((k.trend || {}).value ?? 50) + Number((k.swing || {}).value ?? 50), bp = (bv / 100 - 1) * 100;
+      const bpos = pos.filter(p => p.sleeve !== "surge"), apos = pos.filter(p => p.sleeve === "surge");
+      $("kBase").textContent = "$" + bv.toFixed(2) + " (" + sg(bp) + ")"; $("kBase").className = cl(bp);
+      $("kBaseTxt").textContent = "절반은 QQQ가 200일 평균 위일 때 TQQQ 보유, 절반은 TQQQ·UPRO 눌림목 단타. " +
+        (bpos.length ? bpos.map(p => p.market + " " + sg(p.pnl)).join(" · ") + " 보유 중." : "하락장(200일선 아래)이라 현금으로 대기 중.");
+      if (k.surge) {
+        const av = Number(k.surge.value), ap = (av / 100 - 1) * 100;
+        $("kAgg").textContent = "$" + av.toFixed(2) + " (" + sg(ap) + ")"; $("kAgg").className = cl(ap);
+        $("kAggTxt").textContent = `미국 대형주 하루 +${k.surge.thr}% 급등주를 다음 장에 사서 ${k.surge.hold}거래일 보유, 최대 ${k.surge.slots}종목. ` +
+          (apos.length ? apos.map(p => p.market + " " + sg(p.pnl)).join(" · ") + " 보유 중." : "신호 대기 중.");
+      }
     }
     if (k.surge) {
       const su = k.surge, top = (su.top || []).slice(0, 5);

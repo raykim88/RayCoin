@@ -33,6 +33,10 @@ push_once() {
     hblob=$(git -C "$REPO" hash-object -w "$REPO/shadow/bithumb_status.json")
     entries+=$'\n'$(printf "100644 blob %s\tshadow_status.json" "$hblob")
   fi
+  if [[ -f "$REPO/aggr/status.json" ]]; then            # 11-25: aggressive $50 card on the Coin tab
+    ablob=$(git -C "$REPO" hash-object -w "$REPO/aggr/status.json")
+    entries+=$'\n'$(printf "100644 blob %s\taggr_status.json" "$ablob")
+  fi
   if [[ -f "$REPO/news/news.json" ]]; then         # News tab
     nblob=$(git -C "$REPO" hash-object -w "$REPO/news/news.json")
     entries+=$'\n'$(printf "100644 blob %s\tnews.json" "$nblob")

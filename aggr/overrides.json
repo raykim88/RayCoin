@@ -1,0 +1,23 @@
+{
+ "id": "aggr-1",
+ "params": {
+  "strategy": "pump",
+  "pump_th": 10.0,
+  "pump_th_lo": 10.0,
+  "pump_look_h": 2,
+  "pump_k": 4,
+  "pump_universe": 60,
+  "pump_accel_max": 10.0,
+  "pump_conv": false,
+  "pump_skip0": false,
+  "pump_lev_lo": 1,
+  "force_lev": 1,
+  "xs_sl": 6.0,
+  "xs_tp": 8.0,
+  "xs_trail_at": 4.0,
+  "xs_trail_gap": 2.0,
+  "xs_hold_h": 6,
+  "pump_pause": false
+ },
+ "note": "공격형 $50 (사용자 11/25): 2시간 +10% 급등 되돌림 숏, 손절 6% · 익절 8% · 추적 4/2 · 6시간, 업비트. backtest/aggr_coin.py: 업비트 +180%(전반 +92 후반 +45), 빗썸 +84%(+64/+13), 하루 20회 남짓"
+}

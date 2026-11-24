@@ -14,6 +14,12 @@ while true; do
     RC_API=https://api.bithumb.com/v1 RC_FEE=0.0025 RC_OVERRIDES=shadow/overrides.json nohup python3 paper_futures.py --resume shadow/bithumb_status.json \
       --log shadow/bithumb_log.txt --status shadow/bithumb_status.json >> shadow/stdout.txt 2>&1 &
   fi
+  # 11-25 (user): aggressive $50 — 2h +10% pump fade with fast exits on Upbit prices, own status/log
+  if [ -f aggr/status.json ] && ! pgrep -f "paper_futures.py --resume aggr/status.json" >/dev/null; then
+    echo "[$(date +%H:%M:%S)] WATCHDOG restart aggr" >> aggr/log.txt
+    RC_OVERRIDES=aggr/overrides.json nohup python3 paper_futures.py --resume aggr/status.json \
+      --log aggr/log.txt --status aggr/status.json >> aggr/stdout.txt 2>&1 &
+  fi
   if ! pgrep -f "push_live.sh status.json" >/dev/null; then
     echo "[$(date +%H:%M:%S)] WATCHDOG restart pusher" >> trade_log_v2.txt
     nohup web/push_live.sh status.json 60 > push_v3.out 2>&1 &
