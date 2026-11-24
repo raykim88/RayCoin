@@ -242,7 +242,7 @@ footer{font-size:.75rem;color:var(--muted)}
       <div><label>바닥선</label><b class="num">$35</b><span id="agFloor">–</span></div>
     </div>
     <div class="panel" style="margin-top:8px"><ul class="timeline" id="agTimeline"><li><time>–</time><span>아직 기록이 없습니다.</span></li></ul></div>
-    <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">자주 사고파는 실험용 모의 계좌입니다. 업비트 시세로 2시간 +10% 넘게 오른 코인을 되돌림 숏(1배), 손절 -6% · 익절 +8% · 최고 +4% 뒤 2%p 반납 시 청산 · 최대 6시간 보유, 동시에 최대 4개. 30일 백테스트(비관적 손절) 업비트 +180%, 빗썸 +84%, 하루 20회 남짓. 여기서 쓸 만한 점은 검증 뒤 실전 $50 규칙에 반영합니다.</p>
+    <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">자주 사고파는 실험용 모의 계좌입니다. 업비트 시세로 2시간 +10% 또는 1시간 +8% 넘게 오른 코인을 되돌림 숏(1배), 손절 -6% · 익절 +8% · 최고 +4% 뒤 2%p 반납 시 청산 · 최대 6시간 보유, 동시에 최대 4개. 30일 백테스트(비관적 손절) 업비트 +270%, 빗썸 +84%, 하루 27회 안팎. 여기서 쓸 만한 점은 검증 뒤 실전 $50 규칙에 반영합니다.</p>
   </section>
 
   <section id="reportsBox" hidden>
@@ -559,7 +559,7 @@ async function loadAggr() {
   $("agFloor").textContent = "$" + (v - 35).toFixed(2) + " 남음";
   $("agState").textContent = "· " + (a.updated || "");
   $("smAg").textContent = "$" + v.toFixed(2) + " (" + (pnl > 0 ? "+" : "") + pnl.toFixed(1) + "%)"; $("smAg").className = "num " + c(pnl);
-  $("smAgTxt").textContent = "자주 사고파는 실험 계좌(진짜 돈 아님). 2시간 +10% 급등 코인을 짧게 되돌림 숏. " + closed.length + "번 거래해 " + wins + "번 이김" +
+  $("smAgTxt").textContent = "자주 사고파는 실험 계좌(진짜 돈 아님). 2시간 +10%·1시간 +8% 급등 코인을 짧게 되돌림 숏. " + closed.length + "번 거래해 " + wins + "번 이김" +
     (open.length ? ", 지금 " + open.map(p => (p.market || "").replace("KRW-", "")).join("·") + " 보유 중." : ", 지금은 쉬는 중.");
   const ev = (a.events || []).filter(e => e.kind === "BUY" || e.kind === "SELL");
   if (ev.length) $("agTimeline").innerHTML = ev.slice(-10).reverse().map(e =>

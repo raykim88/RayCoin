@@ -486,18 +486,27 @@ class FuturesBot(v2.Bot):
         th = float(self.params.get("pump_th", 20.0))
         th_lo = float(self.params.get("pump_th_lo", th))       # review-203: smaller spikes also fade, at lower leverage
         lev_lo = int(self.params.get("pump_lev_lo", 1))
+        # review-333: optional second, shorter window (aggr sleeve: 2h>10% OR 1h>8%)
+        look2 = int(round(float(self.params.get("pump_look2_h", 0)) * 12))
+        th2 = float(self.params.get("pump_th2", 1e9))
         hits = []
         for t in pool:
             if t["market"] in held:
                 continue
-            c = v1.get("candles/minutes/5", market=t["market"], count=look + 2)
+            c = v1.get("candles/minutes/5", market=t["market"], count=max(look, look2) + 2)
             v1.time.sleep(0.12)
-            if len(c) < look + 2:
+            if len(c) < max(look, look2) + 2:
                 continue
             # review-311: base = median of 3 closes, so one bad print (Bithumb RLC 226 vs ~460) cannot fake a +100% pump
             base = sorted(x["trade_price"] for x in c[look - 1:look + 2])[1]
             ret = (c[0]["trade_price"] / base - 1) * 100     # newest first
-            if ret > th_lo:
+            win = self.params.get("pump_look_h", 2)
+            if look2 and ret <= th_lo:
+                b2 = sorted(x["trade_price"] for x in c[look2 - 1:look2 + 2])[1]
+                r2 = (c[0]["trade_price"] / b2 - 1) * 100
+                if r2 > th2:
+                    ret, win = r2, self.params.get("pump_look2_h")
+            if ret > th_lo or (look2 and win != self.params.get("pump_look_h", 2)):
                 amax = self.params.get("pump_accel_max")      # review-208: skip spikes still accelerating
                 r30 = (c[0]["trade_price"] / c[6]["trade_price"] - 1) * 100
                 if amax is not None and r30 >= float(amax):
@@ -511,12 +520,12 @@ class FuturesBot(v2.Bot):
                         continue
                     if sc >= int(self.params.get("pump_conv_need", 2)):
                         lev = int(self.params.get("pump_lev_hi", 3))
-                hits.append(dict(market=t["market"], price=t["trade_price"], ret=ret, score=round(ret, 2),
+                hits.append(dict(market=t["market"], price=t["trade_price"], ret=ret, score=round(ret, 2), win=win,
                                  vol=0.0, force_side="SHORT", lev_hint=lev, conv=sc, conv_why=why))
         hits.sort(key=lambda r: -r["ret"])
         for r in hits[:k - len(self.open_pos())]:
             conv = f" · 확신 {r['conv']}점({r['conv_why']})" if r.get("conv") is not None else ""
-            self.buy(r, f"{self.params.get('pump_look_h', 2):g}시간 {r['ret']:+.1f}% 급등 → 되돌림 숏{conv}")
+            self.buy(r, f"{float(r.get('win', self.params.get('pump_look_h', 2))):g}시간 {r['ret']:+.1f}% 급등 → 되돌림 숏{conv}")
         if hits:
             self.log("pump: " + ", ".join(f"{r['market'][4:]} {r['ret']:+.1f}%" for r in hits))
 
