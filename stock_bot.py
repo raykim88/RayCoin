@@ -32,14 +32,14 @@ TREND_SIG, TREND_SYM = "QQQ", "TQQQ"
 # kr_intraday.py found no KR rule that holds up yet (best: KODEX 레버리지 RSI(2)<20 swing, +44% in 10y).
 KR_WATCH = [("122630.KS", "KODEX 레버리지"), ("233740.KS", "KODEX 코스닥150레버리지"), ("069500.KS", "KODEX 200"),
             ("229200.KS", "KODEX 코스닥150")]
-# Surge sleeve (user, 11-25: "buy a few and gain experience"): a separate $100 experiment. US large caps that close
-# 12%+ above the previous close -> buy at the next open with 1/5 of the sleeve, sell after 20 sessions. No price stop
-# (stops cut the 10y result in stock/bt/us_surge_port.py). 10y: $100 -> $1,766, max drawdown 32%, 225 trades, both
-# halves positive; survivorship bias (today's names) flatters it.
+# Surge sleeve (user, 11-25: "buy a few and gain experience", then "trade aggressively"): a separate $100 experiment.
+# US large caps that close 8%+ above the previous close -> buy at the next open with 1/5 of the sleeve, sell after 10
+# sessions. No price stop (stops cut the 10y result in stock/bt/us_surge_port.py). 10y: $100 -> $1,412, ~60 trades a
+# year, max drawdown 42%, both halves positive (+12%/20 sessions: $1,766 but ~22 trades a year). Survivorship bias.
 SURGE = ("AAPL MSFT NVDA AMZN GOOGL META TSLA AVGO AMD NFLX ORCL CRM ADBE INTC QCOM MU AMAT LRCX KLAC TXN JPM BAC GS MS V "
          "MA PYPL XOM CVX COP LLY UNH JNJ PFE MRK ABBV WMT COST HD MCD NKE SBUX DIS BA CAT GE HON UBER SHOP PLTR COIN MSTR "
          "SMCI ARM CRWD PANW SNOW NOW INTU ISRG").split()
-SP = dict(thr=0.12, hold=20, slots=5, capital=100.0)
+SP = dict(thr=0.08, hold=10, slots=5, capital=100.0)   # 11-25 aggressive: +8%/10 sessions (was +12%/20)
 COST = 0.0015          # per side: fee + slippage
 P = dict(rsi_lo=30.0, trend=200, exit_ma=5, max_days=10, w_hi=1.0, w_lo=0.5)
 
@@ -104,10 +104,10 @@ class Bot:
                  text="종가가 5일 평균을 넘으면 다음 장 시가에 매도. 10거래일이 지나도 안 넘으면 그때 매도."),
             dict(title="손절 없음 (의도된 설계)",
                  text="백테스트에서 손절(8~15%)이나 장중 즉시 청산을 넣으면 9년 수익이 +236%에서 -25~+84%로 줄었습니다. 대신 200일 평균 아래(하락장)에서는 사지 않는 것으로 위험을 줄입니다."),
-            dict(title="급등 추격 실험 (별도 $100, 11/25 추가)",
-                 text="미국 대형주 60종목 중 종가가 전날보다 12% 넘게 오른 종목을 다음 장 시가에 몫의 1/5씩 매수(최대 5종목), 20거래일 뒤 다음 장 시가에 매도. "
-                      "손절 없음(10년 시험에서 손절 10~15%는 수익을 줄임). 10년 백테스트 $100 → $1,766, 최대 하락폭 32%, 225회, 앞뒤 5년 모두 수익. "
-                      "오늘 살아남은 대형주만 시험해 실제보다 좋게 나왔을 수 있어 실험용으로 따로 운용."),
+            dict(title="급등 추격 실험 (별도 $100, 공격형)",
+                 text="미국 대형주 60종목 중 종가가 전날보다 8% 넘게 오른 종목을 다음 장 시가에 몫의 1/5씩 매수(최대 5종목, 상승률 큰 순), 10거래일 뒤 다음 장 시가에 매도. "
+                      "손절 없음(10년 시험에서 손절 10~15%는 수익을 줄임). 10년 백테스트 $100 → $1,412, 연 60회 남짓, 최대 하락폭 42%, 앞뒤 5년 모두 수익. "
+                      "경험을 쌓는 실험용이며, 여기서 얻은 결과 중 쓸 만한 것은 검증 뒤 기본 $100 규칙에 반영."),
             dict(title="모니터링",
                  text="미국 장중에는 1분마다 시세를 갱신하고, 장 마감 직후 신호를 계산합니다. 매매는 장 시작(한국시간 23:30, 서머타임 22:30)에 체결된 것으로 처리. 비용은 편도 0.15%."),
             dict(title="근거",
