@@ -275,3 +275,6 @@
 [17:28:40] WATCHDOG restart aggr
 [02:28:41] === RESUME from round 855 · 0 open positions ===
 [02:28:41] === ROUND 855 continues at minute 30 ===
+[17:29:40] WATCHDOG restart aggr
+[02:29:41] === RESUME from round 855 · 0 open positions ===
+[02:29:41] === ROUND 855 continues at minute 30 ===
