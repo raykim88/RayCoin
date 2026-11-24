@@ -473,3 +473,183 @@
 [18:34:42] WATCHDOG restart aggr
 [03:34:43] === RESUME from round 855 · 0 open positions ===
 [03:34:43] === ROUND 855 continues at minute 30 ===
+[18:35:42] WATCHDOG restart aggr
+[03:35:43] === RESUME from round 855 · 0 open positions ===
+[03:35:43] === ROUND 855 continues at minute 30 ===
+[18:36:42] WATCHDOG restart aggr
+[03:36:43] === RESUME from round 855 · 0 open positions ===
+[03:36:43] === ROUND 855 continues at minute 30 ===
+[18:37:42] WATCHDOG restart aggr
+[03:37:43] === RESUME from round 855 · 0 open positions ===
+[03:37:43] === ROUND 855 continues at minute 30 ===
+[18:38:42] WATCHDOG restart aggr
+[03:38:43] === RESUME from round 855 · 0 open positions ===
+[03:38:43] === ROUND 855 continues at minute 30 ===
+[18:39:42] WATCHDOG restart aggr
+[03:39:43] === RESUME from round 855 · 0 open positions ===
+[03:39:43] === ROUND 855 continues at minute 30 ===
+[18:40:42] WATCHDOG restart aggr
+[03:40:43] === RESUME from round 855 · 0 open positions ===
+[03:40:43] === ROUND 855 continues at minute 30 ===
+[18:41:42] WATCHDOG restart aggr
+[03:41:43] === RESUME from round 855 · 0 open positions ===
+[03:41:43] === ROUND 855 continues at minute 30 ===
+[18:42:43] WATCHDOG restart aggr
+[03:42:43] === RESUME from round 855 · 0 open positions ===
+[03:42:43] === ROUND 855 continues at minute 30 ===
+[18:43:43] WATCHDOG restart aggr
+[03:43:43] === RESUME from round 855 · 0 open positions ===
+[03:43:43] === ROUND 855 continues at minute 30 ===
+[18:44:43] WATCHDOG restart aggr
+[03:44:43] === RESUME from round 855 · 0 open positions ===
+[03:44:43] === ROUND 855 continues at minute 30 ===
+[18:45:43] WATCHDOG restart aggr
+[03:45:43] === RESUME from round 855 · 0 open positions ===
+[03:45:43] === ROUND 855 continues at minute 30 ===
+[18:46:43] WATCHDOG restart aggr
+[03:46:43] === RESUME from round 855 · 0 open positions ===
+[03:46:43] === ROUND 855 continues at minute 30 ===
+[18:47:43] WATCHDOG restart aggr
+[03:47:43] === RESUME from round 855 · 0 open positions ===
+[03:47:43] === ROUND 855 continues at minute 30 ===
+[18:48:43] WATCHDOG restart aggr
+[03:48:44] === RESUME from round 855 · 0 open positions ===
+[03:48:44] === ROUND 855 continues at minute 30 ===
+[18:49:43] WATCHDOG restart aggr
+[03:49:43] === RESUME from round 855 · 0 open positions ===
+[03:49:43] === ROUND 855 continues at minute 30 ===
+[18:50:43] WATCHDOG restart aggr
+[03:50:44] === RESUME from round 855 · 0 open positions ===
+[03:50:44] === ROUND 855 continues at minute 30 ===
+[18:51:43] WATCHDOG restart aggr
+[03:51:44] === RESUME from round 855 · 0 open positions ===
+[03:51:44] === ROUND 855 continues at minute 30 ===
+[18:52:43] WATCHDOG restart aggr
+[03:52:44] === RESUME from round 855 · 0 open positions ===
+[03:52:44] === ROUND 855 continues at minute 30 ===
+[18:53:43] WATCHDOG restart aggr
+[03:53:44] === RESUME from round 855 · 0 open positions ===
+[03:53:44] === ROUND 855 continues at minute 30 ===
+[18:54:43] WATCHDOG restart aggr
+[03:54:44] === RESUME from round 855 · 0 open positions ===
+[03:54:44] === ROUND 855 continues at minute 30 ===
+[18:55:43] WATCHDOG restart aggr
+[03:55:44] === RESUME from round 855 · 0 open positions ===
+[03:55:44] === ROUND 855 continues at minute 30 ===
+[18:56:43] WATCHDOG restart aggr
+[03:56:44] === RESUME from round 855 · 0 open positions ===
+[03:56:44] === ROUND 855 continues at minute 30 ===
+[18:57:43] WATCHDOG restart aggr
+[03:57:44] === RESUME from round 855 · 0 open positions ===
+[03:57:44] === ROUND 855 continues at minute 30 ===
+[18:58:43] WATCHDOG restart aggr
+[03:58:44] === RESUME from round 855 · 0 open positions ===
+[03:58:44] === ROUND 855 continues at minute 30 ===
+[18:59:43] WATCHDOG restart aggr
+[03:59:44] === RESUME from round 855 · 0 open positions ===
+[03:59:44] === ROUND 855 continues at minute 30 ===
+[19:00:43] WATCHDOG restart aggr
+[04:00:44] === RESUME from round 855 · 0 open positions ===
+[04:00:44] === ROUND 855 continues at minute 30 ===
+[19:01:43] WATCHDOG restart aggr
+[04:01:44] === RESUME from round 855 · 0 open positions ===
+[04:01:44] === ROUND 855 continues at minute 30 ===
+[19:02:43] WATCHDOG restart aggr
+[04:02:44] === RESUME from round 855 · 0 open positions ===
+[04:02:44] === ROUND 855 continues at minute 30 ===
+[19:03:43] WATCHDOG restart aggr
+[04:03:44] === RESUME from round 855 · 0 open positions ===
+[04:03:44] === ROUND 855 continues at minute 30 ===
+[19:04:43] WATCHDOG restart aggr
+[04:04:44] === RESUME from round 855 · 0 open positions ===
+[04:04:44] === ROUND 855 continues at minute 30 ===
+[19:05:43] WATCHDOG restart aggr
+[04:05:44] === RESUME from round 855 · 0 open positions ===
+[04:05:44] === ROUND 855 continues at minute 30 ===
+[19:06:43] WATCHDOG restart aggr
+[04:06:44] === RESUME from round 855 · 0 open positions ===
+[04:06:44] === ROUND 855 continues at minute 30 ===
+[19:07:43] WATCHDOG restart aggr
+[04:07:44] === RESUME from round 855 · 0 open positions ===
+[04:07:44] === ROUND 855 continues at minute 30 ===
+[19:08:43] WATCHDOG restart aggr
+[04:08:44] === RESUME from round 855 · 0 open positions ===
+[04:08:44] === ROUND 855 continues at minute 30 ===
+[19:09:44] WATCHDOG restart aggr
+[04:09:44] === RESUME from round 855 · 0 open positions ===
+[04:09:44] === ROUND 855 continues at minute 30 ===
+[19:10:44] WATCHDOG restart aggr
+[04:10:44] === RESUME from round 855 · 0 open positions ===
+[04:10:44] === ROUND 855 continues at minute 30 ===
+[19:11:44] WATCHDOG restart aggr
+[04:11:44] === RESUME from round 855 · 0 open positions ===
+[04:11:44] === ROUND 855 continues at minute 30 ===
+[19:12:44] WATCHDOG restart aggr
+[04:12:44] === RESUME from round 855 · 0 open positions ===
+[04:12:44] === ROUND 855 continues at minute 30 ===
+[19:13:44] WATCHDOG restart aggr
+[04:13:44] === RESUME from round 855 · 0 open positions ===
+[04:13:44] === ROUND 855 continues at minute 30 ===
+[19:14:44] WATCHDOG restart aggr
+[04:14:45] === RESUME from round 855 · 0 open positions ===
+[04:14:45] === ROUND 855 continues at minute 30 ===
+[19:15:44] WATCHDOG restart aggr
+[04:15:44] === RESUME from round 855 · 0 open positions ===
+[04:15:44] === ROUND 855 continues at minute 30 ===
+[19:16:44] WATCHDOG restart aggr
+[04:16:45] === RESUME from round 855 · 0 open positions ===
+[04:16:45] === ROUND 855 continues at minute 30 ===
+[19:17:44] WATCHDOG restart aggr
+[04:17:45] === RESUME from round 855 · 0 open positions ===
+[04:17:45] === ROUND 855 continues at minute 30 ===
+[19:18:44] WATCHDOG restart aggr
+[04:18:45] === RESUME from round 855 · 0 open positions ===
+[04:18:45] === ROUND 855 continues at minute 30 ===
+[19:19:44] WATCHDOG restart aggr
+[04:19:45] === RESUME from round 855 · 0 open positions ===
+[04:19:45] === ROUND 855 continues at minute 30 ===
+[19:20:44] WATCHDOG restart aggr
+[04:20:45] === RESUME from round 855 · 0 open positions ===
+[04:20:45] === ROUND 855 continues at minute 30 ===
+[19:21:44] WATCHDOG restart aggr
+[04:21:45] === RESUME from round 855 · 0 open positions ===
+[04:21:45] === ROUND 855 continues at minute 30 ===
+[19:22:44] WATCHDOG restart aggr
+[04:22:45] === RESUME from round 855 · 0 open positions ===
+[04:22:45] === ROUND 855 continues at minute 30 ===
+[19:23:44] WATCHDOG restart aggr
+[04:23:45] === RESUME from round 855 · 0 open positions ===
+[04:23:45] === ROUND 855 continues at minute 30 ===
+[19:24:44] WATCHDOG restart aggr
+[04:24:45] === RESUME from round 855 · 0 open positions ===
+[04:24:45] === ROUND 855 continues at minute 30 ===
+[19:25:44] WATCHDOG restart aggr
+[04:25:45] === RESUME from round 855 · 0 open positions ===
+[04:25:45] === ROUND 855 continues at minute 30 ===
+[19:26:44] WATCHDOG restart aggr
+[04:26:45] === RESUME from round 855 · 0 open positions ===
+[04:26:45] === ROUND 855 continues at minute 30 ===
+[19:27:44] WATCHDOG restart aggr
+[04:27:45] === RESUME from round 855 · 0 open positions ===
+[04:27:45] === ROUND 855 continues at minute 30 ===
+[19:28:44] WATCHDOG restart aggr
+[04:28:45] === RESUME from round 855 · 0 open positions ===
+[04:28:45] === ROUND 855 continues at minute 30 ===
+[19:29:44] WATCHDOG restart aggr
+[04:29:45] === RESUME from round 855 · 0 open positions ===
+[04:29:45] === ROUND 855 continues at minute 30 ===
+[19:30:44] WATCHDOG restart aggr
+[04:30:45] === RESUME from round 855 · 0 open positions ===
+[04:30:45] === ROUND 855 continues at minute 30 ===
+[19:31:44] WATCHDOG restart aggr
+[04:31:45] === RESUME from round 855 · 0 open positions ===
+[04:31:45] === ROUND 855 continues at minute 30 ===
+[19:32:44] WATCHDOG restart aggr
+[04:32:45] === RESUME from round 855 · 0 open positions ===
+[04:32:45] === ROUND 855 continues at minute 30 ===
+[19:33:44] WATCHDOG restart aggr
+[04:33:45] === RESUME from round 855 · 0 open positions ===
+[04:33:45] === ROUND 855 continues at minute 30 ===
+[19:34:44] WATCHDOG restart aggr
+[04:34:45] === RESUME from round 855 · 0 open positions ===
+[04:34:45] === ROUND 855 continues at minute 30 ===
