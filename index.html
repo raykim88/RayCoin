@@ -343,8 +343,8 @@ footer{font-size:.75rem;color:var(--muted)}
 
   <div id="tabStock" class="tabpane" role="tabpanel" aria-labelledby="tabBtnStock" hidden>
     <div class="summary">
-      <div><label>총 수익률</label><b id="kPnl" class="num">+0.00%</b><span>시작 $100</span></div>
-      <div><label>평가 금액</label><b id="kVal" class="num">$100.00</b><span>투입 $100.00</span></div>
+      <div><label>총 수익률</label><b id="kPnl" class="num">+0.00%</b><span id="kStart">시작 $100</span></div>
+      <div><label>평가 금액</label><b id="kVal" class="num">$100.00</b><span id="kCost">투입 $100.00</span></div>
       <div><label>보유 / 거래</label><b id="kCnt" class="num">0 / 0</b><span id="kCntNote">아직 매매 없음</span></div>
       <div><label>상태</label><b id="kPhase">전략 검토</b><span id="kPhaseNote">전략 확정 전 · 매수 안 함</span></div>
     </div>
@@ -359,6 +359,7 @@ footer{font-size:.75rem;color:var(--muted)}
         <tbody id="kSignals"><tr><td colspan="6" style="text-align:center;color:var(--muted)">봇 연결 대기</td></tr></tbody>
       </table></div>
       <div class="panel" id="kTrend" style="padding:12px 14px;margin-top:10px;font-size:.9rem;color:var(--muted)">추세 보유 정보 대기</div>
+      <div class="panel" id="kSurge" style="padding:12px 14px;margin-top:10px;font-size:.9rem;color:var(--muted)" hidden></div>
     </section>
     <section id="krSection" hidden>
       <h2>국장 관찰 <span class="num" id="krState" style="font-weight:400;color:var(--muted);font-size:.75rem"></span></h2>
@@ -386,7 +387,7 @@ footer{font-size:.75rem;color:var(--muted)}
       <h2>Claude 검토</h2>
       <div class="reports" id="kReviews"><div class="empty">아직 검토 기록이 없습니다.</div></div>
     </section>
-    <footer>실제 주문은 넣지 않는 모의매매입니다. 시작 금액 $100, 추가 입금 없음. 투자 권유가 아닙니다.</footer>
+    <footer>실제 주문은 넣지 않는 모의매매입니다. 시작 금액 $100 (11/25 급등 추격 실험용 $100 별도 추가). 투자 권유가 아닙니다.</footer>
   </div>
   <div id="tabNews" class="tabpane" role="tabpanel" aria-labelledby="tabBtnNews" hidden>
     <div class="newsbar">
@@ -600,6 +601,7 @@ async function loadStock() {
     const pnl = tot.pnl || 0;
     $("kPnl").textContent = (pnl > 0 ? "+" : "") + pnl.toFixed(2) + "%"; $("kPnl").className = "num " + (pnl > 0.005 ? "up" : pnl < -0.005 ? "down" : "flat");
     $("kVal").textContent = "$" + (tot.value_usd ?? 100).toFixed(2);
+    if (tot.cost_usd) { $("kStart").textContent = `시작 $${tot.cost_usd}`; $("kCost").textContent = `투입 $${Number(tot.cost_usd).toFixed(2)}`; }
     const pos = (k.positions || []).filter(p => p.status === "OPEN"), ev = k.events || [];
     $("kCnt").textContent = `${pos.length} / ${ev.filter(e => e.kind === "SELL").length}`;
     if (k.phase_label) $("kPhase").textContent = k.phase_label;
@@ -628,7 +630,14 @@ async function loadStock() {
         (tr.holding ? `${esc(tr.symbol)} 보유 중` : tr.above200 ? `다음 장 ${esc(tr.symbol)} 매수` : "추세 아래 · 현금 대기") +
         ` · 추세 몫 $${Number(tr.value).toFixed(2)}${k.swing ? ` / 단타 몫 $${Number(k.swing.value).toFixed(2)}` : ""}`;
     }
-    if (pos.length) $("kCards").innerHTML = pos.map(p => `<div class="panel" style="padding:14px"><b>${esc(p.market)}</b> <span style="color:var(--muted);font-size:.8rem">${p.sleeve === "trend" ? "추세" : "단타"}</span> · ${p.qty.toFixed(4)}주 @ $${p.entry}
+    if (k.surge) {
+      const su = k.surge, top = (su.top || []).slice(0, 5);
+      $("kSurge").hidden = false;
+      $("kSurge").innerHTML = `<b style="color:var(--ink)">급등 추격 실험 · 별도 $100</b> — 미국 대형주 60종목 중 종가 +${su.thr}% 이상 → 다음 장 시가 매수, ${su.hold}거래일 보유 · ` +
+        `${su.held}/${su.slots}자리 사용 · 몫 $${Number(su.value).toFixed(2)}` +
+        (top.length ? `<br>최근 종가 상승 상위: ${top.map(g => `${esc(g.market)} <span class="${g.chg >= 0 ? "up" : "down"}">${g.chg >= 0 ? "+" : ""}${g.chg}%</span>`).join(" · ")}` : "");
+    }
+    if (pos.length) $("kCards").innerHTML = pos.map(p => `<div class="panel" style="padding:14px"><b>${esc(p.market)}</b> <span style="color:var(--muted);font-size:.8rem">${p.sleeve === "trend" ? "추세" : p.sleeve === "surge" ? "급등" : "단타"}</span> · ${p.qty.toFixed(4)}주 @ $${p.entry}
       <div class="num ${p.pnl > 0 ? "up" : p.pnl < 0 ? "down" : "flat"}" style="font-size:1.4rem;font-weight:600">${p.pnl > 0 ? "+" : ""}${p.pnl.toFixed(2)}%</div>
       <span style="color:var(--muted);font-size:.8rem">현재 $${Number(p.last).toFixed(2)} · 매수 ${esc(p.opened)} · 보유 ${p.sessions}거래일</span></div>`).join("");
     else $("kCards").innerHTML = `<div class="empty">보유 종목이 없습니다. ${k.pending ? "다음 장 시가에 " + esc(k.pending.market) + " 매수 예약됨." : "매수 신호를 기다리는 중입니다."}</div>`;

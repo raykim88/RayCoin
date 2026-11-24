@@ -32,8 +32,19 @@ TREND_SIG, TREND_SYM = "QQQ", "TQQQ"
 # kr_intraday.py found no KR rule that holds up yet (best: KODEX 레버리지 RSI(2)<20 swing, +44% in 10y).
 KR_WATCH = [("122630.KS", "KODEX 레버리지"), ("233740.KS", "KODEX 코스닥150레버리지"), ("069500.KS", "KODEX 200"),
             ("229200.KS", "KODEX 코스닥150")]
+# Surge sleeve (user, 11-25: "buy a few and gain experience"): a separate $100 experiment. US large caps that close
+# 12%+ above the previous close -> buy at the next open with 1/5 of the sleeve, sell after 20 sessions. No price stop
+# (stops cut the 10y result in stock/bt/us_surge_port.py). 10y: $100 -> $1,766, max drawdown 32%, 225 trades, both
+# halves positive; survivorship bias (today's names) flatters it.
+SURGE = ("AAPL MSFT NVDA AMZN GOOGL META TSLA AVGO AMD NFLX ORCL CRM ADBE INTC QCOM MU AMAT LRCX KLAC TXN JPM BAC GS MS V "
+         "MA PYPL XOM CVX COP LLY UNH JNJ PFE MRK ABBV WMT COST HD MCD NKE SBUX DIS BA CAT GE HON UBER SHOP PLTR COIN MSTR "
+         "SMCI ARM CRWD PANW SNOW NOW INTU ISRG").split()
+SP = dict(thr=0.12, hold=20, slots=5, capital=100.0)
 COST = 0.0015          # per side: fee + slippage
 P = dict(rsi_lo=30.0, trend=200, exit_ma=5, max_days=10, w_hi=1.0, w_lo=0.5)
+
+
+LABEL = dict(trend="추세", swing="단타", surge="급등")
 
 
 def now():
@@ -73,6 +84,11 @@ class Bot:
             for p in self.s["positions"]:
                 p.setdefault("sleeve", "swing")
             self.s["sleeves"] = dict(swing=dict(cash=round(half - held, 6)), trend=dict(cash=round(half, 6)))
+        if "surge" not in self.s["sleeves"]:           # 11-25: add the surge experiment with its own $100
+            self.s["sleeves"]["surge"] = dict(cash=SP["capital"])
+            self.s["cash"] = round(sum(v["cash"] for v in self.s["sleeves"].values()), 6)
+            self.s["total"]["cost_usd"] = self.s["total"]["cost_usd"] + SP["capital"]
+            self.s["curve"] = [[t, round(v + SP["capital"], 3)] for t, v in self.s["curve"]]
         self.s["strategy"] = "rsi2-pullback"
         self.s["params"] = P
         self.s["rules"] = [
@@ -88,6 +104,10 @@ class Bot:
                  text="종가가 5일 평균을 넘으면 다음 장 시가에 매도. 10거래일이 지나도 안 넘으면 그때 매도."),
             dict(title="손절 없음 (의도된 설계)",
                  text="백테스트에서 손절(8~15%)이나 장중 즉시 청산을 넣으면 9년 수익이 +236%에서 -25~+84%로 줄었습니다. 대신 200일 평균 아래(하락장)에서는 사지 않는 것으로 위험을 줄입니다."),
+            dict(title="급등 추격 실험 (별도 $100, 11/25 추가)",
+                 text="미국 대형주 60종목 중 종가가 전날보다 12% 넘게 오른 종목을 다음 장 시가에 몫의 1/5씩 매수(최대 5종목), 20거래일 뒤 다음 장 시가에 매도. "
+                      "손절 없음(10년 시험에서 손절 10~15%는 수익을 줄임). 10년 백테스트 $100 → $1,766, 최대 하락폭 32%, 225회, 앞뒤 5년 모두 수익. "
+                      "오늘 살아남은 대형주만 시험해 실제보다 좋게 나왔을 수 있어 실험용으로 따로 운용."),
             dict(title="모니터링",
                  text="미국 장중에는 1분마다 시세를 갱신하고, 장 마감 직후 신호를 계산합니다. 매매는 장 시작(한국시간 23:30, 서머타임 22:30)에 체결된 것으로 처리. 비용은 편도 0.15%."),
             dict(title="근거",
@@ -122,7 +142,8 @@ class Bot:
     def snapshot(self):
         """Completed daily closes + live price + session times for each symbol."""
         out = {}
-        for s in SYMS + [TREND_SIG, "^VIX"]:
+        held = sorted({p["market"] for p in self.open_pos() if p.get("sleeve") == "surge"} - set(SYMS))
+        for s in SYMS + [TREND_SIG, "^VIX"] + held:
             r = yget(s, "1d", "1y")
             m, q = r["meta"], r["indicators"]["quote"][0]
             ts = r["timestamp"]
@@ -213,6 +234,15 @@ class Bot:
                                                 pnl=round(-COST * 100, 2), status="OPEN", opened=now().strftime("%m-%d %H:%M"),
                                                 sessions=0, cost_usd=round(spend, 2), series=[], sleeve="trend"))
                 self.event("BUY", pend["market"], f"[추세] 시가 매수 @ ${first:.2f} · ${spend:.2f} · {pend['why']}")
+            elif pend["side"] == "BUY" and sl == "surge":
+                spend = min(self.sleeve_cash("surge"), self.sleeve_value("surge", snap) / SP["slots"])
+                if spend < 1 or sum(p.get("sleeve") == "surge" for p in self.open_pos()) >= SP["slots"]:
+                    self.event("SKIP", pend["market"], "[급등] 자리·현금 부족으로 매수 건너뜀"); continue
+                self.add_cash("surge", -spend)
+                self.s["positions"].append(dict(market=pend["market"], qty=spend * (1 - COST) / first, entry=round(first, 4), last=first,
+                                                pnl=round(-COST * 100, 2), status="OPEN", opened=now().strftime("%m-%d %H:%M"),
+                                                sessions=0, cost_usd=round(spend, 2), series=[], sleeve="surge"))
+                self.event("BUY", pend["market"], f"[급등] 시가 매수 @ ${first:.2f} · ${spend:.2f} · {pend['why']}")
             elif pend["side"] == "BUY":
                 gap = first / pend["prev_close"] - 1 if pend.get("prev_close") else 0.0
                 score = pend.get("pre_score", 1) + int(gap <= 0)
@@ -235,7 +265,7 @@ class Bot:
                 p.update(status="CLOSED", exit=round(first, 4), last=first, pnl=round((got / p["cost_usd"] - 1) * 100, 2),
                          closed=now().strftime("%m-%d %H:%M"))
                 self.add_cash(sl, got)
-                self.event("SELL", p["market"], f"[{'추세' if sl == 'trend' else '단타'}] 시가 매도 @ ${first:.2f} · 수익 {p['pnl']:+.2f}% · {pend['why']}")
+                self.event("SELL", p["market"], f"[{LABEL.get(sl, '단타')}] 시가 매도 @ ${first:.2f} · 수익 {p['pnl']:+.2f}% · {pend['why']}")
         self.s["orders"] = left
         self.s["pending"] = left[0] if left else None     # the page shows the first queued order
 
@@ -278,11 +308,47 @@ class Bot:
                    f"사전 확신 {i['pre_score']}점 (5일 {i['drop5']:+.1f}%, 200일선 +{i['dist200']:.1f}%, VIX {vix if vix is None else round(vix, 1)})")
             orders.append(dict(side="BUY", market=s, why=why, decided_ts=bar, prev_close=i["close"], pre_score=i["pre_score"], sleeve="swing"))
             self.event("ORDER", s, f"다음 장 시가 매수 예약 · {why} · 시가가 전날 종가 이하이면 +1점")
+        orders += self.decide_surge(bar)
         if not orders:
             self.log("NO SIGNAL · " + " · ".join(f"{s} RSI2 {i['rsi2']} {'200일선 위' if i['above200'] else '200일선 아래'}"
                                                  for s, i in ind.items() if i))
         self.s["orders"] = self.orders() + orders
         self.s["pending"] = self.s["orders"][0] if self.s["orders"] else None
+
+    def decide_surge(self, bar):
+        """Surge sleeve after a close: sell positions held for `hold` sessions, buy today's 12%+ closes into free slots."""
+        out, held = [], [p for p in self.open_pos() if p.get("sleeve") == "surge"]
+        for p in held:
+            p["sessions"] = p.get("sessions", 0) + 1
+            if p["sessions"] >= SP["hold"]:
+                why = f"{SP['hold']}거래일 보유 완료"
+                out.append(dict(side="SELL", market=p["market"], why=why, decided_ts=bar, sleeve="surge"))
+                self.event("ORDER", p["market"], f"[급등] 다음 장 시가 매도 예약 · {why}")
+        movers = []
+        for s in SURGE:
+            try:
+                r = yget(s, "1d", "1mo")
+                c = [x for x in r["indicators"]["quote"][0]["close"] if x is not None]
+                if len(c) >= 2:
+                    movers.append((c[-1] / c[-2] - 1, s, c[-1]))
+            except Exception as e:
+                self.log(f"surge data {s} {type(e).__name__}")
+            time.sleep(0.2)
+        movers.sort(reverse=True)
+        free = SP["slots"] - len(held) + sum(o["side"] == "SELL" for o in out)
+        names = {p["market"] for p in held}
+        for g, s, c in movers:
+            if g < SP["thr"] or free <= 0:
+                break
+            if s in names:
+                continue
+            why = f"종가 ${c:.2f}, 전날 대비 {g*100:+.1f}% (기준 +{SP['thr']*100:.0f}%)"
+            out.append(dict(side="BUY", market=s, why=why, decided_ts=bar, sleeve="surge"))
+            self.event("ORDER", s, f"[급등] 다음 장 시가 매수 예약 · {why}")
+            free -= 1
+        self.s["surge_top"] = [dict(market=s, chg=round(g * 100, 2), close=round(c, 2)) for g, s, c in movers[:8]]
+        self.s["surge_bar"] = bar
+        return out
 
     def kr_watch(self):
         """Korean index ETFs: live price during the KR session, RSI(2), 200-day average. Display only."""
@@ -329,6 +395,9 @@ class Bot:
         self.s["trend"] = dict(signal=TREND_SIG, symbol=TREND_SYM, close=q.get("close"), sma200=q.get("sma200"),
                                above200=q.get("above200"), holding=any(p.get("sleeve") == "trend" for p in pos),
                                value=round(self.sleeve_value("trend", snap), 3), cash=round(self.sleeve_cash("trend"), 3))
+        self.s["surge"] = dict(value=round(self.sleeve_value("surge", snap), 3), cash=round(self.sleeve_cash("surge"), 3),
+                               slots=SP["slots"], held=sum(p.get("sleeve") == "surge" for p in pos), thr=SP["thr"] * 100, hold=SP["hold"],
+                               top=self.s.get("surge_top", []))
         self.s["swing"] = dict(value=round(self.sleeve_value("swing", snap), 3), cash=round(self.sleeve_cash("swing"), 3))
         self.s["market_open"] = live
         self.s["updated"] = now().strftime("%Y-%m-%d %H:%M:%S KST")
