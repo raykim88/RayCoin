@@ -1605,3 +1605,79 @@ Traceback (most recent call last):
 ValueError: not enough values to unpack (expected 2, got 1)
 [02:29:41] === RESUME from round 855 · 0 open positions ===
 [02:29:41] === ROUND 855 continues at minute 30 ===
+Traceback (most recent call last):
+  File "/home/user/RayCoin/paper_futures.py", line 607, in <module>
+    main()
+    ~~~~^^
+  File "/home/user/RayCoin/paper_futures.py", line 603, in main
+    bot.run()
+    ~~~~~~~^^
+  File "/home/user/RayCoin/paper_trader_v2.py", line 524, in run
+    self.round_report(start_equity)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/user/RayCoin/paper_futures.py", line 581, in round_report
+    super().round_report(start_equity)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/user/RayCoin/paper_trader_v2.py", line 463, in round_report
+    prev_inv, prev_val = start_equity
+    ^^^^^^^^^^^^^^^^^^
+ValueError: not enough values to unpack (expected 2, got 1)
+[02:30:41] === RESUME from round 855 · 0 open positions ===
+[02:30:41] === ROUND 855 continues at minute 30 ===
+Traceback (most recent call last):
+  File "/home/user/RayCoin/paper_futures.py", line 607, in <module>
+    main()
+    ~~~~^^
+  File "/home/user/RayCoin/paper_futures.py", line 603, in main
+    bot.run()
+    ~~~~~~~^^
+  File "/home/user/RayCoin/paper_trader_v2.py", line 524, in run
+    self.round_report(start_equity)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/user/RayCoin/paper_futures.py", line 581, in round_report
+    super().round_report(start_equity)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/user/RayCoin/paper_trader_v2.py", line 463, in round_report
+    prev_inv, prev_val = start_equity
+    ^^^^^^^^^^^^^^^^^^
+ValueError: not enough values to unpack (expected 2, got 1)
+[02:31:41] === RESUME from round 855 · 0 open positions ===
+[02:31:41] === ROUND 855 continues at minute 30 ===
+Traceback (most recent call last):
+  File "/home/user/RayCoin/paper_futures.py", line 607, in <module>
+    main()
+    ~~~~^^
+  File "/home/user/RayCoin/paper_futures.py", line 603, in main
+    bot.run()
+    ~~~~~~~^^
+  File "/home/user/RayCoin/paper_trader_v2.py", line 524, in run
+    self.round_report(start_equity)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/user/RayCoin/paper_futures.py", line 581, in round_report
+    super().round_report(start_equity)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/user/RayCoin/paper_trader_v2.py", line 463, in round_report
+    prev_inv, prev_val = start_equity
+    ^^^^^^^^^^^^^^^^^^
+ValueError: not enough values to unpack (expected 2, got 1)
+[02:32:41] === RESUME from round 855 · 0 open positions ===
+[02:32:41] === ROUND 855 continues at minute 30 ===
+Traceback (most recent call last):
+  File "/home/user/RayCoin/paper_futures.py", line 607, in <module>
+    main()
+    ~~~~^^
+  File "/home/user/RayCoin/paper_futures.py", line 603, in main
+    bot.run()
+    ~~~~~~~^^
+  File "/home/user/RayCoin/paper_trader_v2.py", line 524, in run
+    self.round_report(start_equity)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/user/RayCoin/paper_futures.py", line 581, in round_report
+    super().round_report(start_equity)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/user/RayCoin/paper_trader_v2.py", line 463, in round_report
+    prev_inv, prev_val = start_equity
+    ^^^^^^^^^^^^^^^^^^
+ValueError: not enough values to unpack (expected 2, got 1)
+[02:33:41] === RESUME from round 855 · 0 open positions ===
+[02:33:41] === ROUND 855 continues at minute 30 ===
