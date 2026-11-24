@@ -142,7 +142,8 @@ class Bot:
     def snapshot(self):
         """Completed daily closes + live price + session times for each symbol."""
         out = {}
-        held = sorted({p["market"] for p in self.open_pos() if p.get("sleeve") == "surge"} - set(SYMS))
+        held = sorted(({p["market"] for p in self.open_pos() if p.get("sleeve") == "surge"} |
+                       {o["market"] for o in self.orders()}) - set(SYMS) - {TREND_SIG})
         for s in SYMS + [TREND_SIG, "^VIX"] + held:
             r = yget(s, "1d", "1y")
             m, q = r["meta"], r["indicators"]["quote"][0]
@@ -221,7 +222,8 @@ class Bot:
             d = snap[pend["market"]]
             if not d["in_session"] or d["start"] <= pend["decided_ts"]:
                 left.append(pend); continue
-            first = self.first_open(pend["market"], d["start"])
+            # fill="now": a manual catch-up order filled at the live price (never back-dated to the open)
+            first = d["price"] if pend.get("fill") == "now" else self.first_open(pend["market"], d["start"])
             if first is None:
                 left.append(pend); continue
             sl = pend.get("sleeve", "swing")
@@ -242,7 +244,7 @@ class Bot:
                 self.s["positions"].append(dict(market=pend["market"], qty=spend * (1 - COST) / first, entry=round(first, 4), last=first,
                                                 pnl=round(-COST * 100, 2), status="OPEN", opened=now().strftime("%m-%d %H:%M"),
                                                 sessions=0, cost_usd=round(spend, 2), series=[], sleeve="surge"))
-                self.event("BUY", pend["market"], f"[급등] 시가 매수 @ ${first:.2f} · ${spend:.2f} · {pend['why']}")
+                self.event("BUY", pend["market"], f"[급등] {'현재가' if pend.get('fill') == 'now' else '시가'} 매수 @ ${first:.2f} · ${spend:.2f} · {pend['why']}")
             elif pend["side"] == "BUY":
                 gap = first / pend["prev_close"] - 1 if pend.get("prev_close") else 0.0
                 score = pend.get("pre_score", 1) + int(gap <= 0)
