@@ -239,10 +239,10 @@ footer{font-size:.75rem;color:var(--muted)}
       <div><label>공격형 수익률</label><b id="agPnl" class="num">–</b><span id="agVal">$50 기준</span></div>
       <div><label>청산 / 승률</label><b id="agCnt" class="num">–</b><span id="agWin">–</span></div>
       <div><label>보유 중</label><b id="agOpen" class="num">–</b><span id="agOpenTxt">최대 4개</span></div>
-      <div><label>바닥선</label><b class="num">$35</b><span id="agFloor">–</span></div>
+      <div><label>배수 · 바닥선</label><b class="num">5배</b><span id="agFloor">바닥선 없음</span></div>
     </div>
     <div class="panel" style="margin-top:8px"><ul class="timeline" id="agTimeline"><li><time>–</time><span>아직 기록이 없습니다.</span></li></ul></div>
-    <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">자주 사고파는 실험용 모의 계좌입니다. 업비트 시세로 2시간 +10% 또는 1시간 +8% 넘게 오른 코인을 되돌림 숏(3배), 손절 -6% · 익절 +8% · 최고 +4% 뒤 2%p 반납 시 청산 · 최대 6시간 보유, 동시에 최대 4개. 30일 백테스트(비관적 손절, 3배) 업비트 +2754%, 빗썸 +294%, 최대 낙폭 50~57%, 하루 27회 안팎. 여기서 쓸 만한 점은 검증 뒤 실전 $50 규칙에 반영합니다.</p>
+    <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">자주 사고파는 실험용 모의 계좌입니다. 업비트 시세로 2시간 +10% 또는 1시간 +8% 넘게 오른 코인을 되돌림 숏(5배), 손절 -6% · 익절 +8% · 최고 +4% 뒤 2%p 반납 시 청산 · 최대 6시간 보유, 동시에 최대 4개. 30일 백테스트(비관적 손절, 5배) 업비트 +10500%, 빗썸 +375%, 최대 낙폭 72~78% · 바닥선 없음, 하루 27회 안팎. 여기서 쓸 만한 점은 검증 뒤 실전 $50 규칙에 반영합니다.</p>
   </section>
 
   <section id="reportsBox" hidden>
@@ -556,7 +556,7 @@ async function loadAggr() {
   $("agWin").textContent = closed.length ? "승률 " + Math.round(wins / closed.length * 100) + "%" : "첫 청산 대기";
   $("agOpen").textContent = open.length + "개";
   $("agOpenTxt").textContent = open.length ? open.map(p => (p.market || "").replace("KRW-", "") + " " + sg(p.pnl || 0)).join(" · ") : "최대 4개 · 신호 대기";
-  $("agFloor").textContent = "$" + (v - 35).toFixed(2) + " 남음";
+  
   $("agState").textContent = "· " + (a.updated || "");
   $("smAg").textContent = "$" + v.toFixed(2) + " (" + (pnl > 0 ? "+" : "") + pnl.toFixed(1) + "%)"; $("smAg").className = "num " + c(pnl);
   $("smAgTxt").textContent = "자주 사고파는 실험 계좌(진짜 돈 아님). 2시간 +10%·1시간 +8% 급등 코인을 짧게 되돌림 숏. " + closed.length + "번 거래해 " + wins + "번 이김" +
