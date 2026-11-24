@@ -558,3 +558,5 @@ Traceback (most recent call last):
     prev_inv, prev_val = start_equity
     ^^^^^^^^^^^^^^^^^^
 ValueError: not enough values to unpack (expected 2, got 1)
+[01:34:39] === RESUME from round 855 · 0 open positions ===
+[01:34:39] === ROUND 855 continues at minute 30 ===
