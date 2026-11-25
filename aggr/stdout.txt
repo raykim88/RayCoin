@@ -8682,3 +8682,5 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [03:32:36] R896 t+05m | MON +27.29% s+0.00 r50
 [03:34:27] R896 t+06m | MON +27.29% s+0.00 r50
 [03:34:36] R896 t+07m | MON +21.12% s+0.00 r50
+[03:35:36] R896 t+08m | MON +21.12% s+0.00 r50
+[03:35:47] CLOSE SHORT 5x  KRW-MON      @ 15.6000  ROE +18.03%  [추적 청산 (최고 +6.2%에서 2%p 반납, 10초 점검)]
