@@ -7778,3 +7778,6 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [15:09:08] pump: OPG +8.9%
 [15:09:08] R871 t+11m | WAXP +13.42% s+0.00 r50 | SLX  -0.50% s+0.00 r50 | BIGTIME -17.00% s+0.00 r50 | OPG  -0.50% s+0.00 r50
 [15:09:18] R871 t+12m | WAXP +13.42% s+0.00 r50 | SLX  +1.71% s+0.00 r50 | BIGTIME -11.88% s+0.00 r50 | OPG  +5.29% s+0.00 r50
+[15:10:18] R871 t+13m | WAXP  +7.46% s+0.00 r50 | SLX  -1.60% s+0.00 r50 | BIGTIME -26.11% s+0.00 r50 | OPG +30.40% s+0.00 r50
+[15:11:11] CLOSE SHORT 5x  KRW-BIGTIME  @ 9.3400  ROE -31.80%  [손절 (가격 -6%, 10초 점검)]
+[15:11:18] R871 t+14m | WAXP  +8.45% s+0.00 r50 | SLX  -3.81% s+0.00 r50 | OPG +32.34% s+0.00 r50
