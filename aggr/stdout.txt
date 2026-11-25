@@ -7781,3 +7781,8 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [15:10:18] R871 t+13m | WAXP  +7.46% s+0.00 r50 | SLX  -1.60% s+0.00 r50 | BIGTIME -26.11% s+0.00 r50 | OPG +30.40% s+0.00 r50
 [15:11:11] CLOSE SHORT 5x  KRW-BIGTIME  @ 9.3400  ROE -31.80%  [손절 (가격 -6%, 10초 점검)]
 [15:11:18] R871 t+14m | WAXP  +8.45% s+0.00 r50 | SLX  -3.81% s+0.00 r50 | OPG +32.34% s+0.00 r50
+[15:12:18] R871 t+15m | WAXP  +6.46% s+0.00 r50 | SLX  -0.50% s+0.00 r50 | OPG +32.34% s+0.00 r50
+[15:14:06] R871 t+16m | WAXP +10.44% s+0.00 r50 | SLX  +0.60% s+0.00 r50 | OPG +28.47% s+0.00 r50
+[15:14:18] R871 t+17m | WAXP  +7.46% s+0.00 r50 | SLX  +0.60% s+0.00 r50 | OPG +30.40% s+0.00 r50
+[15:15:18] CLOSE SHORT 5x  KRW-OPG      @ 237.0000  ROE +41.99%  [익절 (가격 +8%)]
+[15:15:18] R871 t+18m | WAXP  +6.46% s+0.00 r50 | SLX  -0.50% s+0.00 r50
