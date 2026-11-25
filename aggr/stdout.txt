@@ -7390,3 +7390,8 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [10:11:11] R861 t+14m | SANC +39.07% s+0.00 r50 | BIGTIME +20.75% s+0.00 r50 | DKA  -0.50% s+0.00 r50 | META2 +24.43% s+0.00 r50
 [10:12:11] CLOSE SHORT 5x  KRW-SANC     @ 77.3000  ROE +43.21%  [익절 (가격 +8%)]
 [10:12:11] R861 t+15m | BIGTIME +15.03% s+0.00 r50 | DKA  -0.50% s+0.00 r50 | META2 +23.53% s+0.00 r50
+[10:14:02] OPEN SHORT 5x  KRW-IRYS     @ 24.7000  margin $12.86  liq 29.5165  (2시간 +11.8% 급등 → 되돌림 숏 · 확신 3점(30분 +9.8%, 거래대금 4.4배, 24시간 +10.8%), score 11.76)
+[10:14:02] pump: IRYS +11.8%
+[10:14:02] R861 t+16m | BIGTIME +11.76% s+0.00 r50 | DKA  -1.80% s+0.00 r50 | META2 +22.12% s+0.00 r50 | IRYS  -0.50% s+0.00 r50
+[10:14:11] CLOSE SHORT 5x  KRW-META2    @ 4,857.0000  ROE +11.46%  [추적 청산 (최고 +5.0%에서 2%p 반납)]
+[10:14:11] R861 t+17m | BIGTIME +13.40% s+0.00 r50 | DKA  -0.50% s+0.00 r50 | IRYS  -0.50% s+0.00 r50
