@@ -689,14 +689,14 @@ async function loadStock() {
       if (k.surge) {
         const av = Number(k.surge.value), ap = (av / 100 - 1) * 100;
         $("kAgg").textContent = "$" + av.toFixed(2) + " (" + sg(ap) + ")"; $("kAgg").className = cl(ap);
-        $("kAggTxt").textContent = `미국 대형주 하루 +${k.surge.thr}% 급등주를 다음 장에 사서 ${k.surge.hold}거래일 보유, 최대 ${k.surge.slots}종목. ` +
+        $("kAggTxt").textContent = `미국 대형주 하루 +${k.surge.thr}% 급등주를 다음 장에 2배로 사서 ${k.surge.hold}거래일 보유, 최대 ${k.surge.slots}종목. ` +
           (apos.length ? apos.map(p => p.market + " " + sg(p.pnl)).join(" · ") + " 보유 중." : "신호 대기 중.");
       }
     }
     if (k.surge) {
       const su = k.surge, top = (su.top || []).slice(0, 5);
       $("kSurge").hidden = false;
-      $("kSurge").innerHTML = `<b style="color:var(--ink)">급등 추격 실험 · 별도 $100</b> — 미국 대형주 60종목 중 종가 +${su.thr}% 이상 → 다음 장 시가 매수, ${su.hold}거래일 보유 · ` +
+      $("kSurge").innerHTML = `<b style="color:var(--ink)">급등 추격 실험 · 별도 $100</b> — 미국 대형주 60종목 중 종가 +${su.thr}% 이상 → 다음 장 시가에 2배로 매수, ${su.hold}거래일 보유 · ` +
         `${su.held}/${su.slots}자리 사용 · 몫 $${Number(su.value).toFixed(2)}` +
         (top.length ? `<br>최근 종가 상승 상위: ${top.map(g => `${esc(g.market)} <span class="${g.chg >= 0 ? "up" : "down"}">${g.chg >= 0 ? "+" : ""}${g.chg}%</span>`).join(" · ")}` : "");
     }

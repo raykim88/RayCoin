@@ -39,7 +39,9 @@ KR_WATCH = [("122630.KS", "KODEX 레버리지"), ("233740.KS", "KODEX 코스닥1
 SURGE = ("AAPL MSFT NVDA AMZN GOOGL META TSLA AVGO AMD NFLX ORCL CRM ADBE INTC QCOM MU AMAT LRCX KLAC TXN JPM BAC GS MS V "
          "MA PYPL XOM CVX COP LLY UNH JNJ PFE MRK ABBV WMT COST HD MCD NKE SBUX DIS BA CAT GE HON UBER SHOP PLTR COIN MSTR "
          "SMCI ARM CRWD PANW SNOW NOW INTU ISRG").split()
-SP = dict(thr=0.08, hold=10, slots=5, capital=100.0)   # 11-25 aggressive: +8%/10 sessions (was +12%/20)
+SP = dict(thr=0.08, hold=10, slots=5, capital=100.0, lev=2.0, rate=0.06)   # 11-25 aggressive: +8%/10 sessions (was +12%/20)
+# 11-25 user: "raise the multiple". 10y test (6%/yr borrow, position wiped if its low erases the margin): 1x $1,412 (mdd 42%),
+# 1.5x $3,389 (59%), 2x $6,713 (73%, best first half), 3x $10,362 (92%, first half lower), 4x $1,811, 5x $424.
 COST = 0.0015          # per side: fee + slippage
 P = dict(rsi_lo=30.0, trend=200, exit_ma=5, max_days=10, w_hi=1.0, w_lo=0.5)
 
@@ -185,8 +187,9 @@ class Bot:
         for p in self.open_pos():
             px = (snap or {}).get(p["market"], {}).get("price") or p.get("last") or p["entry"]
             p["last"] = px
-            p["pnl"] = round((px * (1 - COST) / p["entry"] - 1) * 100, 2)
-            v += p["qty"] * px * (1 - COST)
+            pv = p["qty"] * px * (1 - COST) - p.get("debt", 0.0)
+            p["pnl"] = round((pv / p["cost_usd"] - 1) * 100, 2) if p.get("debt") else round((px * (1 - COST) / p["entry"] - 1) * 100, 2)
+            v += pv
         return v
 
     def sleeve_cash(self, sl):
@@ -201,7 +204,7 @@ class Bot:
         for p in self.open_pos():
             if p.get("sleeve", "swing") == sl:
                 px = (snap or {}).get(p["market"], {}).get("price") or p.get("last") or p["entry"]
-                v += p["qty"] * px * (1 - COST)
+                v += p["qty"] * px * (1 - COST) - p.get("debt", 0.0)
         return v
 
     def orders(self):
@@ -241,10 +244,21 @@ class Bot:
                 if spend < 1 or sum(p.get("sleeve") == "surge" for p in self.open_pos()) >= SP["slots"]:
                     self.event("SKIP", pend["market"], "[급등] 자리·현금 부족으로 매수 건너뜀"); continue
                 self.add_cash("surge", -spend)
-                self.s["positions"].append(dict(market=pend["market"], qty=spend * (1 - COST) / first, entry=round(first, 4), last=first,
-                                                pnl=round(-COST * 100, 2), status="OPEN", opened=now().strftime("%m-%d %H:%M"),
-                                                sessions=0, cost_usd=round(spend, 2), series=[], sleeve="surge"))
-                self.event("BUY", pend["market"], f"[급등] {'현재가' if pend.get('fill') == 'now' else '시가'} 매수 @ ${first:.2f} · ${spend:.2f} · {pend['why']}")
+                L = SP["lev"]
+                self.s["positions"].append(dict(market=pend["market"], qty=spend * L * (1 - COST) / first, entry=round(first, 4), last=first,
+                                                pnl=round(-COST * L * 100, 2), status="OPEN", opened=now().strftime("%m-%d %H:%M"),
+                                                sessions=0, cost_usd=round(spend, 2), debt=round(spend * (L - 1), 6), lev=L,
+                                                series=[], sleeve="surge"))
+                self.event("BUY", pend["market"], f"[급등] {'현재가' if pend.get('fill') == 'now' else '시가'} 매수 @ ${first:.2f} · 증거금 ${spend:.2f} × {L:g}배 · {pend['why']}")
+            elif pend["side"] == "LEV" and sl == "surge":
+                # 11-25: top up a 1x surge position to SP["lev"] at the open (borrow the difference)
+                p = next((p for p in self.open_pos() if p["market"] == pend["market"] and p.get("sleeve") == "surge"), None)
+                if p is None or p.get("lev", 1.0) >= SP["lev"]:
+                    continue
+                add = p["cost_usd"] * (SP["lev"] - p.get("lev", 1.0))
+                p["qty"] += add * (1 - COST) / first
+                p["debt"] = round(p.get("debt", 0.0) + add, 6); p["lev"] = SP["lev"]
+                self.event("ADD", p["market"], f"[급등] 시가 @ ${first:.2f}에 ${add:.2f} 빌려 추가 매수 → {SP['lev']:g}배 · {pend['why']}")
             elif pend["side"] == "BUY":
                 gap = first / pend["prev_close"] - 1 if pend.get("prev_close") else 0.0
                 score = pend.get("pre_score", 1) + int(gap <= 0)
@@ -263,7 +277,7 @@ class Bot:
                 self.event("BUY", pend["market"], f"[단타] 시가 매수 @ ${first:.2f} · ${spend:.2f} (확신 {score}점 → {w:.0%}, 갭 {gap*100:+.2f}%) · {pend['why']}")
             else:
                 p = next(p for p in self.open_pos() if p["market"] == pend["market"] and p.get("sleeve", "swing") == sl)
-                got = p["qty"] * first * (1 - COST)
+                got = p["qty"] * first * (1 - COST) - p.get("debt", 0.0)
                 p.update(status="CLOSED", exit=round(first, 4), last=first, pnl=round((got / p["cost_usd"] - 1) * 100, 2),
                          closed=now().strftime("%m-%d %H:%M"))
                 self.add_cash(sl, got)
@@ -322,6 +336,8 @@ class Bot:
         out, held = [], [p for p in self.open_pos() if p.get("sleeve") == "surge"]
         for p in held:
             p["sessions"] = p.get("sessions", 0) + 1
+            if p.get("debt"):
+                p["debt"] = round(p["debt"] * (1 + SP["rate"] / 252), 6)     # borrow cost per session
             if p["sessions"] >= SP["hold"]:
                 why = f"{SP['hold']}거래일 보유 완료"
                 out.append(dict(side="SELL", market=p["market"], why=why, decided_ts=bar, sleeve="surge"))
