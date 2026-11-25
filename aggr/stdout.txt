@@ -7373,3 +7373,12 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [09:59:01] pump: DKA +16.2%
 [09:59:01] R861 t+01m | SANC +10.72% s+0.00 r50 | META2  +1.23% s+0.00 r50 | BIGTIME  -5.40% s+0.00 r50 | DKA  -0.50% s+0.00 r50
 [09:59:11] R861 t+02m | SANC +13.08% s+0.00 r50 | META2  -4.06% s+0.00 r50 | BIGTIME  -8.67% s+0.00 r50 | DKA  -3.09% s+0.00 r50
+[10:00:11] R861 t+03m | SANC +16.04% s+0.00 r50 | META2 -17.44% s+0.00 r50 | BIGTIME  -6.22% s+0.00 r50 | DKA  +8.57% s+0.00 r50
+[10:01:11] R861 t+04m | SANC +15.45% s+0.00 r50 | META2  -6.11% s+0.00 r50 | BIGTIME  -0.50% s+0.00 r50 | DKA  +0.80% s+0.00 r50
+[10:02:11] R861 t+05m | SANC +17.81% s+0.00 r50 | META2  -4.60% s+0.00 r50 | BIGTIME  +0.32% s+0.00 r50 | DKA  -0.50% s+0.00 r50
+[10:03:11] R861 t+06m | SANC +11.90% s+0.00 r50 | META2  -4.28% s+0.00 r50 | BIGTIME  +0.32% s+0.00 r50 | DKA  +0.80% s+0.00 r50
+[10:04:11] R861 t+07m | SANC +10.13% s+0.00 r50 | META2  +0.15% s+0.00 r50 | BIGTIME  +2.77% s+0.00 r50 | DKA  +3.39% s+0.00 r50
+[10:05:11] R861 t+08m | SANC +14.27% s+0.00 r50 | META2  +2.31% s+0.00 r50 | BIGTIME  +3.59% s+0.00 r50 | DKA  +7.28% s+0.00 r50
+[10:06:11] R861 t+09m | SANC +15.45% s+0.00 r50 | META2  -3.20% s+0.00 r50 | BIGTIME  +5.22% s+0.00 r50 | DKA  +3.39% s+0.00 r50
+[10:07:11] R861 t+10m | SANC +15.45% s+0.00 r50 | META2 -25.97% s+0.00 r50 | BIGTIME  +2.77% s+0.00 r50 | DKA  +4.68% s+0.00 r50
+[10:07:22] CLOSE SHORT 5x  KRW-META2    @ 4,980.0000  ROE -37.62%  [손절 (가격 -6%, 10초 점검)]
