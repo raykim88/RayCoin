@@ -7864,3 +7864,8 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [16:01:19] R873 t+04m | BIGTIME -13.98% s+0.00 r50
 [16:02:19] R873 t+05m | BIGTIME -23.83% s+0.00 r50
 [16:03:02] CLOSE SHORT 5x  KRW-BIGTIME  @ 10.3000  ROE -34.20%  [손절 (가격 -6%, 10초 점검)]
+[16:04:12] OPEN SHORT 5x  KRW-BIGTIME  @ 10.3000  margin $8.66  liq 12.3085  (2시간 +14.6% 급등 → 되돌림 숏 · 확신 0점(30분 -5.6%, 거래대금 8.7배, 24시간 +82.8%), score 14.61)
+[16:04:12] OPEN SHORT 5x  KRW-FCT2     @ 9.3700  margin $8.65  liq 11.1971  (2시간 +14.6% 급등 → 되돌림 숏 · 확신 1점(30분 +4.8%, 거래대금 595.6배, 24시간 +18.9%), score 14.58)
+[16:04:12] pump: BIGTIME +14.6%, FCT2 +14.6%
+[16:04:12] R873 t+06m | BIGTIME  -0.50% s+0.00 r50 | FCT2  -0.50% s+0.00 r50
+[16:04:19] R873 t+07m | BIGTIME +21.36% s+0.00 r50 | FCT2  +0.57% s+0.00 r50
