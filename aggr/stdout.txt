@@ -7634,3 +7634,9 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [13:24:07] R867 t+26m | SLX  -6.21% s+0.00 r50 | WAXP  -0.50% s+0.00 r50
 [13:24:16] R867 t+27m | SLX -24.48% s+0.00 r50 | WAXP +19.98% s+0.00 r50
 [13:24:27] CLOSE SHORT 5x  KRW-SLX      @ 46.5000  ROE -31.34%  [손절 (가격 -6%, 10초 점검)]
+[13:25:15] R867 t+28m | WAXP +19.98% s+0.00 r50
+[13:26:16] R867 t+29m | WAXP +14.13% s+0.00 r50
+[13:26:59] CLOSE SHORT 5x  KRW-WAXP     @ 5.0400  ROE +8.28%  [추적 청산 (최고 +4.1%에서 2%p 반납, 10초 점검)]
+[13:27:15] R867 t+30m | 
+[13:27:15] === ROUND 867 REPORT: value $46.094 / invested $50.00 (-7.81%), round PnL -6.427$ ===
+[13:27:15] === ROUND 868 start ===
