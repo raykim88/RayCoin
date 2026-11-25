@@ -7869,3 +7869,7 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [16:04:12] pump: BIGTIME +14.6%, FCT2 +14.6%
 [16:04:12] R873 t+06m | BIGTIME  -0.50% s+0.00 r50 | FCT2  -0.50% s+0.00 r50
 [16:04:19] R873 t+07m | BIGTIME +21.36% s+0.00 r50 | FCT2  +0.57% s+0.00 r50
+[16:05:19] R873 t+08m | BIGTIME +20.38% s+0.00 r50 | FCT2  +4.84% s+0.00 r50
+[16:06:19] R873 t+09m | BIGTIME +24.27% s+0.00 r50 | FCT2  +5.91% s+0.00 r50
+[16:07:19] R873 t+10m | BIGTIME +16.01% s+0.00 r50 | FCT2 +12.31% s+0.00 r50
+[16:07:30] CLOSE SHORT 5x  KRW-BIGTIME  @ 10.1000  ROE +9.21%  [추적 청산 (최고 +5.0%에서 2%p 반납, 10초 점검)]
