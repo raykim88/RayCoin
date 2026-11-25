@@ -7886,3 +7886,10 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [16:14:13] pump: PROS +11.2%
 [16:14:13] R873 t+16m | BIGTIME +22.78% s+0.00 r50 | PROS  -0.50% s+0.00 r50
 [16:14:19] R873 t+17m | BIGTIME +19.31% s+0.00 r50 | PROS  +0.53% s+0.00 r50
+[16:15:19] R873 t+18m | BIGTIME +21.29% s+0.00 r50 | PROS  -2.04% s+0.00 r50
+[16:16:19] R873 t+19m | BIGTIME +22.78% s+0.00 r50 | PROS  -3.58% s+0.00 r50
+[16:17:19] R873 t+20m | BIGTIME +21.29% s+0.00 r50 | PROS  +2.06% s+0.00 r50
+[16:19:10] R873 t+21m | BIGTIME +15.85% s+0.00 r50 | PROS  -9.73% s+0.00 r50
+[16:19:19] R873 t+22m | BIGTIME +15.35% s+0.00 r50 | PROS -18.46% s+0.00 r50
+[16:20:19] R873 t+23m | BIGTIME +22.28% s+0.00 r50 | PROS -25.64% s+0.00 r50
+[16:21:19] R873 t+24m | BIGTIME +21.79% s+0.00 r50 | PROS -10.25% s+0.00 r50
