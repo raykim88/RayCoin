@@ -105,6 +105,11 @@ svg.spark{width:100%;height:64px;display:block}
 .report h3{margin:0;font-size:.95rem}.report h3 span{font-weight:500;color:var(--muted);font-size:.75rem;margin-left:6px}
 .report p{margin:0;font-size:.82rem;color:var(--muted)}
 .chart{position:relative;width:100%}
+.zoom{display:flex;gap:4px;flex-wrap:wrap;margin:0 0 8px}
+.zoom button{font:inherit;font-size:.78rem;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer}
+.zoom button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.hscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.hscroll>.inner{position:relative}
 .chart svg{display:block;width:100%;height:auto;overflow:visible}
 .chart .grid{stroke:var(--line);stroke-width:1}
 .chart .base{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 4}
@@ -257,8 +262,9 @@ footer{font-size:.75rem;color:var(--muted)}
   </section>
 
   <section id="chartBox" hidden>
-    <h2>평가 금액 추이 · 실전 vs 빗썸 연습</h2>
-    <div class="chart" id="chart"></div>
+    <h2>평가 금액 추이 · 실전 vs 빗썸 연습 vs 공격형</h2>
+    <div class="zoom" id="zoomCoin" role="group" aria-label="조회 단위"></div>
+    <div class="chart hscroll" id="chart"></div>
     <div class="chartnote" id="chartNote"></div>
   </section>
 
@@ -372,6 +378,7 @@ footer{font-size:.75rem;color:var(--muted)}
     </section>
     <section>
       <h2>수익률 · 평가 금액 추이</h2>
+      <div class="zoom" id="zoomStock" role="group" aria-label="조회 단위"></div>
       <div class="empty" id="kChart">첫 매매가 시작되면 여기에 그래프가 나타납니다.</div>
     </section>
     <section>
@@ -634,6 +641,28 @@ async function fetchStock() {
   }
   return null;
 }
+// ---- chart zoom: fit to screen, or widen and scroll sideways (newest at the right). Remembered per viewer.
+const ZOOMS = {coin: [["fit", "한 화면"], ["day", "일별"], ["hour", "1시간"], ["all", "30분 (상세)"]],
+               stock: [["fit", "한 화면"], ["day", "일별"], ["hour", "1시간"], ["all", "분 단위 (상세)"]]};
+const zoomOf = k => { try { return localStorage.getItem("rt-zoom-" + k) || "fit"; } catch (_) { return "fit"; } };
+function zoomUI(k, redraw) {
+  const box = $(k === "coin" ? "zoomCoin" : "zoomStock"); if (!box) return;
+  const cur = zoomOf(k);
+  box.innerHTML = ZOOMS[k].map(([v, t]) => `<button type="button" data-z="${v}" class="${v === cur ? "on" : ""}" aria-pressed="${v === cur}">${t}</button>`).join("");
+  box.querySelectorAll("button").forEach(b => b.onclick = () => {
+    try { localStorage.setItem("rt-zoom-" + k, b.dataset.z); } catch (_) {}
+    window["__zoom_" + k] = b.dataset.z; zoomUI(k, redraw); redraw();
+  });
+}
+const zoomGet = k => window["__zoom_" + k] || zoomOf(k);
+// keep the last point of each group (plus the very first); key(p) names the group
+function thin(arr, key) {
+  const out = []; arr.forEach((p, i) => {
+    if (i === 0) { out.push(p); return; }
+    if (out.length > 1 && key(out[out.length - 1]) === key(p)) out[out.length - 1] = p; else out.push(p);
+  }); return out;
+}
+function scrollRight(el) { requestAnimationFrame(() => { el.scrollLeft = el.scrollWidth; }); }
 function stockChart(curve, cost) {
   if (curve.some(x => x.length > 2)) return stockChart2(curve);
   const W = 600, H = 150, pad = 6, v = curve.map(x => x[1]);
@@ -648,19 +677,27 @@ function stockChart(curve, cost) {
 }
 function stockChart2(curve) {
   // 11-25: base $100 (trend + swing) vs aggressive $100 (surge, 2x), each against its own $100
-  const W = 600, H = 170, pad = 8, cv = curve.filter(x => x.length > 2);
+  const zm = zoomGet("stock"), H = 170, pad = 8;
+  let cv = curve.filter(x => x.length > 2);
+  if (zm === "day") cv = thin(cv, x => x[0].slice(0, 5)); else if (zm === "hour") cv = thin(cv, x => x[0].slice(0, 8));
+  const VW = Math.max(300, ($("kChart").clientWidth || 600) - 28), PX = {fit: 0, day: 60, hour: 10, all: 3}[zm] || 0;
+  const W = PX ? Math.max(VW, Math.round(cv.length * PX)) : 600;
   const base = cv.map(x => x[1] - x[2]), ag = cv.map(x => x[2]), all = base.concat(ag);
   const lo = Math.min(97, ...all), hi = Math.max(103, ...all), n = Math.max(cv.length - 1, 1);
   const x = i => i / n * W, y = q => pad + (hi - q) / (hi - lo) * (H - 2 * pad);
   const line = v => v.map((q, i) => `${x(i).toFixed(1)},${y(q).toFixed(1)}`).join(" ");
   const sg = q => (q >= 100 ? "+" : "") + (q - 100).toFixed(2) + "%";
   const bl = base[base.length - 1], al = ag[ag.length - 1];
-  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="width:100%;height:170px;display:block" role="img" aria-label="기본·공격형 평가 금액 추이">
+  let days = ""; if (PX) cv.forEach((c, i) => { if (i && c[0].slice(0, 5) !== cv[i - 1][0].slice(0, 5)) days +=
+    `<line x1="${x(i).toFixed(1)}" x2="${x(i).toFixed(1)}" y1="0" y2="${H}" stroke="var(--line)"/><text x="${(x(i) + 3).toFixed(1)}" y="12" fill="var(--muted)" font-size="11">${esc(c[0].slice(0, 5).replace("-", "/"))}</text>`; });
+  return `<div class="hscroll" id="kScroll"><div class="inner" style="width:${PX ? W + "px" : "100%"}"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="width:${PX ? W + "px" : "100%"};height:170px;display:block" role="img" aria-label="기본·공격형 평가 금액 추이">${days}
     <line x1="0" x2="${W}" y1="${y(100)}" y2="${y(100)}" stroke="var(--line)" stroke-dasharray="4 4"/>
     <polyline points="${line(base)}" fill="none" stroke="var(--base)" stroke-width="2" vector-effect="non-scaling-stroke"/>
-    <polyline points="${line(ag)}" fill="none" stroke="var(--ag)" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+    <polyline points="${line(ag)}" fill="none" stroke="var(--ag)" stroke-width="2" vector-effect="non-scaling-stroke"/></svg></div></div>
     <div class="chartnote"><span class="lg" style="background:var(--base)"></span>기본 $${bl.toFixed(2)} (${sg(bl)}) &nbsp; <span class="lg" style="background:var(--ag)"></span>공격형 2배 $${al.toFixed(2)} (${sg(al)}) · 각자 $100 기준(점선) · ${esc(cv[0][0])} ~ ${esc(cv[cv.length - 1][0])}</div>`;
 }
+zoomUI("stock", () => { const k = window.__stockK; if (!k) return;
+  $("kChart").innerHTML = stockChart(k.curve, (k.total || {}).cost_usd || 100); const sc = $("kScroll"); if (sc) scrollRight(sc); });
 async function loadStock() {
   try {
     const k = await fetchStock();
@@ -675,7 +712,12 @@ async function loadStock() {
     if (k.phase_label) $("kPhase").textContent = k.phase_label;
     if (k.phase_note) $("kPhaseNote").textContent = k.phase_note;
     if (ev.length) $("kTimeline").innerHTML = ev.slice().reverse().map(e => `<li><time class="num">${e.d ? esc(e.d.replace("-", "/")) + "<br>" : ""}${esc(e.t)}${exitBadge(e)}</time><span><span class="tag ${esc(e.kind)}">${esc(e.kind)}</span><b>${esc(e.market || "")}</b> ${esc(e.text)}</span></li>`).join("");
-    if ((k.curve || []).length > 1) { $("kChart").className = "panel"; $("kChart").innerHTML = stockChart(k.curve, tot.cost_usd || 100); }
+    if ((k.curve || []).length > 1) {
+      window.__stockK = k; $("kChart").className = "panel";
+      const prev = $("kScroll"), atEnd = !prev || prev.scrollLeft + prev.clientWidth >= prev.scrollWidth - 4, keep = prev ? prev.scrollLeft : 0;
+      $("kChart").innerHTML = stockChart(k.curve, tot.cost_usd || 100);
+      const sc = $("kScroll"); if (sc) { if (atEnd) scrollRight(sc); else sc.scrollLeft = keep; }
+    }
     if (k.updated) $("kUpdated").textContent = "· " + k.updated;
     if ((k.signals || []).length) $("kSignals").innerHTML = k.signals.map(g => {
       const held = pos.some(p => p.market === g.market);
@@ -752,7 +794,7 @@ function spark(series) {
 function renderChart(st) {
   const cap = Number((st.total || {}).cost_usd || st.initial_capital || 50);
   const rounds = (st.reports || []).filter(r => r.kind !== "tuning" && r.value_usd != null);
-  const pts = [{label: "시작", time: (rounds[0] || {}).start || "", v: cap}]
+  let pts = [{label: "시작", time: (rounds[0] || {}).start || "", v: cap}]
     .concat(rounds.map(r => ({label: `라운드 ${r.round}`, round: r.round, time: r.end, v: Number(r.value_usd)})));
   const live = Number((st.total || {}).value_usd);
   if (st.phase !== "done" && isFinite(live)) pts.push({label: "현재", time: st.updated || "", v: live, now: true});
@@ -778,7 +820,15 @@ function renderChart(st) {
     if (a0 > 0) pts[a0 - 1].a = Number((AG.total || {}).cost_usd || 50);
   }
   const box = $("chartBox"); box.hidden = pts.length < 2; if (box.hidden) return;
-  const el = $("chart"), W = Math.max(300, Math.round(el.clientWidth || 600)), H = W < 480 ? 190 : 220;
+  // day index: reports carry clock times only, so a new day starts when the clock goes backwards
+  let day = 0, prevT = -1; pts.forEach(p => { const m = /^(\d\d):(\d\d)/.exec(String(p.time || "")); const t = m ? +m[1] * 60 + +m[2] : prevT;
+    if (prevT >= 0 && t < prevT - 60) day++; prevT = t; p.day = day; p.hr = day * 24 + Math.floor(t / 60); });
+  const zm = zoomGet("coin");
+  if (zm === "day") pts = thin(pts, p => p.now ? "now" : "d" + p.day);
+  else if (zm === "hour") pts = thin(pts, p => p.now ? "now" : "h" + p.hr);
+  const el = $("chart"), VW = Math.max(300, Math.round(el.clientWidth || 600)), H = VW < 480 ? 190 : 220;
+  const PX = {fit: 0, day: 70, hour: 16, all: 12}[zm] || 0;
+  const W = Math.max(VW, Math.round(pts.length * PX));
   const L = 46, Rr = 44, T = 12, B = 24, iw = W - L - Rr, ih = H - T - B;
   const vs = pts.flatMap(p => [p.v].concat(p.s != null ? [p.s] : [], p.a != null ? [p.a] : [])); let lo = Math.min(cap, ...vs), hi = Math.max(cap, ...vs);
   const pad = Math.max(0.5, (hi - lo) * 0.12); lo -= pad; hi += pad;
@@ -793,9 +843,9 @@ function renderChart(st) {
   }
   const yb = Y(cap), path = pts.map((p, i) => `${i ? "L" : "M"}${X(i).toFixed(1)},${Y(p.v).toFixed(1)}`).join("");
   const area = `${path}L${X(pts.length - 1).toFixed(1)},${yb.toFixed(1)}L${X(0).toFixed(1)},${yb.toFixed(1)}Z`;
-  const every = Math.ceil(pts.length / (W < 480 ? 6 : 10));
+  const every = Math.max(1, Math.ceil(pts.length / Math.max(6, Math.round(W / 90))));
   const xl = pts.map((p, i) => (i % every === 0 || i === pts.length - 1) && !(i !== pts.length - 1 && pts.length - 1 - i < every / 2)
-      ? `<text class="ax" x="${X(i).toFixed(1)}" y="${H - 6}" text-anchor="middle">${p.now ? "현재" : i ? "R" + p.label.split(" ")[1] : "시작"}</text>` : "").join("");
+      ? `<text class="ax" x="${X(i).toFixed(1)}" y="${H - 6}" text-anchor="middle">${p.now ? "현재" : i ? (zm === "day" ? (p.day ? "+" + p.day + "일" : "첫날") : "R" + p.label.split(" ")[1]) : "시작"}</text>` : "").join("");
   const sp = pts.map((p, i) => p.s != null ? [i, p.s] : null).filter(Boolean);
   const shPath = sp.map(([i, v], k) => `${k ? "L" : "M"}${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join("");
   const shLast = sp[sp.length - 1];
@@ -805,21 +855,22 @@ function renderChart(st) {
   const agSvg = ap.length > 1 ? `<path class="line ag" d="${ap.map(([i, v], k) => `${k ? "L" : "M"}${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join("")}"/><circle class="pt ag${pts[agLast[0]].now ? " now" : ""}" cx="${X(agLast[0]).toFixed(1)}" cy="${Y(agLast[1]).toFixed(1)}" r="4"/>` : "";
   const dots = pts.map((p, i) => `<circle class="pt${p.now ? " now" : ""}" cx="${X(i).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="${p.now ? 4 : 3}"/>`).join("");
   const hits = pts.map((p, i) => `<rect class="hit" data-i="${i}" x="${(X(i) - iw / (pts.length - 1) / 2).toFixed(1)}" y="${T}" width="${(iw / (pts.length - 1)).toFixed(1)}" height="${ih}"/>`).join("");
-  const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="평가 금액 추이: 시작 $${cap} → 현재 $${pts[pts.length - 1].v.toFixed(2)}">
+  const svg = `<div class="inner" style="width:${W}px"><svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="평가 금액 추이: 시작 $${cap} → 현재 $${pts[pts.length - 1].v.toFixed(2)}">
     <defs><clipPath id="cUp"><rect x="0" y="0" width="${W}" height="${yb.toFixed(1)}"/></clipPath>
       <clipPath id="cDn"><rect x="0" y="${yb.toFixed(1)}" width="${W}" height="${H}"/></clipPath></defs>
     ${ticks}<path class="area-up" clip-path="url(#cUp)" d="${area}"/><path class="area-dn" clip-path="url(#cDn)" d="${area}"/>
     <line class="base" x1="${L}" x2="${W - Rr}" y1="${yb.toFixed(1)}" y2="${yb.toFixed(1)}"/>
-    ${shSvg}${agSvg}<path class="line" d="${path}"/>${dots}${xl}${hits}</svg><div class="tip" id="chartTip" hidden></div>`;
+    ${shSvg}${agSvg}<path class="line" d="${path}"/>${dots}${xl}${hits}</svg><div class="tip" id="chartTip" hidden></div></div>`;
   if (svg !== window.__chartSvg) {
-    window.__chartSvg = svg; el.innerHTML = svg;
+    const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4, keep = el.scrollLeft;
+    window.__chartSvg = svg; el.innerHTML = svg; if (W > VW) { if (atEnd || window.__zoomJump) scrollRight(el); else el.scrollLeft = keep; } window.__zoomJump = 0;
     const tip = $("chartTip"), show = i => {
       const p = pts[i], pc = (p.v / cap - 1) * 100;
       const sc = p.s != null ? (p.s / 50 - 1) * 100 : 0;
       tip.innerHTML = `<b>${esc(p.label)}</b> ${esc(p.time || "")}<br>실전 $${p.v.toFixed(2)} · <span class="${cls(pc)}">${pct(pc)}</span>` +
         (p.s != null ? `<br>연습 $${p.s.toFixed(2)} · <span class="${cls(sc)}">${pct(sc)}</span>` : "") +
         (p.a != null ? `<br>공격형 $${p.a.toFixed(2)} · <span class="${cls((p.a / 50 - 1) * 100)}">${pct((p.a / 50 - 1) * 100)}</span>` : "");
-      tip.style.left = (X(i) / W * 100) + "%"; tip.style.top = (Y(p.v) / H * el.clientHeight) + "px"; tip.hidden = false;
+      tip.style.left = (X(i) / W * 100) + "%"; tip.style.top = Y(p.v) + "px"; tip.hidden = false;
     };
     el.querySelectorAll(".hit").forEach(r => {
       r.addEventListener("pointerenter", () => show(+r.dataset.i));
@@ -834,6 +885,7 @@ function renderChart(st) {
     (ap.length > 1 ? ` &nbsp; <span class="lg" style="background:var(--ag)"></span>공격형 · 업비트 5배 ($50 가상 계좌, 현재 $${agLast[1].toFixed(2)})` : "") +
     ` · 라운드(30분) 종료 시점 평가 금액`;
 }
+zoomUI("coin", () => { window.__chartSvg = ""; window.__zoomJump = 1; window.__lastSt && renderChart(window.__lastSt); });
 if (!window.__chartResize) { window.__chartResize = 1; addEventListener("resize", () => { window.__chartSvg = ""; window.__lastSt && renderChart(window.__lastSt); }); }
 
 function render(st) {
