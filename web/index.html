@@ -7,18 +7,18 @@
    Korean exchange convention: rise = red, fall = blue. */
 :root{
   --bg:#f3f4f7; --panel:#ffffff; --ink:#151a24; --muted:#5d6577; --line:#dfe2ea;
-  --accent:#3b4fd8; --up:#d8293a; --down:#1f62d6; --flat:#6b7385; --warn:#b26a00;
+  --accent:#3b4fd8; --up:#d8293a; --down:#1f62d6; --flat:#6b7385; --warn:#b26a00; --ag:#9b2fae; --base:#0f8a6a;
   --up-bg:#fdecee; --down-bg:#e9f0fd; --warn-bg:#fff4e0; --chip:#eef0f6; --t-coin:#fff1dc; --t-stock:#e3eefc; --t-news:#e4f5ea; --t-edge:rgba(21,26,36,.18);
   --f-body:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   --f-num:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#0f131b; --panel:#171c27; --ink:#e7eaf2; --muted:#9aa2b5; --line:#283044;
-  --accent:#8a98ff; --up:#ff5c6c; --down:#5c9bff; --flat:#8b93a6; --warn:#f0b04a;
+  --accent:#8a98ff; --up:#ff5c6c; --down:#5c9bff; --flat:#8b93a6; --warn:#f0b04a; --ag:#d98cf0; --base:#3fcf9f;
   --up-bg:#3a1a20; --down-bg:#16253f; --warn-bg:#3a2c12; --chip:#222a3a; --t-coin:#3a2e1c; --t-stock:#1c2b42; --t-news:#1d3326; --t-edge:rgba(231,234,242,.22); color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0f131b; --panel:#171c27; --ink:#e7eaf2; --muted:#9aa2b5; --line:#283044;
-  --accent:#8a98ff; --up:#ff5c6c; --down:#5c9bff; --flat:#8b93a6; --warn:#f0b04a;
+  --accent:#8a98ff; --up:#ff5c6c; --down:#5c9bff; --flat:#8b93a6; --warn:#f0b04a; --ag:#d98cf0; --base:#3fcf9f;
   --up-bg:#3a1a20; --down-bg:#16253f; --warn-bg:#3a2c12; --chip:#222a3a; --t-coin:#3a2e1c; --t-stock:#1c2b42; --t-news:#1d3326; --t-edge:rgba(231,234,242,.22); color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;
@@ -99,6 +99,8 @@ svg.spark{width:100%;height:64px;display:block}
 .chart .ax{fill:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
 .chart .line{fill:none;stroke:var(--accent);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
 .chart .line.sh{stroke:var(--warn);stroke-width:2}
+.chart .line.ag{stroke:var(--ag);stroke-width:2}
+.chart .pt.ag{stroke:var(--ag)} .chart .pt.ag.now{fill:var(--ag)}
 .chart .pt.sh{stroke:var(--warn)} .chart .pt.sh.now{fill:var(--warn)}
 .lg{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:4px}
 .chart .area-up{fill:var(--up);opacity:.10} .chart .area-dn{fill:var(--down);opacity:.10}
@@ -545,6 +547,7 @@ async function loadAggr() {
     if (r.ok) a = await r.json();
   } catch (_) {}
   if (!a || !a.total) return;
+  window.__aggrSt = a; window.__chartSvg = ""; window.__lastSt && renderChart(window.__lastSt);
   $("aggrBox").hidden = false;
   const t = a.total, pnl = t.pnl || 0, v = t.value_usd ?? 50;
   const c = x => x > 0.005 ? "up" : x < -0.005 ? "down" : "flat", sg = x => (x > 0 ? "+" : "") + x.toFixed(2) + "%";
@@ -576,6 +579,7 @@ async function fetchStock() {
   return null;
 }
 function stockChart(curve, cost) {
+  if (curve.some(x => x.length > 2)) return stockChart2(curve);
   const W = 600, H = 150, pad = 6, v = curve.map(x => x[1]);
   const lo = Math.min(cost * 0.97, ...v), hi = Math.max(cost * 1.03, ...v), n = Math.max(v.length - 1, 1);
   const x = i => i / n * W, y = q => pad + (hi - q) / (hi - lo) * (H - 2 * pad);
@@ -585,6 +589,21 @@ function stockChart(curve, cost) {
     <line x1="0" x2="${W}" y1="${y(cost)}" y2="${y(cost)}" stroke="var(--line)" stroke-dasharray="4 4"/>
     <polyline points="${pts}" fill="none" stroke="${c}" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
     <div class="chartnote">$${cost} 기준 · ${esc(curve[0][0])} ~ ${esc(curve[curve.length - 1][0])} · 현재 $${last.toFixed(2)}</div>`;
+}
+function stockChart2(curve) {
+  // 11-25: base $100 (trend + swing) vs aggressive $100 (surge, 2x), each against its own $100
+  const W = 600, H = 170, pad = 8, cv = curve.filter(x => x.length > 2);
+  const base = cv.map(x => x[1] - x[2]), ag = cv.map(x => x[2]), all = base.concat(ag);
+  const lo = Math.min(97, ...all), hi = Math.max(103, ...all), n = Math.max(cv.length - 1, 1);
+  const x = i => i / n * W, y = q => pad + (hi - q) / (hi - lo) * (H - 2 * pad);
+  const line = v => v.map((q, i) => `${x(i).toFixed(1)},${y(q).toFixed(1)}`).join(" ");
+  const sg = q => (q >= 100 ? "+" : "") + (q - 100).toFixed(2) + "%";
+  const bl = base[base.length - 1], al = ag[ag.length - 1];
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="width:100%;height:170px;display:block" role="img" aria-label="기본·공격형 평가 금액 추이">
+    <line x1="0" x2="${W}" y1="${y(100)}" y2="${y(100)}" stroke="var(--line)" stroke-dasharray="4 4"/>
+    <polyline points="${line(base)}" fill="none" stroke="var(--base)" stroke-width="2" vector-effect="non-scaling-stroke"/>
+    <polyline points="${line(ag)}" fill="none" stroke="var(--ag)" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+    <div class="chartnote"><span class="lg" style="background:var(--base)"></span>기본 $${bl.toFixed(2)} (${sg(bl)}) &nbsp; <span class="lg" style="background:var(--ag)"></span>공격형 2배 $${al.toFixed(2)} (${sg(al)}) · 각자 $100 기준(점선) · ${esc(cv[0][0])} ~ ${esc(cv[cv.length - 1][0])}</div>`;
 }
 async function loadStock() {
   try {
@@ -687,10 +706,25 @@ function renderChart(st) {
   const s0 = pts.findIndex(p => p.s != null);
   if (s0 > 0) pts[s0 - 1].s = Number((SH.total || {}).cost_usd || 50);
   if (SH && SH.total && pts[pts.length - 1].now && s0 >= 0) pts[pts.length - 1].s = Number(SH.total.value_usd);
+  const AG = window.__aggrSt;   // aggressive $50: its own round clock, paired to the main rounds by end time (newest first)
+  if (AG) {
+    const tm = t => { const m = /^(\d\d):(\d\d)/.exec(String(t || "")); return m ? +m[1] * 60 + +m[2] : null; };
+    const ar = (AG.reports || []).filter(r => r.kind !== "tuning" && r.value_usd != null && r.end);
+    let i = pts.length - 1, j = ar.length - 1, a0 = -1;
+    if (pts[i] && pts[i].now) { pts[i].a = Number((AG.total || {}).value_usd); a0 = i; i--; }
+    while (i >= 0 && j >= 0) {
+      const ti = tm(pts[i].time), tj = tm(ar[j].end);
+      if (ti == null || tj == null) { i--; continue; }
+      let d = ti - tj; d = ((d % 1440) + 2160) % 1440 - 720;
+      if (Math.abs(d) <= 20) { pts[i].a = Number(ar[j].value_usd); a0 = i; i--; j--; }
+      else if (d > 0) i--; else j--;
+    }
+    if (a0 > 0) pts[a0 - 1].a = Number((AG.total || {}).cost_usd || 50);
+  }
   const box = $("chartBox"); box.hidden = pts.length < 2; if (box.hidden) return;
   const el = $("chart"), W = Math.max(300, Math.round(el.clientWidth || 600)), H = W < 480 ? 190 : 220;
   const L = 46, Rr = 44, T = 12, B = 24, iw = W - L - Rr, ih = H - T - B;
-  const vs = pts.flatMap(p => p.s != null ? [p.v, p.s] : [p.v]); let lo = Math.min(cap, ...vs), hi = Math.max(cap, ...vs);
+  const vs = pts.flatMap(p => [p.v].concat(p.s != null ? [p.s] : [], p.a != null ? [p.a] : [])); let lo = Math.min(cap, ...vs), hi = Math.max(cap, ...vs);
   const pad = Math.max(0.5, (hi - lo) * 0.12); lo -= pad; hi += pad;
   const X = i => L + (pts.length === 1 ? iw / 2 : i * iw / (pts.length - 1));
   const Y = v => T + (hi - v) / (hi - lo) * ih;
@@ -710,6 +744,9 @@ function renderChart(st) {
   const shPath = sp.map(([i, v], k) => `${k ? "L" : "M"}${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join("");
   const shLast = sp[sp.length - 1];
   const shSvg = sp.length > 1 ? `<path class="line sh" d="${shPath}"/><circle class="pt sh${pts[shLast[0]].now ? " now" : ""}" cx="${X(shLast[0]).toFixed(1)}" cy="${Y(shLast[1]).toFixed(1)}" r="4"/>` : "";
+  const ap = pts.map((p, i) => p.a != null ? [i, p.a] : null).filter(Boolean);
+  const agLast = ap[ap.length - 1];
+  const agSvg = ap.length > 1 ? `<path class="line ag" d="${ap.map(([i, v], k) => `${k ? "L" : "M"}${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join("")}"/><circle class="pt ag${pts[agLast[0]].now ? " now" : ""}" cx="${X(agLast[0]).toFixed(1)}" cy="${Y(agLast[1]).toFixed(1)}" r="4"/>` : "";
   const dots = pts.map((p, i) => `<circle class="pt${p.now ? " now" : ""}" cx="${X(i).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="${p.now ? 4 : 3}"/>`).join("");
   const hits = pts.map((p, i) => `<rect class="hit" data-i="${i}" x="${(X(i) - iw / (pts.length - 1) / 2).toFixed(1)}" y="${T}" width="${(iw / (pts.length - 1)).toFixed(1)}" height="${ih}"/>`).join("");
   const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="평가 금액 추이: 시작 $${cap} → 현재 $${pts[pts.length - 1].v.toFixed(2)}">
@@ -717,14 +754,15 @@ function renderChart(st) {
       <clipPath id="cDn"><rect x="0" y="${yb.toFixed(1)}" width="${W}" height="${H}"/></clipPath></defs>
     ${ticks}<path class="area-up" clip-path="url(#cUp)" d="${area}"/><path class="area-dn" clip-path="url(#cDn)" d="${area}"/>
     <line class="base" x1="${L}" x2="${W - Rr}" y1="${yb.toFixed(1)}" y2="${yb.toFixed(1)}"/>
-    ${shSvg}<path class="line" d="${path}"/>${dots}${xl}${hits}</svg><div class="tip" id="chartTip" hidden></div>`;
+    ${shSvg}${agSvg}<path class="line" d="${path}"/>${dots}${xl}${hits}</svg><div class="tip" id="chartTip" hidden></div>`;
   if (svg !== window.__chartSvg) {
     window.__chartSvg = svg; el.innerHTML = svg;
     const tip = $("chartTip"), show = i => {
       const p = pts[i], pc = (p.v / cap - 1) * 100;
       const sc = p.s != null ? (p.s / 50 - 1) * 100 : 0;
       tip.innerHTML = `<b>${esc(p.label)}</b> ${esc(p.time || "")}<br>실전 $${p.v.toFixed(2)} · <span class="${cls(pc)}">${pct(pc)}</span>` +
-        (p.s != null ? `<br>연습 $${p.s.toFixed(2)} · <span class="${cls(sc)}">${pct(sc)}</span>` : "");
+        (p.s != null ? `<br>연습 $${p.s.toFixed(2)} · <span class="${cls(sc)}">${pct(sc)}</span>` : "") +
+        (p.a != null ? `<br>공격형 $${p.a.toFixed(2)} · <span class="${cls((p.a / 50 - 1) * 100)}">${pct((p.a / 50 - 1) * 100)}</span>` : "");
       tip.style.left = (X(i) / W * 100) + "%"; tip.style.top = (Y(p.v) / H * el.clientHeight) + "px"; tip.hidden = false;
     };
     el.querySelectorAll(".hit").forEach(r => {
@@ -737,6 +775,7 @@ function renderChart(st) {
   const shNow = sp.length ? sp[sp.length - 1][1] : null;
   $("chartNote").innerHTML = `<span class="lg" style="background:var(--accent)"></span>실전 · 업비트 ($${cap} 시작, 최고 $${peak.v.toFixed(2)} · 최저 $${low.v.toFixed(2)})` +
     (shNow != null ? ` &nbsp; <span class="lg" style="background:var(--warn)"></span>연습 · 빗썸 섀도 ($50 가상 계좌, 현재 $${shNow.toFixed(2)})` : "") +
+    (ap.length > 1 ? ` &nbsp; <span class="lg" style="background:var(--ag)"></span>공격형 · 업비트 5배 ($50 가상 계좌, 현재 $${agLast[1].toFixed(2)})` : "") +
     ` · 라운드(30분) 종료 시점 평가 금액`;
 }
 if (!window.__chartResize) { window.__chartResize = 1; addEventListener("resize", () => { window.__chartSvg = ""; window.__lastSt && renderChart(window.__lastSt); }); }

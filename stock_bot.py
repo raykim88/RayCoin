@@ -422,7 +422,7 @@ class Bot:
         stamp = now().strftime("%m-%d %H:%M")
         if not self.s["curve"] or self.s["curve"][-1][0][:8] != stamp[:8] or live:
             if not self.s["curve"] or self.s["curve"][-1][0] != stamp:
-                self.s["curve"].append([stamp, round(v, 3)])
+                self.s["curve"].append([stamp, round(v, 3), self.s["surge"]["value"]])   # 3rd: surge sleeve (page splits the lines)
                 self.s["curve"] = self.s["curve"][-2000:]
         for p in pos:
             p["series"] = (p.get("series") or [])[-300:] + [p["pnl"]]
