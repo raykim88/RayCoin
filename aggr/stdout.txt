@@ -8483,3 +8483,9 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [00:39:24] pump: MOODENG +8.1%
 [00:39:24] R890 t+11m | ELSA +22.03% s+0.00 r50 | MMT -20.40% s+0.00 r50 | PIEVERSE +21.76% s+0.00 r50 | MOODENG  -0.50% s+0.00 r50
 [00:39:31] R890 t+12m | ELSA +26.54% s+0.00 r50 | MMT -19.08% s+0.00 r50 | PIEVERSE +16.89% s+0.00 r50 | MOODENG  -1.80% s+0.00 r50
+[00:40:31] R890 t+13m | ELSA +26.54% s+0.00 r50 | MMT -16.42% s+0.00 r50 | PIEVERSE +13.76% s+0.00 r50 | MOODENG  +5.98% s+0.00 r50
+[00:41:31] R890 t+14m | ELSA +26.54% s+0.00 r50 | MMT -11.12% s+0.00 r50 | PIEVERSE +13.76% s+0.00 r50 | MOODENG  +3.39% s+0.00 r50
+[00:42:31] R890 t+15m | ELSA +26.54% s+0.00 r50 | MMT -15.10% s+0.00 r50 | PIEVERSE +14.52% s+0.00 r50 | MOODENG  +5.98% s+0.00 r50
+[00:43:31] R890 t+16m | ELSA +26.54% s+0.00 r50 | MMT -15.10% s+0.00 r50 | PIEVERSE +15.81% s+0.00 r50 | MOODENG  +0.80% s+0.00 r50
+[00:44:31] R890 t+17m | ELSA +26.54% s+0.00 r50 | MMT -12.44% s+0.00 r50 | PIEVERSE +13.76% s+0.00 r50 | MOODENG  -5.68% s+0.00 r50
+[00:44:53] CLOSE SHORT 5x  KRW-PIEVERSE @ 4,525.0000  ROE +10.84%  [추적 청산 (최고 +4.5%에서 2%p 반납, 10초 점검)]
