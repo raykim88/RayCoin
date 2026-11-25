@@ -8334,3 +8334,9 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [22:29:19] R886 t+01m | LAYER +14.06% s+0.00 r50 | ELSA  -0.50% s+0.00 r50
 [22:29:28] R886 t+02m | LAYER +11.76% s+0.00 r50 | ELSA  +4.01% s+0.00 r50
 [22:29:50] CLOSE SHORT 5x  KRW-LAYER    @ 63.9000  ROE +10.23%  [추적 청산 (최고 +4.3%에서 2%p 반납, 10초 점검)]
+[22:30:28] R886 t+03m | ELSA  +4.01% s+0.00 r50
+[22:31:28] R886 t+04m | ELSA  +4.01% s+0.00 r50
+[22:32:28] R886 t+05m | ELSA  +4.01% s+0.00 r50
+[22:34:21] R886 t+06m | ELSA  -0.50% s+0.00 r50
+[22:34:28] R886 t+07m | ELSA  +4.01% s+0.00 r50
+[22:35:28] R886 t+08m | ELSA  +8.51% s+0.00 r50
