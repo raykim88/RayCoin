@@ -7686,3 +7686,9 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [14:00:16] R869 t+03m | BIGTIME -24.59% s+0.00 r50 | SLX -13.90% s+0.00 r50
 [14:00:27] CLOSE SHORT 5x  KRW-BIGTIME  @ 8.6800  ROE -36.32%  [손절 (가격 -6%, 10초 점검)]
 [14:01:16] R869 t+04m | SLX -16.13% s+0.00 r50
+[14:02:16] R869 t+05m | SLX -12.78% s+0.00 r50
+[14:04:09] OPEN SHORT 5x  KRW-BIGTIME  @ 8.9300  margin $10.62  liq 10.6714  (2시간 +46.7% 급등 → 되돌림 숏 · 확신 1점(30분 +8.8%, 거래대금 20.5배, 24시간 +61.3%), score 46.71)
+[14:04:09] OPEN SHORT 5x  KRW-WAXP     @ 5.0300  margin $10.61  liq 6.0109  (2시간 +10.0% 급등 → 되돌림 숏 · 확신 1점(30분 +3.9%, 거래대금 190.4배, 24시간 +9.5%), score 10.02)
+[14:04:09] pump: BIGTIME +46.7%, WAXP +10.0%
+[14:04:09] R869 t+06m | SLX  -6.08% s+0.00 r50 | BIGTIME  -0.50% s+0.00 r50 | WAXP  -0.50% s+0.00 r50
+[14:04:16] R869 t+07m | SLX  -9.43% s+0.00 r50 | BIGTIME  -1.06% s+0.00 r50 | WAXP  -3.48% s+0.00 r50
