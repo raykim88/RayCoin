@@ -7362,3 +7362,5 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [09:54:04] pump: DKA +24.0%
 [09:54:04] R860 t+26m | SANC  +9.54% s+0.00 r50 | META2  +2.20% s+0.00 r50 | BIGTIME  +8.49% s+0.00 r50 | DKA  -0.50% s+0.00 r50
 [09:54:11] R860 t+27m | SANC +14.86% s+0.00 r50 | META2  +1.55% s+0.00 r50 | BIGTIME  +0.32% s+0.00 r50 | DKA +36.34% s+0.00 r50
+[09:55:10] CLOSE SHORT 5x  KRW-DKA      @ 3.8500  ROE +42.28%  [익절 (가격 +8%)]
+[09:55:10] R860 t+28m | SANC  +7.77% s+0.00 r50 | META2  -6.87% s+0.00 r50 | BIGTIME  +1.95% s+0.00 r50
