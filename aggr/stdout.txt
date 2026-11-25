@@ -7410,3 +7410,16 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [10:24:03] pump: META2 +20.0%
 [10:24:03] R861 t+26m | BIGTIME +14.21% s+0.00 r50 | DKA  -9.57% s+0.00 r50 | IRYS  +5.58% s+0.00 r50 | META2  -0.50% s+0.00 r50
 [10:24:11] R861 t+27m | BIGTIME +15.03% s+0.00 r50 | DKA  -4.39% s+0.00 r50 | IRYS  +3.55% s+0.00 r50 | META2  -1.42% s+0.00 r50
+[10:25:11] R861 t+28m | BIGTIME +14.21% s+0.00 r50 | DKA  -9.57% s+0.00 r50 | IRYS  +5.58% s+0.00 r50 | META2  +2.58% s+0.00 r50
+[10:26:11] R861 t+29m | BIGTIME +15.85% s+0.00 r50 | DKA  -8.28% s+0.00 r50 | IRYS +13.68% s+0.00 r50 | META2  +9.87% s+0.00 r50
+[10:27:11] R861 t+30m | BIGTIME +15.85% s+0.00 r50 | DKA  -5.68% s+0.00 r50 | IRYS +13.68% s+0.00 r50 | META2  +6.99% s+0.00 r50
+[10:27:11] === ROUND 861 REPORT: value $48.223 / invested $50.00 (-3.55%), round PnL +0.501$ ===
+[10:27:11] === ROUND 862 start ===
+[10:28:12] R862 t+01m | BIGTIME +12.58% s+0.00 r50 | DKA  -0.50% s+0.00 r50 | IRYS  +7.60% s+0.00 r50 | META2  +9.97% s+0.00 r50
+[10:29:12] R862 t+02m | BIGTIME +12.58% s+0.00 r50 | DKA  -1.80% s+0.00 r50 | IRYS  +1.52% s+0.00 r50 | META2  +7.61% s+0.00 r50
+[10:30:12] R862 t+03m | BIGTIME +13.40% s+0.00 r50 | DKA  -4.39% s+0.00 r50 | IRYS  -6.58% s+0.00 r50 | META2  +2.78% s+0.00 r50
+[10:31:12] R862 t+04m | BIGTIME +12.58% s+0.00 r50 | DKA  -5.68% s+0.00 r50 | IRYS  -8.60% s+0.00 r50 | META2  +5.04% s+0.00 r50
+[10:32:12] R862 t+05m | BIGTIME +17.48% s+0.00 r50 | DKA  -6.98% s+0.00 r50 | IRYS  -0.50% s+0.00 r50 | META2  +0.73% s+0.00 r50
+[10:33:12] R862 t+06m | BIGTIME +19.12% s+0.00 r50 | DKA  -5.68% s+0.00 r50 | IRYS  -2.52% s+0.00 r50 | META2  +0.01% s+0.00 r50
+[10:34:12] R862 t+07m | BIGTIME +16.66% s+0.00 r50 | DKA  -6.98% s+0.00 r50 | IRYS  -4.55% s+0.00 r50 | META2 +12.64% s+0.00 r50
+[10:35:12] R862 t+08m | BIGTIME +16.66% s+0.00 r50 | DKA  -3.09% s+0.00 r50 | IRYS -10.63% s+0.00 r50 | META2 +20.64% s+0.00 r50
