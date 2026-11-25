@@ -8027,3 +8027,10 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [18:19:13] pump: BIGTIME +8.2%
 [18:19:13] R877 t+21m | PROS  +7.20% s+0.00 r50 | BIGTIME  -0.50% s+0.00 r50
 [18:19:22] R877 t+22m | PROS  +6.68% s+0.00 r50 | BIGTIME  +4.26% s+0.00 r50
+[18:20:22] R877 t+23m | PROS  +6.68% s+0.00 r50 | BIGTIME -10.03% s+0.00 r50
+[18:21:22] R877 t+24m | PROS  +9.25% s+0.00 r50 | BIGTIME  -5.26% s+0.00 r50
+[18:22:22] R877 t+25m | PROS  +9.25% s+0.00 r50 | BIGTIME -10.03% s+0.00 r50
+[18:24:12] OPEN SHORT 5x  KRW-FCT2     @ 9.1600  margin $10.07  liq 10.9462  (2시간 +11.4% 급등 → 되돌림 숏 · 확신 1점(30분 +0.4%, 거래대금 3.1배, 24시간 +15.4%), score 11.35)
+[18:24:12] pump: FCT2 +11.4%
+[18:24:12] R877 t+26m | PROS  +6.17% s+0.00 r50 | BIGTIME -19.56% s+0.00 r50 | FCT2  -0.50% s+0.00 r50
+[18:24:22] R877 t+27m | PROS  +8.73% s+0.00 r50 | BIGTIME -10.03% s+0.00 r50 | FCT2  -0.50% s+0.00 r50
