@@ -7809,3 +7809,5 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [15:29:09] pump: QKC +10.3%
 [15:29:09] R872 t+01m | WAXP -22.38% s+0.00 r50 | SLX -13.94% s+0.00 r50 | QKC  -0.50% s+0.00 r50
 [15:29:18] R872 t+02m | WAXP -24.37% s+0.00 r50 | SLX -22.20% s+0.00 r50 | QKC +12.80% s+0.00 r50
+[15:30:12] CLOSE SHORT 5x  KRW-WAXP     @ 5.3400  ROE -31.33%  [손절 (가격 -6%, 10초 점검)]
+[15:30:18] R872 t+03m | SLX -12.90% s+0.00 r50 | QKC +16.12% s+0.00 r50
