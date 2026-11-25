@@ -7860,3 +7860,7 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [15:59:10] pump: BIGTIME +13.6%
 [15:59:10] R873 t+01m | BIGTIME  -0.50% s+0.00 r50
 [15:59:19] R873 t+02m | BIGTIME -10.87% s+0.00 r50
+[16:00:19] R873 t+03m | BIGTIME  -9.31% s+0.00 r50
+[16:01:19] R873 t+04m | BIGTIME -13.98% s+0.00 r50
+[16:02:19] R873 t+05m | BIGTIME -23.83% s+0.00 r50
+[16:03:02] CLOSE SHORT 5x  KRW-BIGTIME  @ 10.3000  ROE -34.20%  [손절 (가격 -6%, 10초 점검)]
