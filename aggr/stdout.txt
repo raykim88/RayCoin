@@ -7786,3 +7786,7 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [15:14:18] R871 t+17m | WAXP  +7.46% s+0.00 r50 | SLX  +0.60% s+0.00 r50 | OPG +30.40% s+0.00 r50
 [15:15:18] CLOSE SHORT 5x  KRW-OPG      @ 237.0000  ROE +41.99%  [익절 (가격 +8%)]
 [15:15:18] R871 t+18m | WAXP  +6.46% s+0.00 r50 | SLX  -0.50% s+0.00 r50
+[15:16:18] R871 t+19m | WAXP  +6.46% s+0.00 r50 | SLX  -4.92% s+0.00 r50
+[15:17:18] R871 t+20m | WAXP  +0.49% s+0.00 r50 | SLX  -9.33% s+0.00 r50
+[15:19:08] R871 t+21m | WAXP  +2.48% s+0.00 r50 | SLX  -9.33% s+0.00 r50
+[15:19:18] R871 t+22m | WAXP  -8.46% s+0.00 r50 | SLX -13.75% s+0.00 r50
