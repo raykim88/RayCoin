@@ -1334,3 +1334,10 @@
 [09:42:45] pump: META2 +17.3%
 [09:42:45] R860 t+16m | SANC -14.68% s+0.00 r50 | DKA  -5.72% s+0.00 r50 | BIGTIME  -6.22% s+0.00 r50 | META2  -0.50% s+0.00 r50
 [09:42:53] R860 t+17m | SANC +12.49% s+0.00 r50 | DKA  -0.50% s+0.00 r50 | BIGTIME  -5.40% s+0.00 r50 | META2  -6.97% s+0.00 r50
+[09:43:53] R860 t+18m | SANC +11.90% s+0.00 r50 | DKA  -0.50% s+0.00 r50 | BIGTIME  -4.59% s+0.00 r50 | META2  +5.87% s+0.00 r50
+[09:44:53] R860 t+19m | SANC  +8.36% s+0.00 r50 | DKA  -1.81% s+0.00 r50 | BIGTIME  -5.40% s+0.00 r50 | META2  -4.06% s+0.00 r50
+[09:45:53] R860 t+20m | SANC +15.45% s+0.00 r50 | DKA -14.87% s+0.00 r50 | BIGTIME  -2.13% s+0.00 r50 | META2 +12.02% s+0.00 r50
+[09:46:53] R860 t+21m | SANC +17.81% s+0.00 r50 | DKA  -8.34% s+0.00 r50 | BIGTIME  -4.59% s+0.00 r50 | META2  +2.52% s+0.00 r50
+[00:48:05] WATCHDOG restart aggr
+[09:48:10] === RESUME from round 860 · 4 open positions ===
+[09:48:10] === ROUND 860 continues at minute 21 ===
