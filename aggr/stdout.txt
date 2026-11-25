@@ -7357,3 +7357,4 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [09:50:10] R860 t+23m | SANC +10.13% s+0.00 r50 | META2  +3.71% s+0.00 r50 | BIGTIME  +6.86% s+0.00 r50 | DKA -16.17% s+0.00 r50
 [09:51:10] R860 t+24m | SANC  +7.18% s+0.00 r50 | META2  +9.75% s+0.00 r50 | BIGTIME  +6.04% s+0.00 r50 | DKA -14.87% s+0.00 r50
 [09:52:11] R860 t+25m | SANC +10.13% s+0.00 r50 | META2  +4.79% s+0.00 r50 | BIGTIME  +6.04% s+0.00 r50 | DKA -12.26% s+0.00 r50
+[09:53:06] CLOSE SHORT 5x  KRW-DKA      @ 4.0600  ROE -30.54%  [손절 (가격 -6%, 10초 점검)]
