@@ -8621,3 +8621,4 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [02:41:35] R894 t+14m | MMT -25.71% s+0.00 r50 | MOODENG -23.83% s+0.00 r50 | MON -23.54% s+0.00 r50
 [02:42:17] CLOSE SHORT 5x  KRW-MMT      @ 402.0000  ROE -33.67%  [손절 (가격 -6%, 10초 점검)]
 [02:42:35] R894 t+15m | MOODENG -21.24% s+0.00 r50 | MON -30.12% s+0.00 r50
+[02:42:56] CLOSE SHORT 5x  KRW-MON      @ 16.2000  ROE -33.41%  [손절 (가격 -6%, 10초 점검)]
