@@ -8276,3 +8276,5 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [21:44:17] pump: ELSA +11.0%
 [21:44:17] R884 t+16m | PROS +11.30% s+0.00 r50 | MMT +10.59% s+0.00 r50 | LAYER +13.29% s+0.00 r50 | ELSA  -0.50% s+0.00 r50
 [21:44:27] R884 t+17m | PROS +10.79% s+0.00 r50 | MMT  +9.20% s+0.00 r50 | LAYER +17.89% s+0.00 r50 | ELSA  +4.17% s+0.00 r50
+[21:45:27] R884 t+18m | PROS +11.81% s+0.00 r50 | MMT +13.36% s+0.00 r50 | LAYER +10.22% s+0.00 r50 | ELSA  +4.17% s+0.00 r50
+[21:46:27] R884 t+19m | PROS +10.79% s+0.00 r50 | MMT +11.97% s+0.00 r50 | LAYER  +4.10% s+0.00 r50 | ELSA  +8.85% s+0.00 r50
