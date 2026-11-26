@@ -10168,3 +10168,4 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [00:29:05] CLOSE SHORT 5x  KRW-PIEVERSE @ 5,490.0000  ROE -16.00%  [보유 6시간 만료]
 [00:29:57] R938 t+01m | 
 [00:30:04] R938 t+02m | 
+[00:31:04] R938 t+03m | 
