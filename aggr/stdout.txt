@@ -9392,3 +9392,4 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [13:32:48] R916 t+05m | ME +21.05% s+0.00 r50 | ELSA  +9.18% s+0.00 r50 | BIRB  +4.96% s+0.00 r50
 [13:34:38] R916 t+06m | ME +21.95% s+0.00 r50 | ELSA  +5.96% s+0.00 r50 | BIRB  +1.32% s+0.00 r50
 [13:34:49] R916 t+07m | ME +21.05% s+0.00 r50 | ELSA  +5.96% s+0.00 r50 | BIRB  +2.53% s+0.00 r50
+[13:35:49] R916 t+08m | ME +21.05% s+0.00 r50 | ELSA  +2.73% s+0.00 r50 | BIRB  -0.50% s+0.00 r50
