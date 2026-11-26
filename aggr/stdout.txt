@@ -9951,3 +9951,18 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [21:19:49] R931 t+21m | PIEVERSE  -9.43% s+0.00 r50 | ME +13.65% s+0.00 r50 | BIGTIME  -3.48% s+0.00 r50
 [21:19:59] CLOSE SHORT 5x  KRW-ME       @ 59.0000  ROE +8.66%  [추적 청산 (최고 +4.5%에서 2%p 반납)]
 [21:19:59] R931 t+22m | PIEVERSE  -9.43% s+0.00 r50 | BIGTIME  +6.07% s+0.00 r50
+[21:20:59] R931 t+23m | PIEVERSE  -9.43% s+0.00 r50 | BIGTIME  +3.68% s+0.00 r50
+[21:21:59] R931 t+24m | PIEVERSE -11.30% s+0.00 r50 | BIGTIME +18.01% s+0.00 r50
+[21:22:59] R931 t+25m | PIEVERSE -10.36% s+0.00 r50 | BIGTIME +13.23% s+0.00 r50
+[21:24:51] R931 t+26m | PIEVERSE -12.71% s+0.00 r50 | BIGTIME  +7.86% s+0.00 r50
+[21:24:59] R931 t+27m | PIEVERSE -11.30% s+0.00 r50 | BIGTIME  +5.47% s+0.00 r50
+[21:25:59] R931 t+28m | PIEVERSE -10.36% s+0.00 r50 | BIGTIME  +9.65% s+0.00 r50
+[21:26:59] R931 t+29m | PIEVERSE -13.65% s+0.00 r50 | BIGTIME +15.62% s+0.00 r50
+[21:27:59] R931 t+30m | PIEVERSE -11.30% s+0.00 r50 | BIGTIME +15.62% s+0.00 r50
+[21:27:59] === ROUND 931 REPORT: value $88.943 / invested $50.00 (+77.89%), round PnL +2.920$ ===
+[21:27:59] === ROUND 932 start ===
+[21:29:50] R932 t+01m | PIEVERSE -10.36% s+0.00 r50 | BIGTIME +18.60% s+0.00 r50
+[21:30:00] R932 t+02m | PIEVERSE -11.30% s+0.00 r50 | BIGTIME +20.39% s+0.00 r50
+[21:31:00] R932 t+03m | PIEVERSE -14.59% s+0.00 r50 | BIGTIME +23.38% s+0.00 r50
+[21:32:00] R932 t+04m | PIEVERSE -13.18% s+0.00 r50 | BIGTIME +20.39% s+0.00 r50
+[21:33:00] R932 t+05m | PIEVERSE -10.83% s+0.00 r50 | BIGTIME +22.18% s+0.00 r50
