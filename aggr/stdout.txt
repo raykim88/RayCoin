@@ -10122,3 +10122,26 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [23:49:55] R936 t+21m | PIEVERSE -15.06% s+0.00 r50 | TFUEL  +4.01% s+0.00 r50
 [23:50:03] R936 t+22m | PIEVERSE -11.30% s+0.00 r50 | TFUEL  +4.01% s+0.00 r50
 [23:51:03] R936 t+23m | PIEVERSE  -9.43% s+0.00 r50 | TFUEL  +4.01% s+0.00 r50
+[23:52:03] R936 t+24m | PIEVERSE  -9.43% s+0.00 r50 | TFUEL  +4.01% s+0.00 r50
+[23:53:03] R936 t+25m | PIEVERSE  -8.96% s+0.00 r50 | TFUEL  +4.01% s+0.00 r50
+[23:54:53] R936 t+26m | PIEVERSE  -7.08% s+0.00 r50 | TFUEL  +4.01% s+0.00 r50
+[23:55:03] R936 t+27m | PIEVERSE  -5.67% s+0.00 r50 | TFUEL  +4.01% s+0.00 r50
+[23:56:03] R936 t+28m | PIEVERSE  -7.55% s+0.00 r50 | TFUEL +13.02% s+0.00 r50
+[23:57:03] R936 t+29m | PIEVERSE  -7.55% s+0.00 r50 | TFUEL +17.53% s+0.00 r50
+[23:58:03] R936 t+30m | PIEVERSE  -8.48% s+0.00 r50 | TFUEL +17.53% s+0.00 r50
+[23:58:03] === ROUND 936 REPORT: value $93.889 / invested $50.00 (+87.78%), round PnL +6.526$ ===
+[23:58:03] === TUNE after round 936: {'tp': [15.0, 30.0], 'sl': [-10.0, -25.0], 'hard': [-20.0, -50.0], 'trail': [3.75, 7.5], 'steep': [0.4, 0.6]} · 지난 1시간 2개 코인의 1분 경로로 시험해 보니 익절 +30% / 손절 -25%가 평균 +11.83%로 기존 기준(-2.43%)보다 좋음.
+[23:58:03] === ROUND 937 start ===
+[23:59:54] R937 t+01m | PIEVERSE -13.65% s+0.00 r50 | TFUEL +17.53% s+0.00 r50
+[00:00:04] R937 t+02m | PIEVERSE -15.06% s+0.00 r50 | TFUEL +17.53% s+0.00 r50
+[00:01:04] R937 t+03m | PIEVERSE -14.59% s+0.00 r50 | TFUEL +17.53% s+0.00 r50
+[00:02:04] R937 t+04m | PIEVERSE -15.53% s+0.00 r50 | TFUEL +22.03% s+0.00 r50
+[00:03:04] R937 t+05m | PIEVERSE -14.59% s+0.00 r50 | TFUEL +17.53% s+0.00 r50
+[00:04:55] R937 t+06m | PIEVERSE -15.53% s+0.00 r50 | TFUEL +22.03% s+0.00 r50
+[00:05:04] R937 t+07m | PIEVERSE -14.59% s+0.00 r50 | TFUEL +26.54% s+0.00 r50
+[00:06:04] R937 t+08m | PIEVERSE -11.77% s+0.00 r50 | TFUEL +26.54% s+0.00 r50
+[00:07:04] R937 t+09m | PIEVERSE -12.24% s+0.00 r50 | TFUEL +35.55% s+0.00 r50
+[00:08:04] R937 t+10m | PIEVERSE -13.18% s+0.00 r50 | TFUEL +31.05% s+0.00 r50
+[00:09:54] R937 t+11m | PIEVERSE -11.30% s+0.00 r50 | TFUEL +26.54% s+0.00 r50
+[00:10:04] R937 t+12m | PIEVERSE -10.83% s+0.00 r50 | TFUEL +35.55% s+0.00 r50
+[00:11:04] R937 t+13m | PIEVERSE -13.18% s+0.00 r50 | TFUEL +35.55% s+0.00 r50
