@@ -9846,3 +9846,9 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [19:49:50] R928 t+21m | PIEVERSE  -3.79% s+0.00 r50
 [19:49:57] R928 t+22m | PIEVERSE  -5.20% s+0.00 r50
 [19:50:57] R928 t+23m | PIEVERSE  -1.44% s+0.00 r50
+[19:51:57] R928 t+24m | PIEVERSE  -2.85% s+0.00 r50
+[19:52:57] R928 t+25m | PIEVERSE  -2.85% s+0.00 r50
+[19:54:49] OPEN SHORT 5x  KRW-ME       @ 61.7000  margin $20.64  liq 73.7315  (2시간 +13.8% 급등 → 되돌림 숏 · 확신 0점(30분 +2.3%, 거래대금 9.6배, 24시간 +27.2%), score 13.81)
+[19:54:49] pump: ME +13.8%
+[19:54:49] R928 t+26m | PIEVERSE  +0.91% s+0.00 r50 | ME  -0.50% s+0.00 r50
+[19:54:57] R928 t+27m | PIEVERSE  -0.97% s+0.00 r50 | ME  -3.74% s+0.00 r50
