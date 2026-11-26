@@ -9752,3 +9752,5 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [18:29:48] pump: PIEVERSE +8.1%
 [18:29:48] R926 t+01m | TFUEL +17.33% s+0.00 r50 | PIEVERSE  -0.50% s+0.00 r50
 [18:29:56] R926 t+02m | TFUEL +16.84% s+0.00 r50 | PIEVERSE  -1.44% s+0.00 r50
+[18:30:56] R926 t+03m | TFUEL +17.33% s+0.00 r50 | PIEVERSE  -1.44% s+0.00 r50
+[18:31:56] R926 t+04m | TFUEL  +6.43% s+0.00 r50 | PIEVERSE  -1.44% s+0.00 r50
