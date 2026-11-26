@@ -9691,3 +9691,4 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [17:39:54] R924 t+12m | TFUEL +33.01% s+0.00 r50
 [17:40:54] CLOSE SHORT 5x  KRW-TFUEL    @ 9.7300  ROE +40.56%  [익절 (가격 +8%)]
 [17:40:54] R924 t+13m | 
+[17:41:53] R924 t+14m | 
