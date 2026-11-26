@@ -9827,3 +9827,22 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [19:34:11] pump skip ME +17.7%: 30분 +15.8% 아직 가속 중 (기준 10%)
 [19:34:49] R928 t+06m | PIEVERSE  -8.96% s+0.00 r50
 [19:34:57] R928 t+07m | PIEVERSE -12.71% s+0.00 r50
+[19:35:57] R928 t+08m | PIEVERSE -11.77% s+0.00 r50
+[19:36:57] R928 t+09m | PIEVERSE  -8.48% s+0.00 r50
+[19:37:57] R928 t+10m | PIEVERSE  -9.89% s+0.00 r50
+[19:39:09] pump skip ME +17.6%: 30분 +14.6% 아직 가속 중 (기준 10%)
+[19:39:48] R928 t+11m | PIEVERSE  -3.79% s+0.00 r50
+[19:39:57] R928 t+12m | PIEVERSE  +0.91% s+0.00 r50
+[19:40:57] R928 t+13m | PIEVERSE  -1.44% s+0.00 r50
+[19:41:57] R928 t+14m | PIEVERSE  -6.14% s+0.00 r50
+[19:42:57] R928 t+15m | PIEVERSE  -8.02% s+0.00 r50
+[19:44:09] pump skip ME +15.2%: 30분 +12.7% 아직 가속 중 (기준 10%)
+[19:44:48] R928 t+16m | PIEVERSE  -7.08% s+0.00 r50
+[19:44:57] R928 t+17m | PIEVERSE  -5.20% s+0.00 r50
+[19:45:57] R928 t+18m | PIEVERSE  -7.08% s+0.00 r50
+[19:46:57] R928 t+19m | PIEVERSE  -5.20% s+0.00 r50
+[19:47:57] R928 t+20m | PIEVERSE  -2.85% s+0.00 r50
+[19:49:12] pump skip ME +13.3%: 30분 +10.8% 아직 가속 중 (기준 10%)
+[19:49:50] R928 t+21m | PIEVERSE  -3.79% s+0.00 r50
+[19:49:57] R928 t+22m | PIEVERSE  -5.20% s+0.00 r50
+[19:50:57] R928 t+23m | PIEVERSE  -1.44% s+0.00 r50
