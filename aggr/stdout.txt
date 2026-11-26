@@ -9241,3 +9241,4 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [11:34:35] R912 t+06m | ME  -0.50% s+0.00 r50 | MOVE  -0.50% s+0.00 r50 | SLX -21.48% s+0.00 r50
 [11:34:46] R912 t+07m | ME  +0.40% s+0.00 r50 | MOVE  +2.83% s+0.00 r50 | SLX -29.86% s+0.00 r50
 [11:34:56] CLOSE SHORT 5x  KRW-SLX      @ 50.7000  ROE -31.96%  [손절 (가격 -6%, 10초 점검)]
+[11:35:45] R912 t+08m | ME  +0.40% s+0.00 r50 | MOVE  +1.72% s+0.00 r50
