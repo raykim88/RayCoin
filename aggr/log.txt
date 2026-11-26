@@ -4154,3 +4154,5 @@
 [00:28:04] === ROUND 937 REPORT: value $97.134 / invested $50.00 (+94.27%), round PnL +3.245$ ===
 [00:28:04] === ROUND 938 start ===
 [00:29:05] CLOSE SHORT 5x  KRW-PIEVERSE @ 5,490.0000  ROE -16.00%  [보유 6시간 만료]
+[00:29:57] R938 t+01m | 
+[00:30:04] R938 t+02m | 
