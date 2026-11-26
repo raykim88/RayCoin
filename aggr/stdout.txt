@@ -9112,3 +9112,7 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [09:46:43] R908 t+19m | MOVE +25.83% s+0.00 r50 | ME  +3.99% s+0.00 r50 | LAYER  -9.64% s+0.00 r50
 [09:47:43] R908 t+20m | MOVE +20.15% s+0.00 r50 | ME  +4.89% s+0.00 r50 | LAYER -11.92% s+0.00 r50
 [09:48:15] CLOSE SHORT 5x  KRW-MOVE     @ 9.3800  ROE +15.50%  [추적 청산 (최고 +5.3%에서 2%p 반납, 10초 점검)]
+[09:49:34] OPEN SHORT 5x  KRW-MOVE     @ 9.3000  margin $12.01  liq 11.1135  (2시간 +36.0% 급등 → 되돌림 숏 · 확신 0점(30분 -5.3%, 거래대금 35.2배, 24시간 +51.8%), score 36.02)
+[09:49:34] pump: MOVE +36.0%
+[09:49:34] R908 t+21m | ME  +3.99% s+0.00 r50 | LAYER -10.40% s+0.00 r50 | MOVE  -0.50% s+0.00 r50
+[09:49:43] R908 t+22m | ME  +9.38% s+0.00 r50 | LAYER  -7.35% s+0.00 r50 | MOVE  +1.11% s+0.00 r50
