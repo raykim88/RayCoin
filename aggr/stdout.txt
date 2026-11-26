@@ -10371,3 +10371,5 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [03:31:06] R944 t+03m | MMT  +2.85% s+0.00 r50
 [03:32:06] R944 t+04m | MMT +11.21% s+0.00 r50
 [03:33:06] R944 t+05m | MMT +11.21% s+0.00 r50
+[03:34:57] R944 t+06m | MMT  +7.87% s+0.00 r50
+[03:35:06] R944 t+07m | MMT  +9.54% s+0.00 r50
