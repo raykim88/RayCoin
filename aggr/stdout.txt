@@ -9116,3 +9116,7 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [09:49:34] pump: MOVE +36.0%
 [09:49:34] R908 t+21m | ME  +3.99% s+0.00 r50 | LAYER -10.40% s+0.00 r50 | MOVE  -0.50% s+0.00 r50
 [09:49:43] R908 t+22m | ME  +9.38% s+0.00 r50 | LAYER  -7.35% s+0.00 r50 | MOVE  +1.11% s+0.00 r50
+[09:50:43] R908 t+23m | ME  +6.68% s+0.00 r50 | LAYER  -8.11% s+0.00 r50 | MOVE  -0.50% s+0.00 r50
+[09:51:43] R908 t+24m | ME  +3.09% s+0.00 r50 | LAYER  -8.11% s+0.00 r50 | MOVE  -8.03% s+0.00 r50
+[09:52:43] R908 t+25m | ME  +1.30% s+0.00 r50 | LAYER  -5.83% s+0.00 r50 | MOVE -11.26% s+0.00 r50
+[09:53:25] CLOSE SHORT 5x  KRW-LAYER    @ 69.7000  ROE -30.96%  [손절 (가격 -6%, 10초 점검)]
