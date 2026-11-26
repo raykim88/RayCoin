@@ -10119,3 +10119,6 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [23:46:03] R936 t+18m | PIEVERSE -15.06% s+0.00 r50 | TFUEL +13.02% s+0.00 r50
 [23:47:03] R936 t+19m | PIEVERSE -14.12% s+0.00 r50 | TFUEL +17.53% s+0.00 r50
 [23:48:03] R936 t+20m | PIEVERSE -15.06% s+0.00 r50 | TFUEL +17.53% s+0.00 r50
+[23:49:55] R936 t+21m | PIEVERSE -15.06% s+0.00 r50 | TFUEL  +4.01% s+0.00 r50
+[23:50:03] R936 t+22m | PIEVERSE -11.30% s+0.00 r50 | TFUEL  +4.01% s+0.00 r50
+[23:51:03] R936 t+23m | PIEVERSE  -9.43% s+0.00 r50 | TFUEL  +4.01% s+0.00 r50
