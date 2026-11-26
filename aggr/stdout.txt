@@ -9536,3 +9536,5 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [15:29:51] R920 t+02m | ME +26.44% s+0.00 r50 | ELSA  -4.12% s+0.00 r50 | CTC +31.07% s+0.00 r50
 [15:30:51] R920 t+03m | ME +26.44% s+0.00 r50 | ELSA  +6.75% s+0.00 r50 | CTC +35.44% s+0.00 r50
 [15:31:51] R920 t+04m | ME +27.34% s+0.00 r50 | ELSA  +3.12% s+0.00 r50 | CTC +32.53% s+0.00 r50
+[15:32:45] CLOSE SHORT 5x  KRW-CTC      @ 98.0000  ROE +23.78%  [추적 청산 (최고 +7.2%에서 2%p 반납, 10초 점검)]
+[15:32:51] R920 t+05m | ME +27.34% s+0.00 r50 | ELSA  +6.75% s+0.00 r50
