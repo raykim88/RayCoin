@@ -11035,3 +11035,28 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [13:08:12] R963 t+10m | BIGTIME  -5.36% s+0.00 r50
 [13:10:02] R963 t+11m | BIGTIME  -2.66% s+0.00 r50
 [13:10:12] R963 t+12m | BIGTIME  -4.28% s+0.00 r50
+[13:11:12] R963 t+13m | BIGTIME -16.17% s+0.00 r50
+[13:12:12] R963 t+14m | BIGTIME -14.55% s+0.00 r50
+[13:13:12] R963 t+15m | BIGTIME -11.85% s+0.00 r50
+[13:15:03] R963 t+16m | BIGTIME -12.38% s+0.00 r50
+[13:15:12] R963 t+17m | BIGTIME  -5.90% s+0.00 r50
+[13:16:12] R963 t+18m | BIGTIME  -2.66% s+0.00 r50
+[13:17:12] R963 t+19m | BIGTIME  -7.52% s+0.00 r50
+[13:18:12] R963 t+20m | BIGTIME  -5.90% s+0.00 r50
+[13:20:03] R963 t+21m | BIGTIME  -8.06% s+0.00 r50
+[13:20:12] R963 t+22m | BIGTIME  -5.36% s+0.00 r50
+[13:21:12] R963 t+23m | BIGTIME  -4.82% s+0.00 r50
+[13:22:12] R963 t+24m | BIGTIME  -6.44% s+0.00 r50
+[13:23:12] R963 t+25m | BIGTIME  -7.52% s+0.00 r50
+[13:25:04] R963 t+26m | BIGTIME  -8.06% s+0.00 r50
+[13:25:12] R963 t+27m | BIGTIME  -5.36% s+0.00 r50
+[13:26:12] R963 t+28m | BIGTIME  -8.06% s+0.00 r50
+[13:27:12] R963 t+29m | BIGTIME  -5.90% s+0.00 r50
+[13:28:12] R963 t+30m | BIGTIME  -6.44% s+0.00 r50
+[13:28:12] === ROUND 963 REPORT: value $94.386 / invested $50.00 (+88.77%), round PnL -0.788$ ===
+[13:28:12] === ROUND 964 start ===
+[13:30:03] R964 t+01m | BIGTIME  -5.90% s+0.00 r50
+[13:30:12] R964 t+02m | BIGTIME  -8.06% s+0.00 r50
+[13:31:12] R964 t+03m | BIGTIME  -7.52% s+0.00 r50
+[13:32:12] R964 t+04m | BIGTIME  -6.98% s+0.00 r50
+[13:33:12] R964 t+05m | BIGTIME  -5.90% s+0.00 r50
