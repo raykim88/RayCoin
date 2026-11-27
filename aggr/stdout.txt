@@ -11432,3 +11432,7 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [18:31:02] CLOSE SHORT 5x  KRW-MMT      @ 252.0000  ROE +16.75%  [추적 청산 (최고 +5.7%에서 2%p 반납, 10초 점검)]
 [18:31:19] R974 t+03m | CASHCAT +19.51% s+0.00 r50 | PONS -11.07% s+0.00 r50 | ARDR +14.71% s+0.00 r50
 [18:32:19] R974 t+04m | CASHCAT +18.77% s+0.00 r50 | PONS -11.07% s+0.00 r50 | ARDR +13.02% s+0.00 r50
+[18:33:19] R974 t+05m | CASHCAT +16.55% s+0.00 r50 | PONS  -7.55% s+0.00 r50 | ARDR +14.71% s+0.00 r50
+[18:34:38] pump skip CFG +35.4%: 30분 +27.1% 아직 가속 중 (기준 10%)
+[18:35:08] R974 t+06m | CASHCAT +15.80% s+0.00 r50 | PONS -14.59% s+0.00 r50 | ARDR +16.40% s+0.00 r50
+[18:35:20] R974 t+07m | CASHCAT +18.03% s+0.00 r50 | PONS -11.07% s+0.00 r50 | ARDR +16.40% s+0.00 r50
