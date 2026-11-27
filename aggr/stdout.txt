@@ -11214,3 +11214,22 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [15:35:06] pump: CASHCAT +9.2%
 [15:35:06] R968 t+06m | HAEDAL  +4.81% s+0.00 r50 | PONS +16.87% s+0.00 r50 | CASHCAT  -0.50% s+0.00 r50
 [15:35:15] R968 t+07m | HAEDAL +10.12% s+0.00 r50 | PONS +13.40% s+0.00 r50 | CASHCAT  +6.17% s+0.00 r50
+[15:36:15] R968 t+08m | HAEDAL +10.12% s+0.00 r50 | PONS +16.87% s+0.00 r50 | CASHCAT  +8.39% s+0.00 r50
+[15:37:15] R968 t+09m | HAEDAL +19.40% s+0.00 r50 | PONS +13.40% s+0.00 r50 | CASHCAT  +9.88% s+0.00 r50
+[15:38:15] R968 t+10m | HAEDAL +16.75% s+0.00 r50 | PONS +13.40% s+0.00 r50 | CASHCAT +11.36% s+0.00 r50
+[15:40:06] R968 t+11m | HAEDAL +24.71% s+0.00 r50 | PONS +16.87% s+0.00 r50 | CASHCAT  +6.91% s+0.00 r50
+[15:40:15] R968 t+12m | HAEDAL +22.06% s+0.00 r50 | PONS +20.34% s+0.00 r50 | CASHCAT  +8.39% s+0.00 r50
+[15:41:15] R968 t+13m | HAEDAL +24.71% s+0.00 r50 | PONS +20.34% s+0.00 r50 | CASHCAT  +4.69% s+0.00 r50
+[15:42:15] R968 t+14m | HAEDAL +24.71% s+0.00 r50 | PONS +16.87% s+0.00 r50 | CASHCAT  +6.91% s+0.00 r50
+[15:43:15] R968 t+15m | HAEDAL +20.73% s+0.00 r50 | PONS +13.40% s+0.00 r50 | CASHCAT  +2.46% s+0.00 r50
+[15:43:58] CLOSE SHORT 5x  KRW-PONS     @ 141.0000  ROE +9.92%  [추적 청산 (최고 +4.2%에서 2%p 반납, 10초 점검)]
+[15:45:05] R968 t+16m | HAEDAL +19.40% s+0.00 r50 | CASHCAT  +3.95% s+0.00 r50
+[15:45:15] R968 t+17m | HAEDAL +22.06% s+0.00 r50 | CASHCAT  +3.21% s+0.00 r50
+[15:46:15] R968 t+18m | HAEDAL +20.73% s+0.00 r50 | CASHCAT  +4.69% s+0.00 r50
+[15:47:15] R968 t+19m | HAEDAL +22.06% s+0.00 r50 | CASHCAT  +3.21% s+0.00 r50
+[15:48:15] R968 t+20m | HAEDAL +24.71% s+0.00 r50 | CASHCAT  +6.17% s+0.00 r50
+[15:50:05] R968 t+21m | HAEDAL +20.73% s+0.00 r50 | CASHCAT  +4.69% s+0.00 r50
+[15:50:15] R968 t+22m | HAEDAL +22.06% s+0.00 r50 | CASHCAT  +9.88% s+0.00 r50
+[15:51:15] R968 t+23m | HAEDAL +19.40% s+0.00 r50 | CASHCAT  +9.88% s+0.00 r50
+[15:52:15] R968 t+24m | HAEDAL +15.42% s+0.00 r50 | CASHCAT  +9.13% s+0.00 r50
+[15:52:26] CLOSE SHORT 5x  KRW-HAEDAL   @ 36.6000  ROE +14.10%  [추적 청산 (최고 +5.0%에서 2%p 반납, 10초 점검)]
