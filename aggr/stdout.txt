@@ -11114,3 +11114,4 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [14:22:13] R965 t+24m | BIGTIME +14.09% s+0.00 r50
 [14:23:13] R965 t+25m | BIGTIME +12.46% s+0.00 r50
 [14:25:04] R965 t+26m | BIGTIME +10.85% s+0.00 r50
+[14:25:13] R965 t+27m | BIGTIME +12.46% s+0.00 r50
