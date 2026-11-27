@@ -11505,3 +11505,7 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [19:28:20] R975 t+30m | PONS  -4.02% s+0.00 r50
 [19:28:20] === ROUND 975 REPORT: value $135.335 / invested $50.00 (+170.67%), round PnL +21.276$ ===
 [19:28:20] === ROUND 976 start ===
+[19:30:11] R976 t+01m | PONS  -4.02% s+0.00 r50
+[19:30:21] R976 t+02m | PONS  -7.55% s+0.00 r50
+[19:31:21] R976 t+03m | PONS -11.07% s+0.00 r50
+[19:32:21] R976 t+04m | PONS  -4.02% s+0.00 r50
