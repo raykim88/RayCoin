@@ -10979,3 +10979,16 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [12:21:10] R961 t+23m | MPLX +22.77% s+0.00 r50 | BIGTIME +33.84% s+0.00 r50
 [12:22:10] R961 t+24m | MPLX +17.87% s+0.00 r50 | BIGTIME +35.89% s+0.00 r50
 [12:23:10] R961 t+25m | MPLX +16.03% s+0.00 r50 | BIGTIME +33.84% s+0.00 r50
+[12:25:00] R961 t+26m | MPLX +16.03% s+0.00 r50 | BIGTIME +29.74% s+0.00 r50
+[12:25:10] R961 t+27m | MPLX +17.26% s+0.00 r50 | BIGTIME +31.79% s+0.00 r50
+[12:25:53] CLOSE SHORT 5x  KRW-BIGTIME  @ 9.2900  ROE +23.59%  [추적 청산 (최고 +7.3%에서 2%p 반납, 10초 점검)]
+[12:26:10] R961 t+28m | MPLX +17.87% s+0.00 r50
+[12:27:10] R961 t+29m | MPLX +16.64% s+0.00 r50
+[12:28:10] R961 t+30m | MPLX +18.48% s+0.00 r50
+[12:28:10] === ROUND 961 REPORT: value $97.405 / invested $50.00 (+94.81%), round PnL +5.795$ ===
+[12:28:10] === ROUND 962 start ===
+[12:30:03] OPEN SHORT 5x  KRW-BIGTIME  @ 9.2600  margin $24.31  liq 11.0657  (2시간 +17.3% 급등 → 되돌림 숏 · 확신 1점(30분 -4.3%, 거래대금 16.1배, 24시간 +16.0%), score 17.28)
+[12:30:03] pump: BIGTIME +17.3%
+[12:30:03] R962 t+01m | MPLX +17.87% s+0.00 r50 | BIGTIME  -0.50% s+0.00 r50
+[12:30:11] R962 t+02m | MPLX +17.26% s+0.00 r50 | BIGTIME  -3.20% s+0.00 r50
+[12:31:11] R962 t+03m | MPLX +17.87% s+0.00 r50 | BIGTIME  -2.12% s+0.00 r50
