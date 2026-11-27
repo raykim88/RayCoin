@@ -11132,3 +11132,54 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [14:37:14] R966 t+09m | BIGTIME +15.71% s+0.00 r50
 [14:38:14] R966 t+10m | BIGTIME +15.71% s+0.00 r50
 [14:39:21] pump skip HAEDAL +20.5%: 30분 +13.2% 아직 가속 중 (기준 10%)
+[14:40:05] R966 t+11m | BIGTIME +14.63% s+0.00 r50
+[14:40:14] CLOSE SHORT 5x  KRW-BIGTIME  @ 9.0300  ROE +11.93%  [추적 청산 (최고 +4.6%에서 2%p 반납)]
+[14:40:14] R966 t+12m | 
+[14:41:13] R966 t+13m | 
+[14:42:13] R966 t+14m | 
+[14:43:13] R966 t+15m | 
+[14:44:21] pump conviction KRW-HAEDAL: division by zero
+[14:45:05] OPEN SHORT 5x  KRW-HAEDAL   @ 38.1000  margin $24.71  liq 45.5295  (1시간 +16.2% 급등 → 되돌림 숏, score 16.16)
+[14:45:05] pump: HAEDAL +16.2%
+[14:45:05] R966 t+16m | HAEDAL  -0.50% s+0.00 r50
+[14:45:14] R966 t+17m | HAEDAL  -5.75% s+0.00 r50
+[14:46:14] R966 t+18m | HAEDAL  -4.44% s+0.00 r50
+[14:47:14] R966 t+19m | HAEDAL  -8.38% s+0.00 r50
+[14:48:14] R966 t+20m | HAEDAL  -7.07% s+0.00 r50
+[14:50:05] R966 t+21m | HAEDAL -25.45% s+0.00 r50
+[14:50:14] CLOSE SHORT 5x  KRW-HAEDAL   @ 40.7000  ROE -34.64%  [손절 (가격 -6%)]
+[14:50:14] R966 t+22m | 
+[14:51:13] R966 t+23m | 
+[14:52:13] R966 t+24m | 
+[14:53:13] R966 t+25m | 
+[14:54:21] pump conviction KRW-HAEDAL: division by zero
+[14:55:05] OPEN SHORT 5x  KRW-HAEDAL   @ 39.3000  margin $22.57  liq 46.9635  (2시간 +11.4% 급등 → 되돌림 숏, score 11.36)
+[14:55:05] pump: HAEDAL +11.4%
+[14:55:05] R966 t+26m | HAEDAL  -0.50% s+0.00 r50
+[14:55:14] R966 t+27m | HAEDAL  +5.87% s+0.00 r50
+[14:56:14] R966 t+28m | HAEDAL  +7.14% s+0.00 r50
+[14:57:14] R966 t+29m | HAEDAL  +5.87% s+0.00 r50
+[14:58:14] R966 t+30m | HAEDAL  +5.87% s+0.00 r50
+[14:58:14] === ROUND 966 REPORT: value $91.615 / invested $50.00 (+83.23%), round PnL -7.499$ ===
+[14:58:14] === TUNE after round 966: {'tp': [15.0, 12.0], 'sl': [-10.0, -8.0], 'hard': [-20.0, -16.0], 'trail': [3.75, 3.0], 'steep': [0.4, 0.3]} · 지난 1시간 3개 코인의 1분 경로로 시험해 보니 익절 +12% / 손절 -8%가 평균 +3.12%로 기존 기준(-0.84%)보다 좋음.
+[14:58:14] === ROUND 967 start ===
+[15:00:05] R967 t+01m | HAEDAL +23.68% s+0.00 r50
+[15:00:15] R967 t+02m | HAEDAL +14.78% s+0.00 r50
+[15:00:47] CLOSE SHORT 5x  KRW-HAEDAL   @ 38.4000  ROE +10.96%  [추적 청산 (최고 +4.8%에서 2%p 반납, 10초 점검)]
+[15:01:14] R967 t+03m | 
+[15:02:14] R967 t+04m | 
+[15:03:14] R967 t+05m | 
+[15:04:21] pump conviction KRW-HAEDAL: list index out of range
+[15:05:08] OPEN SHORT 5x  KRW-HAEDAL   @ 38.8000  margin $23.19  liq 46.3660  (2시간 +20.9% 급등 → 되돌림 숏, score 20.94)
+[15:05:08] pump: HAEDAL +20.9%
+[15:05:08] R967 t+06m | HAEDAL  -0.50% s+0.00 r50
+[15:05:15] R967 t+07m | HAEDAL  +7.24% s+0.00 r50
+[15:06:15] R967 t+08m | HAEDAL  +9.81% s+0.00 r50
+[15:07:14] R967 t+09m | HAEDAL  +7.24% s+0.00 r50
+[15:08:15] R967 t+10m | HAEDAL +26.57% s+0.00 r50
+[15:10:06] R967 t+11m | HAEDAL +24.00% s+0.00 r50
+[15:10:14] R967 t+12m | HAEDAL +25.29% s+0.00 r50
+[15:11:14] R967 t+13m | HAEDAL +22.71% s+0.00 r50
+[15:12:15] R967 t+14m | HAEDAL +20.13% s+0.00 r50
+[15:12:25] CLOSE SHORT 5x  KRW-HAEDAL   @ 37.6000  ROE +14.97%  [추적 청산 (최고 +5.4%에서 2%p 반납, 10초 점검)]
+[15:13:14] R967 t+15m | 
