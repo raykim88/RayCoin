@@ -10993,3 +10993,4 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [12:30:11] R962 t+02m | MPLX +17.26% s+0.00 r50 | BIGTIME  -3.20% s+0.00 r50
 [12:31:11] R962 t+03m | MPLX +17.87% s+0.00 r50 | BIGTIME  -2.12% s+0.00 r50
 [12:32:11] R962 t+04m | MPLX +18.48% s+0.00 r50 | BIGTIME  -3.20% s+0.00 r50
+[12:33:11] R962 t+05m | MPLX +18.48% s+0.00 r50 | BIGTIME  -3.20% s+0.00 r50
