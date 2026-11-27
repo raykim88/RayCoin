@@ -11436,3 +11436,5 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [18:34:38] pump skip CFG +35.4%: 30분 +27.1% 아직 가속 중 (기준 10%)
 [18:35:08] R974 t+06m | CASHCAT +15.80% s+0.00 r50 | PONS -14.59% s+0.00 r50 | ARDR +16.40% s+0.00 r50
 [18:35:20] R974 t+07m | CASHCAT +18.03% s+0.00 r50 | PONS -11.07% s+0.00 r50 | ARDR +16.40% s+0.00 r50
+[18:36:19] R974 t+08m | CASHCAT +18.03% s+0.00 r50 | PONS -11.07% s+0.00 r50 | ARDR +18.09% s+0.00 r50
+[18:37:20] R974 t+09m | CASHCAT +20.99% s+0.00 r50 | PONS -11.07% s+0.00 r50 | ARDR +21.47% s+0.00 r50
