@@ -11233,3 +11233,53 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [15:51:15] R968 t+23m | HAEDAL +19.40% s+0.00 r50 | CASHCAT  +9.88% s+0.00 r50
 [15:52:15] R968 t+24m | HAEDAL +15.42% s+0.00 r50 | CASHCAT  +9.13% s+0.00 r50
 [15:52:26] CLOSE SHORT 5x  KRW-HAEDAL   @ 36.6000  ROE +14.10%  [추적 청산 (최고 +5.0%에서 2%p 반납, 10초 점검)]
+[15:53:15] R968 t+25m | CASHCAT  +9.88% s+0.00 r50
+[15:54:22] pump conviction KRW-HAEDAL: list index out of range
+[15:55:07] OPEN SHORT 5x  KRW-HAEDAL   @ 36.5000  margin $26.03  liq 43.6175  (2시간 +10.6% 급등 → 되돌림 숏, score 10.61)
+[15:55:07] pump: HAEDAL +10.6%
+[15:55:07] R968 t+26m | CASHCAT  +8.39% s+0.00 r50 | HAEDAL  -0.50% s+0.00 r50
+[15:55:15] R968 t+27m | CASHCAT  +9.13% s+0.00 r50 | HAEDAL  +0.87% s+0.00 r50
+[15:56:15] R968 t+28m | CASHCAT  +9.13% s+0.00 r50 | HAEDAL  +3.61% s+0.00 r50
+[15:57:15] R968 t+29m | CASHCAT  +9.13% s+0.00 r50 | HAEDAL  +0.87% s+0.00 r50
+[15:58:15] R968 t+30m | CASHCAT  +9.88% s+0.00 r50 | HAEDAL  -0.50% s+0.00 r50
+[15:58:15] === ROUND 968 REPORT: value $104.378 / invested $50.00 (+108.76%), round PnL +8.759$ ===
+[15:58:15] === TUNE after round 968: {'tp': [15.0, 25.0], 'sl': [-10.0, -12.0], 'hard': [-20.0, -24.0], 'trail': [3.75, 6.25], 'steep': [0.4, 0.5]} · 지난 1시간 6개 코인의 1분 경로로 시험해 보니 익절 +25% / 손절 -12%가 평균 +9.55%로 기존 기준(+3.06%)보다 좋음.
+[15:58:15] === ROUND 969 start ===
+[16:00:07] OPEN SHORT 5x  KRW-PONS     @ 142.0000  margin $25.88  liq 169.6900  (2시간 +10.1% 급등 → 되돌림 숏 · 확신 0점(30분 +0.0%, 거래대금 24.9배, 24시간 +20.3%), score 10.08)
+[16:00:07] pump: PONS +10.1%
+[16:00:07] R969 t+01m | CASHCAT +12.10% s+0.00 r50 | HAEDAL  -5.98% s+0.00 r50 | PONS  -0.50% s+0.00 r50
+[16:00:16] R969 t+02m | CASHCAT +11.36% s+0.00 r50 | HAEDAL  -5.98% s+0.00 r50 | PONS  -0.50% s+0.00 r50
+[16:01:16] R969 t+03m | CASHCAT  +7.65% s+0.00 r50 | HAEDAL  -3.24% s+0.00 r50 | PONS  -0.50% s+0.00 r50
+[16:02:16] R969 t+04m | CASHCAT  +5.43% s+0.00 r50 | HAEDAL  -4.61% s+0.00 r50 | PONS  -0.50% s+0.00 r50
+[16:03:16] R969 t+05m | CASHCAT  +9.13% s+0.00 r50 | HAEDAL  -5.98% s+0.00 r50 | PONS  -4.02% s+0.00 r50
+[16:05:05] R969 t+06m | CASHCAT  +6.17% s+0.00 r50 | HAEDAL  -4.61% s+0.00 r50 | PONS  -0.50% s+0.00 r50
+[16:05:16] R969 t+07m | CASHCAT  +7.65% s+0.00 r50 | HAEDAL  -1.87% s+0.00 r50 | PONS  -4.02% s+0.00 r50
+[16:06:16] R969 t+08m | CASHCAT  +9.13% s+0.00 r50 | HAEDAL  -3.24% s+0.00 r50 | PONS  -4.02% s+0.00 r50
+[16:07:16] R969 t+09m | CASHCAT  +9.13% s+0.00 r50 | HAEDAL  -3.24% s+0.00 r50 | PONS  +3.02% s+0.00 r50
+[16:08:16] R969 t+10m | CASHCAT  +6.17% s+0.00 r50 | HAEDAL  -4.61% s+0.00 r50 | PONS  +3.02% s+0.00 r50
+[16:10:05] R969 t+11m | CASHCAT  +6.91% s+0.00 r50 | HAEDAL  -1.87% s+0.00 r50 | PONS  +6.55% s+0.00 r50
+[16:10:16] R969 t+12m | CASHCAT  +3.95% s+0.00 r50 | HAEDAL  +2.24% s+0.00 r50 | PONS  +6.55% s+0.00 r50
+[16:11:16] R969 t+13m | CASHCAT  +3.95% s+0.00 r50 | HAEDAL  -0.50% s+0.00 r50 | PONS  +3.02% s+0.00 r50
+[16:12:16] R969 t+14m | CASHCAT  +0.24% s+0.00 r50 | HAEDAL  +2.24% s+0.00 r50 | PONS  +3.02% s+0.00 r50
+[16:13:16] R969 t+15m | CASHCAT  +1.72% s+0.00 r50 | HAEDAL +11.84% s+0.00 r50 | PONS  +6.55% s+0.00 r50
+[16:15:05] R969 t+16m | CASHCAT  +1.72% s+0.00 r50 | HAEDAL +10.46% s+0.00 r50 | PONS  +6.55% s+0.00 r50
+[16:15:16] R969 t+17m | CASHCAT  +1.72% s+0.00 r50 | HAEDAL +15.95% s+0.00 r50 | PONS  +6.55% s+0.00 r50
+[16:16:16] R969 t+18m | CASHCAT  +0.98% s+0.00 r50 | HAEDAL +18.69% s+0.00 r50 | PONS  +6.55% s+0.00 r50
+[16:17:16] R969 t+19m | CASHCAT  -1.24% s+0.00 r50 | HAEDAL +18.69% s+0.00 r50 | PONS  +6.55% s+0.00 r50
+[16:18:16] R969 t+20m | CASHCAT  -1.24% s+0.00 r50 | HAEDAL +17.32% s+0.00 r50 | PONS  -0.50% s+0.00 r50
+[16:20:05] R969 t+21m | CASHCAT  +4.69% s+0.00 r50 | HAEDAL +18.69% s+0.00 r50 | PONS  -0.50% s+0.00 r50
+[16:20:16] R969 t+22m | CASHCAT  +5.43% s+0.00 r50 | HAEDAL +18.69% s+0.00 r50 | PONS  -4.02% s+0.00 r50
+[16:21:16] R969 t+23m | CASHCAT  +5.43% s+0.00 r50 | HAEDAL +17.32% s+0.00 r50 | PONS  +3.02% s+0.00 r50
+[16:22:16] R969 t+24m | CASHCAT  +4.69% s+0.00 r50 | HAEDAL +15.95% s+0.00 r50 | PONS  +3.02% s+0.00 r50
+[16:23:16] R969 t+25m | CASHCAT  +3.95% s+0.00 r50 | HAEDAL  +9.09% s+0.00 r50 | PONS  +3.02% s+0.00 r50
+[16:25:05] R969 t+26m | CASHCAT  +1.72% s+0.00 r50 | HAEDAL +11.84% s+0.00 r50 | PONS  +3.02% s+0.00 r50
+[16:25:16] R969 t+27m | CASHCAT  -4.21% s+0.00 r50 | HAEDAL +11.84% s+0.00 r50 | PONS  +3.02% s+0.00 r50
+[16:26:16] R969 t+28m | CASHCAT -21.25% s+0.00 r50 | HAEDAL  +6.35% s+0.00 r50 | PONS  +6.55% s+0.00 r50
+[16:27:16] R969 t+29m | CASHCAT -15.32% s+0.00 r50 | HAEDAL  +7.72% s+0.00 r50 | PONS  +6.55% s+0.00 r50
+[16:28:16] R969 t+30m | CASHCAT  -6.43% s+0.00 r50 | HAEDAL +10.46% s+0.00 r50 | PONS  +6.55% s+0.00 r50
+[16:28:16] === ROUND 969 REPORT: value $104.791 / invested $50.00 (+109.58%), round PnL +0.414$ ===
+[16:28:16] === ROUND 970 start ===
+[16:30:06] R970 t+01m | CASHCAT -10.13% s+0.00 r50 | HAEDAL +10.46% s+0.00 r50 | PONS  +3.02% s+0.00 r50
+[16:30:17] R970 t+02m | CASHCAT  -7.17% s+0.00 r50 | HAEDAL +11.84% s+0.00 r50 | PONS  -0.50% s+0.00 r50
+[16:31:17] R970 t+03m | CASHCAT  -7.17% s+0.00 r50 | HAEDAL  +7.72% s+0.00 r50 | PONS  -0.50% s+0.00 r50
+[16:32:17] R970 t+04m | CASHCAT  +2.46% s+0.00 r50 | HAEDAL -11.46% s+0.00 r50 | PONS  +6.55% s+0.00 r50
