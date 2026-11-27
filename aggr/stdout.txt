@@ -11209,3 +11209,8 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [15:30:15] R968 t+02m | HAEDAL  -1.83% s+0.00 r50 | PONS  +6.45% s+0.00 r50
 [15:31:15] R968 t+03m | HAEDAL  +0.83% s+0.00 r50 | PONS +13.40% s+0.00 r50
 [15:32:15] R968 t+04m | HAEDAL  +7.46% s+0.00 r50 | PONS +16.87% s+0.00 r50
+[15:33:15] R968 t+05m | HAEDAL +10.12% s+0.00 r50 | PONS +16.87% s+0.00 r50
+[15:35:06] OPEN SHORT 5x  KRW-CASHCAT  @ 67.5000  margin $25.36  liq 80.6625  (1시간 +9.2% 급등 → 되돌림 숏 · 확신 1점(30분 +5.7%, 거래대금 8.2배, 24시간 +13.6%), score 9.15)
+[15:35:06] pump: CASHCAT +9.2%
+[15:35:06] R968 t+06m | HAEDAL  +4.81% s+0.00 r50 | PONS +16.87% s+0.00 r50 | CASHCAT  -0.50% s+0.00 r50
+[15:35:15] R968 t+07m | HAEDAL +10.12% s+0.00 r50 | PONS +13.40% s+0.00 r50 | CASHCAT  +6.17% s+0.00 r50
