@@ -10827,3 +10827,5 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [10:17:07] R957 t+19m | MOCA +32.44% s+0.00 r50 | ME  +9.17% s+0.00 r50 | MPLX +25.89% s+0.00 r50
 [10:18:07] R957 t+20m | MOCA +33.00% s+0.00 r50 | ME  +7.56% s+0.00 r50 | MPLX +29.41% s+0.00 r50
 [10:19:57] R957 t+21m | MOCA +37.47% s+0.00 r50 | ME  +8.36% s+0.00 r50 | MPLX +35.27% s+0.00 r50
+[10:20:07] CLOSE SHORT 5x  KRW-MOCA     @ 8.1400  ROE +45.28%  [익절 (가격 +8%)]
+[10:20:07] R957 t+22m | ME +11.58% s+0.00 r50 | MPLX +31.75% s+0.00 r50
