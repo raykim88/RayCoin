@@ -11125,3 +11125,6 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [14:31:14] R966 t+03m | BIGTIME +11.38% s+0.00 r50
 [14:32:14] R966 t+04m | BIGTIME +17.33% s+0.00 r50
 [14:33:14] R966 t+05m | BIGTIME +22.73% s+0.00 r50
+[14:34:21] pump skip HAEDAL +28.3%: 30분 +16.7% 아직 가속 중 (기준 10%)
+[14:35:04] R966 t+06m | BIGTIME +19.49% s+0.00 r50
+[14:35:14] R966 t+07m | BIGTIME +18.41% s+0.00 r50
