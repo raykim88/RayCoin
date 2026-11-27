@@ -11365,3 +11365,12 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [17:33:18] R972 t+05m | CASHCAT  +0.24% s+0.00 r50 | PONS -14.59% s+0.00 r50 | CFG  +0.15% s+0.00 r50 | ARDR  +2.88% s+0.00 r50
 [17:34:18] R972 t+06m | CASHCAT  -2.72% s+0.00 r50 | PONS -11.07% s+0.00 r50 | CFG  +3.42% s+0.00 r50 | ARDR  +1.19% s+0.00 r50
 [17:35:18] R972 t+07m | CASHCAT  -2.72% s+0.00 r50 | PONS -11.07% s+0.00 r50 | CFG  +2.77% s+0.00 r50 | ARDR  +4.57% s+0.00 r50
+[17:36:18] R972 t+08m | CASHCAT  -3.46% s+0.00 r50 | PONS -18.11% s+0.00 r50 | CFG  +6.04% s+0.00 r50 | ARDR  +4.57% s+0.00 r50
+[17:37:18] R972 t+09m | CASHCAT  -3.46% s+0.00 r50 | PONS -18.11% s+0.00 r50 | CFG  +4.73% s+0.00 r50 | ARDR  +2.88% s+0.00 r50
+[17:38:18] R972 t+10m | CASHCAT  -1.98% s+0.00 r50 | PONS -18.11% s+0.00 r50 | CFG  +2.12% s+0.00 r50 | ARDR  +4.57% s+0.00 r50
+[17:39:18] R972 t+11m | CASHCAT  -0.50% s+0.00 r50 | PONS -14.59% s+0.00 r50 | CFG  +5.38% s+0.00 r50 | ARDR  +4.57% s+0.00 r50
+[17:40:18] R972 t+12m | CASHCAT  -0.50% s+0.00 r50 | PONS -14.59% s+0.00 r50 | CFG  +9.31% s+0.00 r50 | ARDR  +2.88% s+0.00 r50
+[17:41:18] R972 t+13m | CASHCAT  -0.50% s+0.00 r50 | PONS -14.59% s+0.00 r50 | CFG  +9.96% s+0.00 r50 | ARDR  +4.57% s+0.00 r50
+[17:42:18] R972 t+14m | CASHCAT  -3.46% s+0.00 r50 | PONS -18.11% s+0.00 r50 | CFG  +7.35% s+0.00 r50 | ARDR  +1.19% s+0.00 r50
+[17:43:18] R972 t+15m | CASHCAT  -4.21% s+0.00 r50 | PONS -14.59% s+0.00 r50 | CFG  +2.12% s+0.00 r50 | ARDR  +2.88% s+0.00 r50
+[17:44:18] R972 t+16m | CASHCAT  -3.46% s+0.00 r50 | PONS -14.59% s+0.00 r50 | CFG  +2.12% s+0.00 r50 | ARDR  +1.19% s+0.00 r50
