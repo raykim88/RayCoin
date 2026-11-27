@@ -11008,3 +11008,12 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [12:45:04] R962 t+16m | BIGTIME  -8.06% s+0.00 r50
 [12:45:11] R962 t+17m | BIGTIME -16.71% s+0.00 r50
 [12:46:11] R962 t+18m | BIGTIME -17.79% s+0.00 r50
+[12:47:11] R962 t+19m | BIGTIME -14.55% s+0.00 r50
+[12:48:11] R962 t+20m | BIGTIME  -6.98% s+0.00 r50
+[12:50:01] R962 t+21m | BIGTIME  -3.20% s+0.00 r50
+[12:50:11] R962 t+22m | BIGTIME  -1.04% s+0.00 r50
+[12:51:11] R962 t+23m | BIGTIME  -3.20% s+0.00 r50
+[12:52:11] R962 t+24m | BIGTIME  -5.36% s+0.00 r50
+[12:53:11] R962 t+25m | BIGTIME  -5.90% s+0.00 r50
+[12:55:01] R962 t+26m | BIGTIME  -4.28% s+0.00 r50
+[12:55:11] R962 t+27m | BIGTIME  -2.66% s+0.00 r50
