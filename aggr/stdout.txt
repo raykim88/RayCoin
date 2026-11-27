@@ -11574,3 +11574,6 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [20:30:22] R978 t+02m | PONS  -4.02% s+0.00 r50
 [20:31:22] R978 t+03m | PONS  -4.02% s+0.00 r50
 [20:32:22] R978 t+04m | PONS  -4.02% s+0.00 r50
+[20:33:22] R978 t+05m | PONS  -7.55% s+0.00 r50
+[20:35:13] R978 t+06m | PONS  -7.55% s+0.00 r50
+[20:35:22] R978 t+07m | PONS -11.07% s+0.00 r50
