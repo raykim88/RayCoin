@@ -3,13 +3,14 @@
 # status.json) or the live-data pusher if either has died. Costs no Claude tokens.
 cd "$(dirname "$0")/.." || exit 1
 while true; do
-  if ! pgrep -f "paper_futures.py --resume status.json" >/dev/null; then
+  # 11-28 (user): live $50 and Bithumb shadow stopped — STOPPED files keep them down; delete the file to resume
+  if [ ! -f STOPPED_live ] && ! pgrep -f "paper_futures.py --resume status.json" >/dev/null; then
     echo "[$(date +%H:%M:%S)] WATCHDOG restart bot" >> trade_log_v2.txt
     nohup python3 paper_futures.py --resume status.json --last-round 0 --log trade_log_v2.txt \
       --status status.json >> run_v2_stdout.txt 2>&1 &
   fi
   # review-294: Bithumb shadow — same rules on Bithumb prices, 0.25% fee, own status/log; never touches live files
-  if [ -f shadow/bithumb_status.json ] && ! pgrep -f "paper_futures.py --resume shadow/bithumb_status.json" >/dev/null; then
+  if [ -f shadow/bithumb_status.json ] && [ ! -f shadow/STOPPED ] && ! pgrep -f "paper_futures.py --resume shadow/bithumb_status.json" >/dev/null; then
     echo "[$(date +%H:%M:%S)] WATCHDOG restart shadow" >> shadow/bithumb_log.txt
     RC_API=https://api.bithumb.com/v1 RC_FEE=0.0025 RC_OVERRIDES=shadow/overrides.json nohup python3 paper_futures.py --resume shadow/bithumb_status.json \
       --log shadow/bithumb_log.txt --status shadow/bithumb_status.json >> shadow/stdout.txt 2>&1 &
