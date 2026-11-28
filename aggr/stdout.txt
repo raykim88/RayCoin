@@ -12598,3 +12598,4 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [11:30:36] R1008 t+02m | PUFFER +23.48% s+0.00 r50 | CFG  +9.80% s+0.00 r50 | ELF +15.11% s+0.00 r50
 [11:31:36] R1008 t+03m | PUFFER +25.20% s+0.00 r50 | CFG +15.53% s+0.00 r50 | ELF +25.97% s+0.00 r50
 [11:32:36] R1008 t+04m | PUFFER +25.20% s+0.00 r50 | CFG +15.53% s+0.00 r50 | ELF +24.61% s+0.00 r50
+[11:33:36] R1008 t+05m | PUFFER +28.62% s+0.00 r50 | CFG +18.96% s+0.00 r50 | ELF +23.26% s+0.00 r50
