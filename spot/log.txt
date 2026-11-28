@@ -1,0 +1,11 @@
+[08:00:16] WATCHDOG restart spot
+[17:00:17] === RESUME from round 0 · 0 open positions ===
+[17:00:17] === TUNE after round 0: {'margin': [0.7, 0.6]} · 익절/손절 후보 중 기존 기준(+0.00%)보다 0.05%p 넘게 나은 조합이 없어 유지. 교체 없이 평균 움직임이 0.00%로 작아 더 활발한 코인으로 갈아타도록 교체 기준 완화 (0.7→0.6).
+[17:00:17] === ROUND 1 start ===
+[17:00:17] === OVERRIDE spot-1: {'strategy': [None, 'pump'], 'pump_dir': [None, 'dip'], 'pump_th': [None, 15.0], 'pump_th_lo': [None, 15.0], 'pump_look_h': [None, 6], 'pump_k': [None, 4], 'pump_universe': [None, 60], 'pump_conv': [None, False], 'pump_lev_lo': [None, 1], 'force_lev': [None, 1], 'xs_sl': [None, 8.0], 'xs_tp': [None, 15.0], 'xs_trail_at': [None, 8.0], 'xs_trail_gap': [None, 4.0], 'xs_hold_h': [None, 12], 'pump_pause': [None, False]}
+[17:01:19] OPEN LONG 1x   KRW-WLFI     @ 26.1000  margin $12.50  liq 0.1305  (6시간 -44.5% 급락 → 반등 매수(현물 1배), score 44.47)
+[17:01:19] OPEN LONG 1x   KRW-MMT      @ 190.0000  margin $12.50  liq 0.9500  (6시간 -16.7% 급락 → 반등 매수(현물 1배), score 16.67)
+[17:01:19] OPEN LONG 1x   KRW-HAEDAL   @ 26.9000  margin $12.49  liq 0.1345  (6시간 -16.4% 급락 → 반등 매수(현물 1배), score 16.41)
+[17:01:19] pump: WLFI -44.5%, MMT -16.7%, HAEDAL -16.4%
+[17:01:20] R1 t+01m | WLFI  -0.10% s+0.00 r50 | MMT  -0.63% s+0.00 r50 | HAEDAL  +0.27% s+0.00 r50
+[17:02:17] R1 t+02m | WLFI  -0.87% s+0.00 r50 | MMT  -0.10% s+0.00 r50 | HAEDAL  +0.27% s+0.00 r50

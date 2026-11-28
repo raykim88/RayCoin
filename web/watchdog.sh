@@ -20,6 +20,12 @@ while true; do
     RC_OVERRIDES=aggr/overrides.json nohup python3 paper_futures.py --resume aggr/status.json \
       --log aggr/log.txt --status aggr/status.json >> aggr/stdout.txt 2>&1 &
   fi
+  # 11-28 (user: real-cash prep): Upbit spot dip-buy $50, LONG 1x only (orderable on Upbit spot), own status/log
+  if [ -f spot/status.json ] && ! pgrep -f "paper_futures.py --resume spot/status.json" >/dev/null; then
+    echo "[$(date +%H:%M:%S)] WATCHDOG restart spot" >> spot/log.txt
+    RC_OVERRIDES=spot/overrides.json nohup python3 paper_futures.py --resume spot/status.json \
+      --log spot/log.txt --status spot/status.json >> spot/stdout.txt 2>&1 &
+  fi
   if ! pgrep -f "push_live.sh status.json" >/dev/null; then
     echo "[$(date +%H:%M:%S)] WATCHDOG restart pusher" >> trade_log_v2.txt
     nohup web/push_live.sh status.json 60 > push_v3.out 2>&1 &

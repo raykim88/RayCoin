@@ -1,0 +1,22 @@
+{
+ "id": "spot-1",
+ "params": {
+  "strategy": "pump",
+  "pump_dir": "dip",
+  "pump_th": 15.0,
+  "pump_th_lo": 15.0,
+  "pump_look_h": 6,
+  "pump_k": 4,
+  "pump_universe": 60,
+  "pump_conv": false,
+  "pump_lev_lo": 1,
+  "force_lev": 1,
+  "xs_sl": 8.0,
+  "xs_tp": 15.0,
+  "xs_trail_at": 8.0,
+  "xs_trail_gap": 4.0,
+  "xs_hold_h": 12,
+  "pump_pause": false
+ },
+ "note": "review-345 (사용자 11/28: 실제 현금 투자 준비): 국내 현물로 실제 주문 가능한 급락 매수. 업비트 6시간 -15% 급락 코인 1배 매수, 손절 8 · 익절 15 · 추적 8/4 · 12시간, 4슬롯. 백테스트(보수적 손절, 수수료+슬리피지 0.1%/회): 업비트 41일 +53%(앞 +18 / 뒤 +29, 낙폭 22%), 빗썸 30일 +17%(+8/+7, 낙폭 12%)"
+}

@@ -490,6 +490,7 @@ class FuturesBot(v2.Bot):
         look2 = int(round(float(self.params.get("pump_look2_h", 0)) * 12))
         th2 = float(self.params.get("pump_th2", 1e9))
         hits = []
+        dip = self.params.get("pump_dir") == "dip"   # 11-28: spot dip-buy (6h drop > th -> LONG 1x), real-cash candidate
         for t in pool:
             if t["market"] in held:
                 continue
@@ -501,6 +502,11 @@ class FuturesBot(v2.Bot):
             base = sorted(x["trade_price"] for x in c[look - 1:look + 2])[1]
             ret = (c[0]["trade_price"] / base - 1) * 100     # newest first
             win = self.params.get("pump_look_h", 2)
+            if dip:
+                if ret < -th_lo:
+                    hits.append(dict(market=t["market"], price=t["trade_price"], ret=ret, score=round(-ret, 2), win=win,
+                                     vol=0.0, force_side="LONG", lev_hint=1, conv=None, conv_why=""))
+                continue
             if look2 and ret <= th_lo:
                 b2 = sorted(x["trade_price"] for x in c[look2 - 1:look2 + 2])[1]
                 r2 = (c[0]["trade_price"] / b2 - 1) * 100
@@ -522,8 +528,11 @@ class FuturesBot(v2.Bot):
                         lev = int(self.params.get("pump_lev_hi", 3))
                 hits.append(dict(market=t["market"], price=t["trade_price"], ret=ret, score=round(ret, 2), win=win,
                                  vol=0.0, force_side="SHORT", lev_hint=lev, conv=sc, conv_why=why))
-        hits.sort(key=lambda r: -r["ret"])
+        hits.sort(key=lambda r: r["ret"] if dip else -r["ret"])
         for r in hits[:k - len(self.open_pos())]:
+            if dip:
+                self.buy(r, f"{float(win):g}시간 {r['ret']:+.1f}% 급락 → 반등 매수(현물 1배)")
+                continue
             conv = f" · 확신 {r['conv']}점({r['conv_why']})" if r.get("conv") is not None else ""
             self.buy(r, f"{float(r.get('win', self.params.get('pump_look_h', 2))):g}시간 {r['ret']:+.1f}% 급등 → 되돌림 숏{conv}")
         if hits:
