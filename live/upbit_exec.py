@@ -43,8 +43,12 @@ def now():
     return datetime.now(KST).strftime("%m-%d %H:%M:%S")
 
 
+RECENT = []
+
+
 def log(msg):
     line = f"[{now()}] {msg}"
+    RECENT.append(line); del RECENT[:-12]
     print(line, flush=True)
     with open(LIVE / "log.txt", "a", encoding="utf-8") as f:
         f.write(line + "\n")
@@ -129,6 +133,8 @@ class Mirror:
                                                                krw=float(cfg["budget_krw"]), done=[])
 
     def save(self):
+        self.st.update(mode="LIVE" if self.live else "DRY", updated=now(), log=RECENT[-12:],
+                       budget_krw=self.cfg["budget_krw"], floor_krw=self.cfg["floor_krw"])
         tmp = self.state_path.with_suffix(".tmp")
         json.dump(self.st, open(tmp, "w"), ensure_ascii=False, indent=1)
         tmp.replace(self.state_path)
@@ -177,6 +183,8 @@ class Mirror:
                 self.st["done"].append(k)
                 continue
             self.buy(k, pp["market"], slice_krw, prices.get(pp["market"], pp["entry"]))
+        self.st["equity_krw"] = round(eq)
+        self.st["prices"] = {m: prices[m] for m in prices if any(p["market"] == m for p in self.st["pos"].values())}
         self.save()
         return eq
 

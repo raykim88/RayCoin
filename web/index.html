@@ -251,6 +251,15 @@ footer{font-size:.75rem;color:var(--muted)}
     </div>
     <div class="panel" style="margin-top:8px"><ul class="timeline" id="spTimeline"><li><time>–</time><span>아직 기록이 없습니다.</span></li></ul></div>
     <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">업비트 현물에서 실제로 주문할 수 있는 방식(매수만, 1배)의 모의 계좌입니다. 거래대금 상위 60개 중 6시간 -15% 넘게 급락한 코인을 사서 손절 -8% · 익절 +15% · 최고 +8% 뒤 4%p 반납 시 청산 · 최대 12시간, 동시에 최대 4개. 백테스트(비관적 손절, 수수료·슬리피지 반영): 업비트 41일 +53%(낙폭 22%), 빗썸 30일 +17%(낙폭 12%). 1~2주 실시간 검증 뒤 실제 투자 여부를 판단합니다.</p>
+    <h2 style="margin-top:16px">업비트 실주문 실행기 <span class="num" id="exState" style="font-weight:400;color:var(--muted);font-size:.75rem"></span></h2>
+    <div class="summary">
+      <div><label>모드</label><b id="exMode" class="num">–</b><span>실제 주문 전 연습</span></div>
+      <div><label>평가 금액</label><b id="exEq" class="num">–</b><span id="exEqTxt">예산 70,000원</span></div>
+      <div><label>청산 / 승률</label><b id="exCnt" class="num">–</b><span id="exWin">–</span></div>
+      <div><label>보유 중</label><b id="exOpen" class="num">–</b><span id="exOpenTxt">–</span></div>
+    </div>
+    <div class="panel" style="margin-top:8px"><ul class="timeline" id="exLog"><li><time>–</time><span>아직 기록이 없습니다.</span></li></ul></div>
+    <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">위 모의 계좌를 그대로 따라 업비트에 시장가로 사고파는 프로그램(live/upbit_exec.py)입니다. 지금은 키 없이 연습 모드라 실제 주문은 나가지 않고, 실제였다면 넣었을 주문을 시세·수수료(0.05%)로 계산해 기록합니다. 1회 최대 20,000원 · 바닥선 49,000원 · 실행 전 보유분은 따라 사지 않음.</p>
   </section>
 
   <section id="aggrBox" hidden>
@@ -614,6 +623,28 @@ async function loadSpot() {
     "</span><b>" + esc((e.market || "").replace("KRW-", "")) + "</b> " + esc(e.text) + "</span></li>").join("");
 }
 loadSpot(); setInterval(loadSpot, 60000);
+async function loadExec() {
+  let x = null;
+  try {
+    const r = await fetch("https://raw.githubusercontent.com/raykim88/RayCoin/live-data/exec_status.json?t=" + Date.now(), {cache: "no-store"});
+    if (r.ok) x = await r.json();
+  } catch (_) {}
+  if (!x) return;
+  const won = n => Math.round(n).toLocaleString("ko-KR") + "원", bud = x.budget_krw || 70000, eq = x.equity_krw ?? x.krw ?? bud;
+  const pc = (eq / bud - 1) * 100, c = v => v > 0.005 ? "up" : v < -0.005 ? "down" : "flat";
+  $("exMode").textContent = x.mode === "LIVE" ? "실주문" : "연습";
+  $("exEq").textContent = won(eq); $("exEq").className = "num " + c(pc);
+  $("exEqTxt").textContent = (pc > 0 ? "+" : "") + pc.toFixed(2) + "% · 예산 " + won(bud) + " · 현금 " + won(x.krw || 0);
+  const cl = x.closed || [], w = cl.filter(q => q.pnl > 0).length, op = Object.values(x.pos || {});
+  $("exCnt").textContent = cl.length + "건"; $("exWin").textContent = cl.length ? "승률 " + Math.round(w / cl.length * 100) + "%" : "첫 청산 대기";
+  $("exOpen").textContent = op.length + "개";
+  $("exOpenTxt").textContent = op.length ? op.map(q => q.market.replace("KRW-", "") + " " + won(q.krw)).join(" · ") : "신호 대기";
+  $("exState").textContent = "· " + (x.updated || "");
+  const lg = (x.log || []).slice().reverse();
+  if (lg.length) $("exLog").innerHTML = lg.map(l => { const m = /^\[([^\]]+)\] (.*)$/.exec(l) || [0, "", l];
+    return '<li><time class="num">' + esc(m[1]) + '</time><span>' + esc(m[2]) + '</span></li>'; }).join("");
+}
+loadExec(); setInterval(loadExec, 60000);
 async function fetchStock() {
   // live copy pushed every minute with the coin status; the committed file is the fallback
   for (const u of [`https://raw.githubusercontent.com/raykim88/RayCoin/live-data/stock_status.json?t=${Date.now()}`,

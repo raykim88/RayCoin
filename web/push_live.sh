@@ -41,6 +41,10 @@ push_once() {
     pblob=$(git -C "$REPO" hash-object -w "$REPO/spot/status.json")
     entries+=$'\n'$(printf "100644 blob %s\tspot_status.json" "$pblob")
   fi
+  if [[ -f "$REPO/live/state_dry.json" ]]; then         # 11-28: Upbit executor (dry run) card
+    xblob=$(git -C "$REPO" hash-object -w "$REPO/live/state_dry.json")
+    entries+=$'\n'$(printf "100644 blob %s\texec_status.json" "$xblob")
+  fi
   if [[ -f "$REPO/news/news.json" ]]; then         # News tab
     nblob=$(git -C "$REPO" hash-object -w "$REPO/news/news.json")
     entries+=$'\n'$(printf "100644 blob %s\tnews.json" "$nblob")
