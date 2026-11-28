@@ -1,0 +1,12 @@
+{
+ "started": "11-28 17:21:22",
+ "started_ts": 1795854082.3193638,
+ "pos": {},
+ "krw": 70000.0,
+ "done": [
+  "KRW-HAEDAL#1",
+  "KRW-MMT#1",
+  "KRW-WLFI#1"
+ ],
+ "seeded": true
+}

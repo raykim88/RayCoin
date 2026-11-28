@@ -26,3 +26,10 @@ backtest/data_up30/
 shadow/
 backtest/okx_crypto.txt
 backtest/cross_all.txt
+
+# live executor: never commit keys
+live/keys*
+live/*.key
+*.upbit.json
+live/state.json
+live/stdout.txt

@@ -1,0 +1,9 @@
+{
+ "dry_run": true,
+ "source": "spot/status.json",
+ "budget_krw": 70000,
+ "slots": 4,
+ "max_order_krw": 20000,
+ "floor_krw": 49000,
+ "poll_s": 5
+}

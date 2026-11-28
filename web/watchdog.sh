@@ -27,6 +27,10 @@ while true; do
     RC_OVERRIDES=spot/overrides.json nohup python3 paper_futures.py --resume spot/status.json \
       --log spot/log.txt --status spot/status.json >> spot/stdout.txt 2>&1 &
   fi
+  # 11-28: Upbit executor in DRY RUN here (no keys in this container) — forward record of what real orders would do
+  if [ -f live/upbit_exec.py ] && ! pgrep -f "live/upbit_exec.py" >/dev/null; then
+    nohup python3 live/upbit_exec.py >> live/stdout.txt 2>&1 &
+  fi
   if ! pgrep -f "push_live.sh status.json" >/dev/null; then
     echo "[$(date +%H:%M:%S)] WATCHDOG restart pusher" >> trade_log_v2.txt
     nohup web/push_live.sh status.json 60 > push_v3.out 2>&1 &
