@@ -13074,3 +13074,6 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [18:28:45] R1021 t+30m | TFUEL -15.21% s+0.00 r50 | WLFI  -4.09% s+0.00 r50
 [18:28:45] === ROUND 1021 REPORT: value $144.359 / invested $50.00 (+188.72%), round PnL -12.381$ ===
 [18:28:45] === ROUND 1022 start ===
+[18:30:36] R1022 t+01m | TFUEL -10.31% s+0.00 r50 | WLFI  +1.29% s+0.00 r50
+[18:30:45] R1022 t+02m | TFUEL  -5.40% s+0.00 r50 | WLFI  -2.29% s+0.00 r50
+[18:31:45] R1022 t+03m | TFUEL  -0.50% s+0.00 r50 | WLFI  -0.50% s+0.00 r50
