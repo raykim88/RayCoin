@@ -13274,3 +13274,6 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [21:25:43] pump: O +18.5%
 [21:25:43] R1027 t+26m | PIEVERSE +18.18% s+0.00 r50 | O  -0.50% s+0.00 r50
 [21:25:49] R1027 t+27m | PIEVERSE +16.32% s+0.00 r50 | O  -0.50% s+0.00 r50
+[21:26:49] R1027 t+28m | PIEVERSE +17.25% s+0.00 r50 | O  -0.97% s+0.00 r50
+[21:27:49] R1027 t+29m | PIEVERSE +10.71% s+0.00 r50 | O  -7.06% s+0.00 r50
+[21:28:00] CLOSE SHORT 5x  KRW-PIEVERSE @ 5,250.0000  ROE +9.31%  [추적 청산 (최고 +4.0%에서 2%p 반납, 10초 점검)]
