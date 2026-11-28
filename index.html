@@ -297,6 +297,18 @@ footer{font-size:.75rem;color:var(--muted)}
     <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">같은 규칙(2시간 +20% 급등 되돌림 숏, 1배, 손절 -7% · 익절 +12% · 추적 6/3)을 빗썸 시세로 돌리는 비교용 모의 봇입니다. 빗썸 기본 수수료 0.25%를 양방향 반영합니다.</p>
   </section>
 
+  <section id="spotBox" hidden>
+    <h2>현물 급락 매수 $50 <span class="num" id="spState" style="font-weight:400;color:var(--muted);font-size:.75rem"></span></h2>
+    <div class="summary">
+      <div><label>현물 수익률</label><b id="spPnl" class="num">–</b><span id="spVal">$50 기준</span></div>
+      <div><label>청산 / 승률</label><b id="spCnt" class="num">–</b><span id="spWin">–</span></div>
+      <div><label>보유 중</label><b id="spOpen" class="num">–</b><span id="spOpenTxt">최대 4개</span></div>
+      <div><label>배수 · 상태</label><b class="num">1배</b><span>실제 투자 후보 · 11/28 시작</span></div>
+    </div>
+    <div class="panel" style="margin-top:8px"><ul class="timeline" id="spTimeline"><li><time>–</time><span>아직 기록이 없습니다.</span></li></ul></div>
+    <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">업비트 현물에서 실제로 주문할 수 있는 방식(매수만, 1배)의 모의 계좌입니다. 거래대금 상위 60개 중 6시간 -15% 넘게 급락한 코인을 사서 손절 -8% · 익절 +15% · 최고 +8% 뒤 4%p 반납 시 청산 · 최대 12시간, 동시에 최대 4개. 백테스트(비관적 손절, 수수료·슬리피지 반영): 업비트 41일 +53%(낙폭 22%), 빗썸 30일 +17%(낙폭 12%). 1~2주 실시간 검증 뒤 실제 투자 여부를 판단합니다.</p>
+  </section>
+
   <section id="aggrBox" hidden>
     <h2>공격형 $50 <span class="num" id="agState" style="font-weight:400;color:var(--muted);font-size:.75rem"></span></h2>
     <div class="summary">
@@ -633,6 +645,31 @@ async function loadAggr() {
     "</span><b>" + esc((e.market || "").replace("KRW-", "")) + "</b> " + esc(e.text) + "</span></li>").join("");
 }
 loadAggr(); setInterval(loadAggr, 60000);
+async function loadSpot() {
+  let a = null;
+  try {
+    const r = await fetch("https://raw.githubusercontent.com/raykim88/RayCoin/live-data/spot_status.json?t=" + Date.now(), {cache: "no-store"});
+    if (r.ok) a = await r.json();
+  } catch (_) {}
+  if (!a || !a.total) return;
+  $("spotBox").hidden = false;
+  const t = a.total, pnl = t.pnl || 0, v = t.value_usd ?? 50;
+  const c = x => x > 0.005 ? "up" : x < -0.005 ? "down" : "flat", sg = x => (x > 0 ? "+" : "") + x.toFixed(2) + "%";
+  const ps = a.positions || [], closed = ps.filter(p => p.status === "CLOSED"), open = ps.filter(p => p.status === "OPEN");
+  const wins = closed.filter(p => p.pnl > 0).length;
+  $("spPnl").textContent = sg(pnl); $("spPnl").className = "num " + c(pnl);
+  $("spVal").textContent = "$" + v.toFixed(2) + " · $" + (t.cost_usd ?? 50) + " 기준";
+  $("spCnt").textContent = closed.length + "건";
+  $("spWin").textContent = closed.length ? "승률 " + Math.round(wins / closed.length * 100) + "%" : "첫 청산 대기";
+  $("spOpen").textContent = open.length + "개";
+  $("spOpenTxt").textContent = open.length ? open.map(p => (p.market || "").replace("KRW-", "") + " " + sg(p.pnl || 0)).join(" · ") : "최대 4개 · 신호 대기";
+  $("spState").textContent = "· " + (a.updated || "");
+  const ev = (a.events || []).filter(e => e.kind === "BUY" || e.kind === "SELL");
+  if (ev.length) $("spTimeline").innerHTML = ev.slice(-10).reverse().map(e =>
+    '<li><time class="num">' + (e.d ? esc(e.d.replace("-", "/")) + "<br>" : "") + esc(e.t) + '</time><span><span class="tag ' + esc(e.kind) + '">' + esc(e.kind) +
+    "</span><b>" + esc((e.market || "").replace("KRW-", "")) + "</b> " + esc(e.text) + "</span></li>").join("");
+}
+loadSpot(); setInterval(loadSpot, 60000);
 async function fetchStock() {
   // live copy pushed every minute with the coin status; the committed file is the fallback
   for (const u of [`https://raw.githubusercontent.com/raykim88/RayCoin/live-data/stock_status.json?t=${Date.now()}`,
