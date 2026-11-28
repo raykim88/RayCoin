@@ -12510,3 +12510,4 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [10:25:25] pump: CFG +8.0%
 [10:25:25] R1005 t+26m | PUFFER  +1.21% s+0.00 r50 | BIGTIME +21.72% s+0.00 r50 | ELF -19.71% s+0.00 r50 | CFG  -0.50% s+0.00 r50
 [10:25:34] R1005 t+27m | PUFFER  +8.07% s+0.00 r50 | BIGTIME +22.92% s+0.00 r50 | ELF -26.83% s+0.00 r50 | CFG  -4.10% s+0.00 r50
+[10:25:56] CLOSE SHORT 5x  KRW-ELF      @ 74.9000  ROE -33.23%  [손절 (가격 -6%, 10초 점검)]
