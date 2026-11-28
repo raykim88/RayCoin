@@ -12,7 +12,7 @@
  "equity_krw": 70000,
  "prices": {},
  "mode": "DRY",
- "updated": "11-28 17:39:16",
+ "updated": "11-28 17:39:56",
  "log": [
   "[11-28 17:38:53] === EXECUTOR start · DRY RUN · 예산 70,000원 · 바닥선 49,000원 ==="
  ],
