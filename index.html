@@ -254,13 +254,47 @@ footer{font-size:.75rem;color:var(--muted)}
   <section>
     <h2>한눈에 보기</h2>
     <div class="simple">
-      <div><label>실전 · 업비트</label><b id="smLive" class="num">–</b><p id="smLiveTxt">불러오는 중</p></div>
-      <div><label>연습 · 빗썸 섀도</label><b id="smSh" class="num">–</b><p id="smShTxt">불러오는 중</p></div>
+      <div><label>현물 급락 매수 · 실제 투자 후보</label><b id="smSp" class="num">–</b><p id="smSpTxt">불러오는 중</p></div>
       <div><label>공격형 · 업비트 $50</label><b id="smAg" class="num">–</b><p id="smAgTxt">불러오는 중</p></div>
-      <div><label>다음 단계</label><b id="smNext" class="num">–</b><p id="smNextTxt">–</p></div>
+      <div><label>다음 단계</label><b id="smNext" class="num">실시간 검증 중</b><p id="smNextTxt">현물 계좌를 1~2주 지켜본 뒤 업비트 실주문(실행기)을 켤지 정합니다. 실행기는 지금 연습 모드로 같이 기록 중입니다.</p></div>
+      <div><label>멈춘 계좌 · 11/28</label><b id="smStop" class="num">–</b><p id="smStopTxt">실전($50, 숏 1배)과 빗썸 연습은 숏이라 국내에서 실제 주문이 안 돼 정지했습니다. 마지막 기록은 아래에 남겨 둡니다.</p></div>
     </div>
   </section>
 
+  <section id="spotBox" hidden>
+    <h2>현물 급락 매수 $50 <span class="num" id="spState" style="font-weight:400;color:var(--muted);font-size:.75rem"></span></h2>
+    <div class="summary">
+      <div><label>현물 수익률</label><b id="spPnl" class="num">–</b><span id="spVal">$50 기준</span></div>
+      <div><label>청산 / 승률</label><b id="spCnt" class="num">–</b><span id="spWin">–</span></div>
+      <div><label>보유 중</label><b id="spOpen" class="num">–</b><span id="spOpenTxt">최대 4개</span></div>
+      <div><label>배수 · 상태</label><b class="num">1배</b><span>실제 투자 후보 · 11/28 시작</span></div>
+    </div>
+    <div class="panel" style="margin-top:8px"><ul class="timeline" id="spTimeline"><li><time>–</time><span>아직 기록이 없습니다.</span></li></ul></div>
+    <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">업비트 현물에서 실제로 주문할 수 있는 방식(매수만, 1배)의 모의 계좌입니다. 거래대금 상위 60개 중 6시간 -15% 넘게 급락한 코인을 사서 손절 -8% · 익절 +15% · 최고 +8% 뒤 4%p 반납 시 청산 · 최대 12시간, 동시에 최대 4개. 백테스트(비관적 손절, 수수료·슬리피지 반영): 업비트 41일 +53%(낙폭 22%), 빗썸 30일 +17%(낙폭 12%). 1~2주 실시간 검증 뒤 실제 투자 여부를 판단합니다.</p>
+    <h2 style="margin-top:16px">업비트 실주문 실행기 <span class="num" id="exState" style="font-weight:400;color:var(--muted);font-size:.75rem"></span></h2>
+    <div class="summary">
+      <div><label>모드</label><b id="exMode" class="num">–</b><span>실제 주문 전 연습</span></div>
+      <div><label>평가 금액</label><b id="exEq" class="num">–</b><span id="exEqTxt">예산 70,000원</span></div>
+      <div><label>청산 / 승률</label><b id="exCnt" class="num">–</b><span id="exWin">–</span></div>
+      <div><label>보유 중</label><b id="exOpen" class="num">–</b><span id="exOpenTxt">–</span></div>
+    </div>
+    <div class="panel" style="margin-top:8px"><ul class="timeline" id="exLog"><li><time>–</time><span>아직 기록이 없습니다.</span></li></ul></div>
+    <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">위 모의 계좌를 그대로 따라 업비트에 시장가로 사고파는 프로그램(live/upbit_exec.py)입니다. 지금은 키 없이 연습 모드라 실제 주문은 나가지 않고, 실제였다면 넣었을 주문을 시세·수수료(0.05%)로 계산해 기록합니다. 1회 최대 20,000원 · 바닥선 49,000원 · 실행 전 보유분은 따라 사지 않음.</p>
+  </section>
+
+  <section id="aggrBox" hidden>
+    <h2>공격형 $50 <span class="num" id="agState" style="font-weight:400;color:var(--muted);font-size:.75rem"></span></h2>
+    <div class="summary">
+      <div><label>공격형 수익률</label><b id="agPnl" class="num">–</b><span id="agVal">$50 기준</span></div>
+      <div><label>청산 / 승률</label><b id="agCnt" class="num">–</b><span id="agWin">–</span></div>
+      <div><label>보유 중</label><b id="agOpen" class="num">–</b><span id="agOpenTxt">최대 4개</span></div>
+      <div><label>배수 · 바닥선</label><b class="num">5배</b><span id="agFloor">바닥선 없음</span></div>
+    </div>
+    <div class="panel" style="margin-top:8px"><ul class="timeline" id="agTimeline"><li><time>–</time><span>아직 기록이 없습니다.</span></li></ul></div>
+    <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">자주 사고파는 실험용 모의 계좌입니다. 업비트 시세로 2시간 +10% 또는 1시간 +8% 넘게 오른 코인을 되돌림 숏(5배), 손절 -6% · 익절 +8% · 최고 +4% 뒤 2%p 반납 시 청산 · 최대 6시간 보유, 동시에 최대 4개. 30일 백테스트(비관적 손절, 5배) 업비트 +10500%, 빗썸 +375%, 최대 낙폭 72~78% · 바닥선 없음, 하루 27회 안팎. 여기서 쓸 만한 점은 검증 뒤 실전 $50 규칙에 반영합니다.</p>
+  </section>
+
+  <h2 style="margin:28px 0 4px;color:var(--muted)">멈춘 계좌 기록 · 실전 $50 (11/28 정지)</h2>
   <section id="chartBox" hidden>
     <h2>평가 금액 추이 · 실전 vs 빗썸 연습 vs 공격형</h2>
     <div class="zoom" id="zoomCoin" role="group" aria-label="조회 단위"></div>
@@ -295,39 +329,6 @@ footer{font-size:.75rem;color:var(--muted)}
     </div>
     <div class="panel" style="margin-top:8px"><ul class="timeline" id="shTimeline"><li><time>–</time><span>아직 기록이 없습니다.</span></li></ul></div>
     <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">같은 규칙(2시간 +20% 급등 되돌림 숏, 1배, 손절 -7% · 익절 +12% · 추적 6/3)을 빗썸 시세로 돌리는 비교용 모의 봇입니다. 빗썸 기본 수수료 0.25%를 양방향 반영합니다.</p>
-  </section>
-
-  <section id="spotBox" hidden>
-    <h2>현물 급락 매수 $50 <span class="num" id="spState" style="font-weight:400;color:var(--muted);font-size:.75rem"></span></h2>
-    <div class="summary">
-      <div><label>현물 수익률</label><b id="spPnl" class="num">–</b><span id="spVal">$50 기준</span></div>
-      <div><label>청산 / 승률</label><b id="spCnt" class="num">–</b><span id="spWin">–</span></div>
-      <div><label>보유 중</label><b id="spOpen" class="num">–</b><span id="spOpenTxt">최대 4개</span></div>
-      <div><label>배수 · 상태</label><b class="num">1배</b><span>실제 투자 후보 · 11/28 시작</span></div>
-    </div>
-    <div class="panel" style="margin-top:8px"><ul class="timeline" id="spTimeline"><li><time>–</time><span>아직 기록이 없습니다.</span></li></ul></div>
-    <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">업비트 현물에서 실제로 주문할 수 있는 방식(매수만, 1배)의 모의 계좌입니다. 거래대금 상위 60개 중 6시간 -15% 넘게 급락한 코인을 사서 손절 -8% · 익절 +15% · 최고 +8% 뒤 4%p 반납 시 청산 · 최대 12시간, 동시에 최대 4개. 백테스트(비관적 손절, 수수료·슬리피지 반영): 업비트 41일 +53%(낙폭 22%), 빗썸 30일 +17%(낙폭 12%). 1~2주 실시간 검증 뒤 실제 투자 여부를 판단합니다.</p>
-    <h2 style="margin-top:16px">업비트 실주문 실행기 <span class="num" id="exState" style="font-weight:400;color:var(--muted);font-size:.75rem"></span></h2>
-    <div class="summary">
-      <div><label>모드</label><b id="exMode" class="num">–</b><span>실제 주문 전 연습</span></div>
-      <div><label>평가 금액</label><b id="exEq" class="num">–</b><span id="exEqTxt">예산 70,000원</span></div>
-      <div><label>청산 / 승률</label><b id="exCnt" class="num">–</b><span id="exWin">–</span></div>
-      <div><label>보유 중</label><b id="exOpen" class="num">–</b><span id="exOpenTxt">–</span></div>
-    </div>
-    <div class="panel" style="margin-top:8px"><ul class="timeline" id="exLog"><li><time>–</time><span>아직 기록이 없습니다.</span></li></ul></div>
-    <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">위 모의 계좌를 그대로 따라 업비트에 시장가로 사고파는 프로그램(live/upbit_exec.py)입니다. 지금은 키 없이 연습 모드라 실제 주문은 나가지 않고, 실제였다면 넣었을 주문을 시세·수수료(0.05%)로 계산해 기록합니다. 1회 최대 20,000원 · 바닥선 49,000원 · 실행 전 보유분은 따라 사지 않음.</p>
-  </section>
-
-  <section id="aggrBox" hidden>
-    <h2>공격형 $50 <span class="num" id="agState" style="font-weight:400;color:var(--muted);font-size:.75rem"></span></h2>
-    <div class="summary">
-      <div><label>공격형 수익률</label><b id="agPnl" class="num">–</b><span id="agVal">$50 기준</span></div>
-      <div><label>청산 / 승률</label><b id="agCnt" class="num">–</b><span id="agWin">–</span></div>
-      <div><label>보유 중</label><b id="agOpen" class="num">–</b><span id="agOpenTxt">최대 4개</span></div>
-      <div><label>배수 · 바닥선</label><b class="num">5배</b><span id="agFloor">바닥선 없음</span></div>
-    </div>
-    <div class="panel" style="margin-top:8px"><ul class="timeline" id="agTimeline"><li><time>–</time><span>아직 기록이 없습니다.</span></li></ul></div>
-    <p style="margin:8px 2px 0;color:var(--muted);font-size:.8rem">자주 사고파는 실험용 모의 계좌입니다. 업비트 시세로 2시간 +10% 또는 1시간 +8% 넘게 오른 코인을 되돌림 숏(5배), 손절 -6% · 익절 +8% · 최고 +4% 뒤 2%p 반납 시 청산 · 최대 6시간 보유, 동시에 최대 4개. 30일 백테스트(비관적 손절, 5배) 업비트 +10500%, 빗썸 +375%, 최대 낙폭 72~78% · 바닥선 없음, 하루 27회 안팎. 여기서 쓸 만한 점은 검증 뒤 실전 $50 규칙에 반영합니다.</p>
   </section>
 
   <section id="reportsBox" hidden>
@@ -559,6 +560,7 @@ function shadowUp() {
   $("shUp").className = "num " + (u > 0.005 ? "up" : u < -0.005 ? "down" : "flat");
 }
 function updatePill() {
+  return;   // 11-28: live and shadow stopped; the pill shows the running accounts
   const st = window.__lastSt; if (!st || !(st.params || {}).pump_pause) return;
   const liveOpen = (st.positions || []).some(p => p.status === "OPEN");
   const shOpen = !!(SHADOW && (SHADOW.positions || []).some(p => p.status === "OPEN"));
@@ -567,33 +569,11 @@ function updatePill() {
 }
 function renderSimple() {
   const sg = v => (v > 0 ? "+" : "") + v.toFixed(1) + "%";
-  const cl = v => "num " + (v > 0.005 ? "up" : v < -0.005 ? "down" : "flat");
-  const L = window.__coinLive;
-  if (L) {
-    $("smLive").textContent = "$" + L.value.toFixed(2) + " (" + sg(L.pnl) + ")";
-    $("smLive").className = cl(L.pnl);
-    const room = L.value - 35;
-    $("smLiveTxt").textContent = (L.paused
-      ? (L.open ? "새 거래는 멈췄고, 남은 " + L.open + "개만 규칙대로 정리 중입니다." : "새 거래를 멈추고 전부 현금으로 쉬고 있습니다.") + " 최근 2주 업비트에서 전략이 안 통해서입니다."
-      : (L.open ? L.open + "개 거래 중입니다." : "현금으로 다음 기회를 기다립니다.")) +
-      " 시작 $50 · 멈춤 바닥선 $35까지 $" + room.toFixed(2) + " 남음.";
-  }
-  const S = SHADOW;
-  if (S && S.total) {
-    const pnl = S.total.pnl || 0, ps = S.positions || [];
-    const closed = ps.filter(p => p.status === "CLOSED"), open = ps.filter(p => p.status === "OPEN");
-    const wins = closed.filter(p => p.pnl > 0).length;
-    $("smSh").textContent = "$" + (S.total.value_usd ?? 50).toFixed(2) + " (" + sg(pnl) + ")";
-    $("smSh").className = cl(pnl);
-    $("smShTxt").textContent = "같은 규칙을 빗썸 시세로 돌리는 가상 계좌(진짜 돈 아님). " +
-      closed.length + "번 거래해 " + wins + "번 이김" + (open.length ? ", 지금 " + open.map(p => (p.market || "").replace("KRW-", "")).join("·") + " 보유 중." : ", 지금은 쉬는 중.");
-    const n = Math.min(closed.length, 10), go = closed.length >= 10 && pnl > 0;
-    $("smNext").textContent = go ? "전환 조건 충족" : "전환까지 " + n + "/10번";
-    $("smNext").className = "num " + (go ? "up" : "flat");
-    $("smNextTxt").textContent = go
-      ? "섀도가 10번 넘게 거래하고도 플러스입니다. 실전을 빗썸으로 옮깁니다."
-      : "섀도가 10번 이상 거래하고도 플러스면 실전을 빗썸으로 옮깁니다. " + (pnl > 0 ? "지금은 플러스지만 횟수가 적어 운일 수 있어 기다립니다." : "지금은 마이너스라 기다립니다.") + " 11/25까지 안 되면 전략을 다시 짭니다.";
-  }
+  const L = window.__coinLive, S = SHADOW;
+  const parts = [];
+  if (L) parts.push("실전 $" + L.value.toFixed(2) + " (" + sg(L.pnl) + ")");
+  if (S && S.total) parts.push("빗썸 $" + (S.total.value_usd ?? 50).toFixed(2) + " (" + sg(S.total.pnl || 0) + ")");
+  if (parts.length) { $("smStop").textContent = parts.join(" · "); $("smStop").className = "num flat"; }
 }
 async function loadShadow() {
   let sh = null;
@@ -603,7 +583,7 @@ async function loadShadow() {
   } catch (_) {}
   if (!sh || !sh.total) return;
   SHADOW = sh; window.__shadowSt = sh;
-  $("shadowBox").hidden = false;
+  $("shadowBox").hidden = true;
   if (window.__lastSt) renderChart(window.__lastSt);
   const t = sh.total, pnl = t.pnl || 0;
   const cls = v => v > 0.005 ? "up" : v < -0.005 ? "down" : "flat", sg = v => (v > 0 ? "+" : "") + v.toFixed(2) + "%";
@@ -673,6 +653,9 @@ async function loadSpot() {
   $("spOpen").textContent = open.length + "개";
   $("spOpenTxt").textContent = open.length ? open.map(p => (p.market || "").replace("KRW-", "") + " " + sg(p.pnl || 0)).join(" · ") : "최대 4개 · 신호 대기";
   $("spState").textContent = "· " + (a.updated || "");
+  $("smSp").textContent = "$" + v.toFixed(2) + " (" + (pnl > 0 ? "+" : "") + pnl.toFixed(1) + "%)"; $("smSp").className = "num " + c(pnl);
+  $("smSpTxt").textContent = "6시간 -15% 넘게 급락한 코인을 업비트 현물로 사는 모의 계좌(1배, 11/28 시작). 국내에서 실제로 주문할 수 있는 방식입니다. " +
+    closed.length + "번 거래해 " + wins + "번 이김" + (open.length ? ", 지금 " + open.map(p => (p.market || "").replace("KRW-", "")).join("·") + " 보유 중." : ", 지금은 신호 대기 중.");
   const ev = (a.events || []).filter(e => e.kind === "BUY" || e.kind === "SELL");
   if (ev.length) $("spTimeline").innerHTML = ev.slice(-10).reverse().map(e =>
     '<li><time class="num">' + (e.d ? esc(e.d.replace("-", "/")) + "<br>" : "") + esc(e.t) + '</time><span><span class="tag ' + esc(e.kind) + '">' + esc(e.kind) +
@@ -959,13 +942,12 @@ if (!window.__chartResize) { window.__chartResize = 1; addEventListener("resize"
 function render(st) {
   window.__lastSt = st;
   const ph = st.phase || "selecting";
-  $("phase").className = "pill " + (ph === "done" ? "done" : ph === "trading" ? "live" : "");
-  $("phaseText").textContent = PHASE[ph] || ph;
-  updatePill();
+  $("phase").className = "pill live";
+  $("phaseText").textContent = "운영 중 · 현물 + 공격형";
   const total = st.minutes_total || 30, m = Math.min(st.minute || 0, total);
   $("bar").style.width = (ph === "done" ? 100 : m / total * 100) + "%";
   $("minuteText").textContent = (st.round ? `라운드 ${st.round} · ` : "") + `경과 ${m} / ${total}분` + (st.started ? ` · 시작 ${st.started}` : "");
-  if (!$("sub").dataset.tab || $("sub").dataset.tab === "coin") $("sub").textContent = (st.params || {}).pump_pause ? "코인 모의매매 · 실전 업비트 + 연습 빗썸" : (st.mode === "futures" ? "선물 시뮬레이션 · 업비트 시세" : "Upbit KRW · 모의매매") + (st.round ? ` · 라운드 ${st.round}` : "");
+  if (!$("sub").dataset.tab || $("sub").dataset.tab === "coin") $("sub").textContent = "코인 모의매매 · 업비트 현물 급락 매수 + 공격형";
   const R = [...(st.reports || []).filter(r => r.kind !== "tuning"), ...(st.reviews || []).map(v => ({...v, kind: "review"}))]
     .map((r, i) => {   // order by clock time; times after midnight belong to the same evening session
       const m = /^(\d\d):(\d\d)/.exec(String(r.time || r.end || "")); let t = m ? +m[1] * 60 + +m[2] : 0;
