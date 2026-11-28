@@ -33,3 +33,5 @@ live/*.key
 *.upbit.json
 live/state.json
 live/stdout.txt
+live/state_dry.json
+live/*.tmp
