@@ -13380,3 +13380,4 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [22:55:51] R1030 t+27m | O -20.25% s+0.00 r50
 [22:56:51] R1030 t+28m | O -28.06% s+0.00 r50
 [22:57:13] CLOSE SHORT 5x  KRW-O        @ 1,303.0000  ROE -36.29%  [손절 (가격 -6%, 10초 점검)]
+[22:57:50] R1030 t+29m | 
