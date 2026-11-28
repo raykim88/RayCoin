@@ -516,3 +516,4 @@
 [15:45:42] WATCHDOG restart spot
 [00:45:47] === RESUME from round 16 · 4 open positions ===
 [00:45:47] === ROUND 16 continues at minute 11 ===
+[00:46:48] R16 t+12m | MMT  +2.53% s+0.00 r50 | HAEDAL  -1.22% s+0.00 r50 | CFG  -3.10% s+0.00 r50 | WLFI  -3.57% s+0.00 r50
