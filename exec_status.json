@@ -1,0 +1,53 @@
+{
+ "started": "11-28 17:21:22",
+ "started_ts": 1795854082.3193638,
+ "pos": {
+  "KRW-CFG#1": {
+   "market": "KRW-CFG",
+   "volume": 218.640625,
+   "entry": 80.0,
+   "krw": 17500.0,
+   "uuid": "dry-86bcb5ef",
+   "time": "11-28 18:13:23"
+  }
+ },
+ "krw": 49794.67519160568,
+ "done": [
+  "KRW-HAEDAL#1",
+  "KRW-MMT#1",
+  "KRW-WLFI#1",
+  "KRW-WLFI#2",
+  "KRW-WLFI#3"
+ ],
+ "seeded": true,
+ "equity_krw": 66739,
+ "prices": {
+  "KRW-CFG": 77.5
+ },
+ "mode": "DRY",
+ "updated": "11-29 01:25:45",
+ "log": [
+  "[11-29 00:45:46] === EXECUTOR start · DRY RUN · 예산 70,000원 · 바닥선 49,000원 ===",
+  "[11-29 01:00:32] DRY SELL KRW-WLFI → 15,827원 (-8.20%) · 손절 (가격 -8%, 10초 점검)"
+ ],
+ "budget_krw": 70000,
+ "floor_krw": 49000,
+ "closed": [
+  {
+   "market": "KRW-WLFI",
+   "krw": 17536.074609375,
+   "got": 16244,
+   "pnl": -7.37,
+   "why": "손절 (가격 -8%, 10초 점검)",
+   "time": "11-28 19:56:20"
+  },
+  {
+   "market": "KRW-WLFI",
+   "krw": 17240.50280269261,
+   "got": 15827,
+   "pnl": -8.2,
+   "why": "손절 (가격 -8%, 10초 점검)",
+   "time": "11-29 01:00:32"
+  }
+ ]
+}
