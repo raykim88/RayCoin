@@ -12437,3 +12437,4 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [09:31:33] R1004 t+03m | 
 [09:32:33] R1004 t+04m | 
 [09:33:33] R1004 t+05m | 
+[09:35:05] pump skip PUFFER +23.2%: 30분 +19.5% 아직 가속 중 (기준 10%)
