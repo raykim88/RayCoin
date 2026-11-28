@@ -13010,3 +13010,4 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [17:30:35] R1020 t+01m | TFUEL  +9.31% s+0.00 r50
 [17:30:44] R1020 t+02m | TFUEL  +9.31% s+0.00 r50
 [17:31:44] R1020 t+03m | TFUEL  +4.40% s+0.00 r50
+[17:32:44] R1020 t+04m | TFUEL  -0.50% s+0.00 r50
