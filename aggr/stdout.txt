@@ -13169,3 +13169,9 @@ ValueError: not enough values to unpack (expected 2, got 1)
 [19:53:47] R1024 t+25m | WLFI +37.15% s+0.00 r50 | PIEVERSE  -1.90% s+0.00 r50
 [19:55:37] R1024 t+26m | WLFI +35.36% s+0.00 r50 | PIEVERSE  -0.97% s+0.00 r50
 [19:55:47] R1024 t+27m | WLFI +37.15% s+0.00 r50 | PIEVERSE  -1.90% s+0.00 r50
+[19:56:47] R1024 t+28m | WLFI +38.95% s+0.00 r50 | PIEVERSE  -2.83% s+0.00 r50
+[19:57:47] R1024 t+29m | WLFI +35.36% s+0.00 r50 | PIEVERSE  -4.70% s+0.00 r50
+[19:58:47] R1024 t+30m | WLFI +33.57% s+0.00 r50 | PIEVERSE  -3.77% s+0.00 r50
+[19:58:47] === ROUND 1024 REPORT: value $170.409 / invested $50.00 (+240.82%), round PnL -1.504$ ===
+[19:58:47] === TUNE after round 1024: {'tp': [15.0, 25.0], 'sl': [-10.0, -25.0], 'hard': [-20.0, -50.0], 'trail': [3.75, 6.25], 'steep': [0.4, 0.5]} · 지난 1시간 3개 코인의 1분 경로로 시험해 보니 익절 +25% / 손절 -25%가 평균 +4.94%로 기존 기준(-0.96%)보다 좋음.
+[19:58:47] === ROUND 1025 start ===
